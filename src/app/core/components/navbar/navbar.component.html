@@ -1,0 +1,30 @@
+<div class="nav">
+  <div>
+    <span class="nav__title">Pinkgreen.</span>
+  </div>
+  <div>
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText />
+    </span>
+  </div>
+
+  <div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-heart"
+      class="p-button-rounded p-button-text p-button-plain"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-user"
+      class="p-button-rounded p-button-text p-button-plain"
+      (click)="menu.toggle($event)"
+    ></button>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  </div>
+</div>
