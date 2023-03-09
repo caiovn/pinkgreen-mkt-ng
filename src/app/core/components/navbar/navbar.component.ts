@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 import { MenuItem } from 'primeng/api';
@@ -10,11 +12,15 @@ import { MenuItem } from 'primeng/api';
 })
 export class NavbarComponent implements OnInit {
   items!: MenuItem[];
+  searchTerm = new FormControl('');
 
   public isLoggedIn = false;
   public userProfile: KeycloakProfile | null = null;
 
-  constructor(private readonly keycloak: KeycloakService) {}
+  constructor(
+    private readonly keycloak: KeycloakService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     this.isLoggedIn = await this.keycloak.isLoggedIn();
@@ -24,6 +30,14 @@ export class NavbarComponent implements OnInit {
     }
 
     this.mountMenu();
+  }
+
+  onSubmitForm() {
+    return this.router.navigate(['/search'], {
+      queryParams: {
+        searchTerm: this.searchTerm.value,
+      },
+    });
   }
 
   mountMenu() {

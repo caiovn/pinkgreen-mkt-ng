@@ -1,0 +1,20 @@
+.card-container {
+  margin: 4px;
+  max-width: 300px;
+  min-width: 230px;
+
+  .root {
+    color: #ffffff;
+    background-color: #000000;
+    padding: 12px;
+    width: 100%;
+    display: flex;
+  }
+
+  .card-image {
+    height: 75px;
+
+    background-size: cover;
+    background-position: center;
+  }
+}

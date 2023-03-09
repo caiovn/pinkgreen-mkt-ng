@@ -4,8 +4,51 @@
   </div>
 
   <div *ngIf="!loading">
-    <h1>Categorias.</h1>
-    <h1>Marcas.</h1>
+    <div>
+      <h1>Categorias.</h1>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let category of categoryList"
+          class="card-container"
+        >
+          <a [routerLink]="['/', 'category', category.id]">
+            <div
+              class="card-image"
+              [ngStyle]="{ 'background-image': getImageUrl(category.image) }"
+            ></div>
+            <span class="root">{{ category.name }}</span>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+    <div>
+      <h1>Marcas.</h1>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let brand of brandList"
+          class="card-container"
+        >
+          <a [routerLink]="['/', 'brand', brand.id]">
+            <div
+              class="card-image"
+              [ngStyle]="{ 'background-image': getImageUrl(brand.brandImage) }"
+            ></div>
+
+            <span class="root">{{ brand.name }}</span>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
   </div>
   <p-toast position="bottom-left"></p-toast>
 </div>

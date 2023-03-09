@@ -1,4 +1,8 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  DEFAULT_CURRENCY_CODE,
+  NgModule,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -8,6 +12,13 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { CategoryComponent } from './pages/category/category.component';
+import { ProductComponent } from './pages/product/product.component';
+import { BrandComponent } from './pages/brand/brand.component';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { SearchComponent } from './pages/search/search.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -26,14 +37,24 @@ function initializeKeycloak(keycloak: KeycloakService) {
 }
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CategoryComponent,
+    ProductComponent,
+    BrandComponent,
+    FavoritesComponent,
+    SearchComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     KeycloakAngularModule,
     CoreModule,
+    SlickCarouselModule,
   ],
   providers: [
     {
@@ -41,6 +62,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
+    },
+    {
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'BRL',
     },
   ],
   bootstrap: [AppComponent],

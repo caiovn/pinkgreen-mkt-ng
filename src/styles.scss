@@ -4,4 +4,12 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Roboto", sans-serif;
+  height: 100%;
+  background-color: var(--surface-a);
+  color: var(--text-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

@@ -7,11 +7,15 @@ import Category from '../models/category.model';
   providedIn: 'root',
 })
 export class CategoryService {
-  private url = 'localhost:8181';
+  private url = 'http://localhost:8181';
 
   constructor(private readonly http: HttpClient) {}
 
   getcategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.url}/category`);
+  }
+
+  getCategoryById(id: string): Observable<Category> {
+    return this.http.get<Category>(`${this.url}/category/${id}`);
   }
 }
