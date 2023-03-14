@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private readonly keycloak: KeycloakService,
     private router: Router
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.isLoggedIn = await this.keycloak.isLoggedIn();
@@ -33,6 +33,9 @@ export class NavbarComponent implements OnInit {
   }
 
   onSubmitForm() {
+    if (this.searchTerm.value?.length == 0)
+      return;
+
     return this.router.navigate(['/search'], {
       queryParams: {
         searchTerm: this.searchTerm.value,

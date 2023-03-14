@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     private readonly brandService: BrandService,
     private messageService: MessageService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadData();

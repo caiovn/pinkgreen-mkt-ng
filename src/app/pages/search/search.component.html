@@ -1,2 +1,14 @@
-<p>search works!</p>
-{{ searchTerm }}
+<div>
+  <h1>Resultados para {{ searchTerm }}.</h1>
+  <div class="product-wrapper">
+    <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
+      <p-card>
+        <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(product.mainImageUrl) }"></div>
+        <div class="product-details">
+          <span>{{ product.name }}</span>
+          <strong>{{ product.price | currency }}</strong>
+        </div>
+      </p-card>
+    </a>
+  </div>
+</div>
