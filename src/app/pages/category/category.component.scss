@@ -1,10 +1,12 @@
 .product-wrapper {
   display: flex;
   gap: 16px;
+
   p-card {
     display: block;
     width: 250px;
     height: 300px;
+
     .image-wrapper {
       display: flex;
       justify-content: center;
@@ -13,6 +15,7 @@
       background-size: cover;
       background-position: center;
     }
+
     .product-details {
       display: flex;
       flex-direction: column;
@@ -25,9 +28,11 @@
   p-card {
     .p-card {
       height: 100%;
+
       &-body {
         height: 100%;
       }
+
       &-content {
         padding: 0 !important;
         height: 100%;

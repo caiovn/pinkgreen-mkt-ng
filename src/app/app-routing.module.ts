@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'category/:id', component: CategoryComponent },
   { path: 'product/:id', component: ProductComponent },
-  { path: 'brand/:id', component: BrandComponent },
+  { path: 'brand/:id/:name', component: BrandComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
