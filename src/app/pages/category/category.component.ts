@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
   }
 
   loadData() {
-    const product$ = this.productService.getProductBycategory(this.categoryId);
+    const product$ = this.productService.getProductsBycategory(this.categoryId);
     const category$ = this.categoryService.getCategoryById(this.categoryId);
 
     forkJoin([product$, category$]).subscribe({

@@ -1,4 +1,4 @@
-export interface IRating {
+export interface Rating {
   average: number;
   count: number;
   data: {

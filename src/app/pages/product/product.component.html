@@ -1,1 +1,155 @@
-<p>product works!</p>
+<div class="product">
+  <div *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <div *ngIf="!loading">
+    <div class="product-presentation">
+      <div>
+        <ngx-slick-carousel
+          class="carousel"
+          #slickModal="slick-carousel"
+          [config]="imageSlideConfig"
+        >
+          <div>
+            <img
+              [src]="productData.mainImageUrl"
+              [alt]="'imagem do produto' + productData.name"
+              width="520"
+            />
+          </div>
+          <div
+            ngxSlickItem
+            *ngFor="let images of productData.urlImages"
+            class="card-container"
+          >
+            <img [src]="images" />
+          </div>
+        </ngx-slick-carousel>
+      </div>
+      <div>
+        <div>
+          <div class="product-rating">
+            <p-rating
+              [(ngModel)]="rating.average"
+              [readonly]="true"
+              [stars]="5"
+              [cancel]="false"
+            ></p-rating>
+            {{ rating.average }} ({{ rating.count }})
+          </div>
+
+          <h2 class="{styles.name}">{{ productData.name }}</h2>
+          <p class="{styles.price}">
+            {{ productData.price.listPrice | currency }} + frete
+            {{ 15.9 | currency }}
+          </p>
+        </div>
+
+        <div class="buttons-wrapper">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Comprar agora"
+            class="p-button-raised p-button-success product-buy-button"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            [icon]="iconValue"
+            (click)="clickFavoriteButton()"
+            class="p-button-rounded p-button-secondary p-button-text"
+          ></button>
+        </div>
+        <div *ngIf="productData.stockQuantity >= 6; else lowStock">
+          {{ productData.stockQuantity }} unidades disponiveis
+        </div>
+        <ng-template #lowStock
+          >{{ productData.stockQuantity }} unidades restantes</ng-template
+        >
+      </div>
+    </div>
+    <div *ngIf="otherProductsList && otherProductsList?.length > 0">
+      <h2>Relacionados.</h2>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="otherProductSlideConfig"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let product of otherProductsList"
+          class="card-container"
+        >
+          <div
+            [routerLink]="['/', 'product', product.product.id]"
+            [queryParams]="{ skuCode: product.skuCode }"
+          >
+            <div class="other-products">
+              <img [src]="product.mainImageUrl" />
+              <div>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.price.listPrice | currency }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+    <div
+      *ngIf="productData?.skuAttributes && productData.skuAttributes.length > 0"
+    >
+      <h2>Ficha técnica</h2>
+      <p-table
+        [value]="productData.skuAttributes"
+        styleClass="p-datatable-sm p-datatable-striped"
+      >
+        <ng-template pTemplate="body" let-skuAttribute>
+          <tr>
+            <td>{{ skuAttribute.label }}</td>
+            <td>{{ skuAttribute.value }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div>
+      <h2>Avaliações</h2>
+      <div>
+        <div *ngIf="rating && rating.count > 0; else noRatings">
+          <p>Avaliação média</p>
+          <p-rating
+            [(ngModel)]="rating.average"
+            [readonly]="true"
+            [stars]="5"
+            [cancel]="false"
+          ></p-rating>
+          {{ rating.average }}
+        </div>
+        <p>{{ rating.count }} avaliações</p>
+        <div *ngFor="let ratingItem of rating.data">
+          <div>
+            <p-rating
+              [(ngModel)]="ratingItem.stars"
+              [readonly]="true"
+              [stars]="5"
+              [cancel]="false"
+            ></p-rating>
+            {{ ratingItem.stars }}
+          </div>
+          <div>
+            <div>
+              <span>{{ ratingItem.title }}</span
+              >&nbsp;
+              <span>{{ ratingItem.customer.name }}</span>
+            </div>
+            <span>{{ ratingItem.evaluation }}</span>
+          </div>
+        </div>
+      </div>
+      <ng-template #noRatings>
+        <span>Sem avaliações :(</span>
+      </ng-template>
+    </div>
+  </div>
+</div>

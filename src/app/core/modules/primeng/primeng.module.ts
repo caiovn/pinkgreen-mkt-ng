@@ -8,6 +8,8 @@ import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
+import { RatingModule } from 'primeng/rating';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [],
@@ -20,6 +22,8 @@ import { CardModule } from 'primeng/card';
     ToastModule,
     ProgressSpinnerModule,
     CardModule,
+    RatingModule,
+    TableModule,
   ],
 })
 export class PrimengModule {}

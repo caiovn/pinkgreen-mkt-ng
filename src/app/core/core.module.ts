@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [NavbarComponent],
-  exports: [NavbarComponent, PrimengModule],
+  exports: [NavbarComponent, PrimengModule, FormsModule, ReactiveFormsModule],
   imports: [CommonModule, PrimengModule, FormsModule, ReactiveFormsModule],
 })
 export class CoreModule {}
