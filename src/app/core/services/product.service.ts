@@ -12,15 +12,19 @@ export class ProductService {
 
   constructor(private readonly http: HttpClient) {}
 
+  getProduct(id: string): Observable<Product> {
+    return this.http.get<Product>(`${this.url}/product/${id}`);
+  }
+
   getProductsBycategory(id: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/product/category/${id}`);
   }
 
-  getProductSKUs(id: string): Observable<Sku[]> {
+  getSkus(id: string): Observable<Sku[]> {
     return this.http.get<Sku[]>(`${this.url}/sku/product_skus/${id}`);
   }
 
-  getProductSku(skuCode: string): Observable<Sku> {
+  getSku(skuCode: string): Observable<Sku> {
     return this.http.get<Sku>(`${this.url}/sku/${skuCode}`);
   }
 }

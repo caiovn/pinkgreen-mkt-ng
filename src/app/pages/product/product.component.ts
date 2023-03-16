@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { MessageService } from 'primeng/api';
+import { catchError, concatMap, tap, throwError } from 'rxjs';
+import Product from 'src/app/core/models/product.model';
 import { Rating } from 'src/app/core/models/rating.model';
 import Sku from 'src/app/core/models/sku.model';
 import { FavoriteService } from 'src/app/core/services/favorite.service';
@@ -19,11 +22,18 @@ export class ProductComponent implements OnInit {
   private productId!: string;
   private skuCode!: string;
 
-  productsList: Sku[] = [];
-  productData!: Sku;
-  otherProductsList: any = [];
+  product!: Product;
 
-  rating!: Rating;
+  blockPurchase = false;
+
+  SkuData!: Sku;
+  otherSkusList: any = [];
+
+  rating: Rating = {
+    average: 0,
+    count: 0,
+    data: [],
+  };
   isFavorite = false;
   iconValue = 'pi pi-heart';
 
@@ -47,7 +57,8 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private readonly keycloak: KeycloakService,
     private ratingService: RatingService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -64,57 +75,105 @@ export class ProductComponent implements OnInit {
     this.loadData();
   }
 
-  loadData() {
-    const callback = () => {
-      this.ratingService.getProductRating(this.productData.skuCode).subscribe({
-        next: (res) => {
-          this.rating = res;
+  async loadData() {
+    this.isLoggedIn = await this.keycloak.isLoggedIn();
+
+    if (this.skuCode) {
+      this.getProductSku(this.skuCode).subscribe({
+        next: () => {
+          this.loading = false;
+        },
+        error: (err) => {
+          this.openErrorToast(err);
         },
       });
+      return;
+    }
 
-      if (this.isLoggedIn) {
-        this.favoriteService
-          .getProductUserFavoriteStatus(this.productData.skuCode)
-          .subscribe({
-            next: (res) => {
-              this.setFavorite(true);
+    this.getProduct().subscribe({
+      next: () => {
+        if (this.skuCode) {
+          this.getProductSku(this.skuCode).subscribe({
+            next: () => {
               this.loading = false;
-              console.log('fav status', res);
             },
             error: (err) => {
-              this.setFavorite(false);
-              this.loading = false;
-              console.log('fav err', err);
+              this.openErrorToast(err);
             },
           });
-      }
-    };
-
-    this.keycloak.isLoggedIn().then((res) => {
-      this.isLoggedIn = res;
-      if (this.skuCode) {
-        this.productService.getProductSku(this.skuCode).subscribe({
-          next: (res) => {
-            console.log(res);
-            this.productData = res;
-            this.otherProductsList = res.relatedSkus;
-
-            callback();
-          },
-        });
-      } else {
-        this.productService.getProductSKUs(this.productId).subscribe({
-          next: (res) => {
-            this.productsList = res;
-            this.productData = this.productsList[0];
-
-            this.otherProductsList = this.productsList.slice(1);
-
-            callback();
-          },
-        });
-      }
+          return;
+        }
+        this.SkuData = this.transformProductIntoSku(this.product);
+        this.loading = false;
+      },
     });
+  }
+
+  getProductSku(_skuCode: string) {
+    return this.productService.getSku(_skuCode).pipe(
+      tap((_skuData) => {
+        console.log('dentro do tap getSku');
+        this.SkuData = _skuData;
+        this.otherSkusList = _skuData.relatedSkus;
+      }),
+      concatMap((_skuData) =>
+        this.ratingService.getProductRating(_skuData.skuCode)
+      ),
+      tap((_rating) => {
+        this.rating = _rating;
+        console.log('dentro do tap getProductRating');
+      }),
+      concatMap(() => {
+        return this.favoriteService.getProductUserFavoriteStatus(
+          this.SkuData.skuCode
+        );
+      }),
+      tap((isFavorite) => {
+        console.log('dentro do tap getProductUserFavoriteStatus');
+        this.setFavorite(isFavorite);
+      }),
+      catchError(() =>
+        throwError(() => new Error('Erro ao carregar o conteúdo'))
+      )
+    );
+  }
+
+  getProduct() {
+    return this.productService.getProduct(this.productId).pipe(
+      tap((_product) => (this.product = _product)),
+      concatMap((_product) => this.productService.getSkus(`${_product.id}`)),
+      tap((_skuList) => {
+        if (_skuList.length > 0) {
+          console.log('_skuList ', _skuList);
+          this.skuCode = _skuList[0].skuCode;
+          return;
+        }
+
+        this.blockPurchase = true;
+      })
+    );
+  }
+
+  transformProductIntoSku(value: Product): Sku {
+    return {
+      mainImageUrl: value.mainImageUrl,
+      name: value.name,
+      price: {
+        listPrice: value.price,
+      },
+      stockQuantity: 0,
+      relatedSkus: [],
+      urlImages: [],
+      skuCode: '',
+      skuAttributes: [],
+      product: {
+        ...value,
+      },
+      height: 0,
+      length: 0,
+      weight: 0,
+      width: 0,
+    };
   }
 
   clickFavoriteButton() {
@@ -124,7 +183,7 @@ export class ProductComponent implements OnInit {
 
     if (this.isFavorite)
       return this.favoriteService
-        .addProductToFavorite(this.productData.skuCode, 'DELETE')
+        .addProductToFavorite(this.SkuData.skuCode, 'DELETE')
         .subscribe({
           next: () => {
             this.setFavorite(false);
@@ -132,7 +191,7 @@ export class ProductComponent implements OnInit {
         });
 
     return this.favoriteService
-      .addProductToFavorite(this.productData.skuCode, 'POST')
+      .addProductToFavorite(this.SkuData.skuCode, 'POST')
       .subscribe({
         next: () => {
           this.setFavorite(true);
@@ -148,5 +207,14 @@ export class ProductComponent implements OnInit {
     }
     this.iconValue = 'pi pi-heart';
     return;
+  }
+
+  openErrorToast(msg: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: msg,
+      life: 3000,
+    });
   }
 }

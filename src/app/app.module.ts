@@ -19,6 +19,7 @@ import { BrandComponent } from './pages/brand/brand.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { SearchComponent } from './pages/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -57,6 +58,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     SlickCarouselModule,
   ],
   providers: [
+    MessageService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

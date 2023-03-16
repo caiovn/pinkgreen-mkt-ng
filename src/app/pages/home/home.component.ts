@@ -11,7 +11,6 @@ import { CategoryService } from 'src/app/core/services/category.service';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [MessageService],
 })
 export class HomeComponent implements OnInit {
   loading = true;
@@ -30,7 +29,7 @@ export class HomeComponent implements OnInit {
     private readonly brandService: BrandService,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadData();
