@@ -21,20 +21,20 @@ export class CategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService
-  ) {}
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.route.params.subscribe((params) => {
       this.categoryId = params['id'];
     });
 
-    this.loadData();
+    await this.loadData();
   }
 
-  loadData() {
+  async loadData() {
     const product$ = this.productService.getProductsBycategory(this.categoryId);
     const category$ = this.categoryService.getCategoryById(this.categoryId);
-
+    
     forkJoin([product$, category$]).subscribe({
       next: (results) => {
         this.productList = results[0];

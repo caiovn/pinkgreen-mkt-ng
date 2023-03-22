@@ -12,22 +12,10 @@
   </div>
 
   <div>
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-heart"
-      class="p-button-rounded p-button-text p-button-plain"
-      routerLink="/favorites"
-    ></button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-user"
-      class="p-button-rounded p-button-text p-button-plain"
-      (click)="menu.toggle($event)"
-    ></button>
+    <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-rounded p-button-text p-button-plain"
+      routerLink="/favorites"></button>
+    <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-text p-button-plain"
+      (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="items"></p-menu>
   </div>
 </div>

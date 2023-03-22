@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 import { Observable, Subscription } from 'rxjs';
+import Sku from '../models/sku.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ export class FavoriteService implements OnDestroy {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly keycloak: KeycloakService
+    private readonly keycloak: KeycloakService,
+    private router: Router
   ) {
     this.loadKeycloakData();
   }
@@ -44,6 +47,13 @@ export class FavoriteService implements OnDestroy {
         })
       );
     });
+  }
+
+  async getAllFavoriteProductsByUser(): Promise<Observable<Sku[]>> {
+    if (!this.userData)
+      this.router.navigate(['/home']);
+
+    return this.http.get<Sku[]>(`${this.url}/favorite/user/${this.userData?.id}`)
   }
 
   addProductToFavorite(skuCode: string, operation: 'POST' | 'DELETE') {

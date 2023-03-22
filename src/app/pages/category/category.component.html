@@ -1,5 +1,5 @@
 <div>
-  <h1>Tudo sobre {{ actualCategory.name }}.</h1>
+  <h1 *ngIf="actualCategory?.name">Tudo sobre {{ actualCategory.name }}.</h1>
   <div class="product-wrapper">
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
       <p-card>

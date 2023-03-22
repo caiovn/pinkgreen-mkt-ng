@@ -1,1 +1,14 @@
-<p>favorites works!</p>
+<div>
+    <div class="product-wrapper">
+        <span *ngIf="favoriteProductList?.length == 0">Você ainda não favoritou nenhum produto :(</span>
+        <a *ngFor="let sku of favoriteProductList" [routerLink]="['/', 'product', sku.product.id]">
+            <p-card>
+                <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(sku.product.mainImageUrl) }">
+                </div>
+                <div class="product-details">
+                    <span>{{ sku.name }}</span>
+                </div>
+            </p-card>
+        </a>
+    </div>
+</div>
