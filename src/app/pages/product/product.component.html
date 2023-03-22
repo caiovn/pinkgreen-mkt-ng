@@ -53,6 +53,7 @@
             [label]="!blockPurchase ? 'Comprar agora' : 'Indisponivel'"
             class="p-button-raised p-button-success product-buy-button"
             [disabled]="blockPurchase"
+            (click)="clickBuyButton()"
           ></button>
           <button
             pButton

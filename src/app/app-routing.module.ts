@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppAuthGuard } from './core/guards/app.authguard';
 import { BrandComponent } from './pages/brand/brand.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/product-purchase-flow.component';
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
 
@@ -14,6 +16,11 @@ const routes: Routes = [
   { path: 'category/:id', component: CategoryComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'brand/:id/:name', component: BrandComponent },
+  {
+    path: 'purchase',
+    canActivate: [AppAuthGuard],
+    component: ProductPurchaseFlowComponent,
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
@@ -22,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

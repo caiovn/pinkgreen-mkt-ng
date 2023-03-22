@@ -10,6 +10,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
 import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
+import { StepsModule } from 'primeng/steps';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { TableModule } from 'primeng/table';
     CardModule,
     RatingModule,
     TableModule,
+    StepsModule,
   ],
 })
 export class PrimengModule {}

@@ -18,8 +18,14 @@ import { ProductComponent } from './pages/product/product.component';
 import { BrandComponent } from './pages/brand/brand.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { SearchComponent } from './pages/search/search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/product-purchase-flow.component';
+import { PersonalDataComponent } from './pages/product-purchase-flow/steps/personal-data/personal-data.component';
+import { PaymentDataComponent } from './pages/product-purchase-flow/steps/payment-data/payment-data.component';
+import { OrderSummaryComponent } from './pages/product-purchase-flow/steps/order-summary/order-summary.component';
+import { AppAuthGuard } from './core/guards/app.authguard';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -46,6 +52,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
     BrandComponent,
     FavoritesComponent,
     SearchComponent,
+    ProductPurchaseFlowComponent,
+    PersonalDataComponent,
+    PaymentDataComponent,
+    OrderSummaryComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,12 +63,16 @@ function initializeKeycloak(keycloak: KeycloakService) {
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     KeycloakAngularModule,
     CoreModule,
     SlickCarouselModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
   providers: [
     MessageService,
+    provideNgxMask(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

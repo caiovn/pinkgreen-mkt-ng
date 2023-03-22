@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { MessageService } from 'primeng/api';
 import { catchError, concatMap, tap, throwError } from 'rxjs';
@@ -54,6 +54,7 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductService,
     private readonly keycloak: KeycloakService,
     private ratingService: RatingService,
@@ -207,6 +208,10 @@ export class ProductComponent implements OnInit {
     }
     this.iconValue = 'pi pi-heart';
     return;
+  }
+
+  clickBuyButton() {
+    this.router.navigate(['/purchase']);
   }
 
   openErrorToast(msg: string) {
