@@ -23,8 +23,7 @@
 
           <h2 class="{styles.name}">{{ SkuData.name }}</h2>
           <p class="{styles.price}">
-            {{ SkuData.price.listPrice | currency }} + frete
-            {{ 15.9 | currency }}
+            {{ SkuData.price.listPrice | currency }} + frete grátis
           </p>
         </div>
 
@@ -48,13 +47,13 @@
       <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="otherProductSlideConfig">
         <div ngxSlickItem *ngFor="let product of otherSkusList" class="card-container">
           <div [routerLink]="['/', 'product', product.product.id]" [queryParams]="{ skuCode: product.skuCode }">
-            <div class="other-products">
+            <p-card class="other-products">
               <img [src]="product.mainImageUrl" />
               <div>
                 <h2>{{ product.name }}</h2>
                 <p>{{ product.price.listPrice | currency }}</p>
               </div>
-            </div>
+            </p-card>
           </div>
         </div>
       </ngx-slick-carousel>

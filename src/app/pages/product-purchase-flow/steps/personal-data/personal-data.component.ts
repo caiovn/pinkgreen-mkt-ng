@@ -1,6 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { KeycloakService } from 'keycloak-angular';
+import {
+  PURCHASE_FLOW_PERSONAL_DATA,
+  SELECTED_SKU_CODE,
+} from 'src/app/core/global';
+import Sku from 'src/app/core/models/sku.model';
+import { ProductService } from 'src/app/core/services/product.service';
 import { StatesService } from 'src/app/core/services/states.service';
 
 @Component({
@@ -12,6 +18,7 @@ export class PersonalDataComponent implements OnInit {
   @Output() nextStepEvent = new EventEmitter();
 
   form!: FormGroup;
+  selectedSku!: Sku;
 
   constructor(
     private keycloak: KeycloakService,
@@ -21,24 +28,30 @@ export class PersonalDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.selectedSku = JSON.parse(
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+    );
   }
 
   createForm() {
     this.keycloak.loadUserProfile().then((res: any) => {
-      console.log(res);
+      const formData = JSON.parse(
+        sessionStorage.getItem(PURCHASE_FLOW_PERSONAL_DATA) || '{}'
+      );
+
       this.form = this.formBuilder.group({
         name: [{ value: res.firstName, disabled: true }],
         surname: [{ value: res.lastName, disabled: true }],
         email: [{ value: res.email, disabled: true }],
         telephone: [{ value: res.attributes.phone[0], disabled: true }],
         cpf: [{ value: res.attributes.CPF[0], disabled: true }],
-        zipCode: ['', [Validators.required]],
-        street: ['', [Validators.required]],
-        number: ['', [Validators.required]],
-        neighborhood: ['', [Validators.required]],
-        complement: [''],
-        city: ['', [Validators.required]],
-        state: ['', [Validators.required]],
+        zipCode: [formData.zipCode || '', [Validators.required]],
+        street: [formData.street || '', [Validators.required]],
+        number: [formData.number || '', [Validators.required]],
+        neighborhood: [formData.neighborhood || '', [Validators.required]],
+        complement: [formData.complement || ''],
+        city: [formData.city || '', [Validators.required]],
+        state: [formData.state || '', [Validators.required]],
       });
 
       this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {
@@ -63,10 +76,13 @@ export class PersonalDataComponent implements OnInit {
 
   onSubmit() {
     this.clickNextButton();
+    sessionStorage.setItem(
+      PURCHASE_FLOW_PERSONAL_DATA,
+      JSON.stringify(this.form.value)
+    );
   }
 
   clickNextButton() {
-    console.log('asd');
     this.nextStepEvent.emit();
   }
 }

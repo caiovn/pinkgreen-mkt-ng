@@ -2,7 +2,7 @@
   <h1 *ngIf="actualCategory?.name">Tudo sobre {{ actualCategory.name }}.</h1>
   <div class="product-wrapper">
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
-      <p-card>
+      <p-card class="product-item">
         <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(product.mainImageUrl) }"></div>
         <div class="product-details">
           <span>{{ product.name }}</span>

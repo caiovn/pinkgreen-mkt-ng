@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { MessageService } from 'primeng/api';
 import { catchError, concatMap, tap, throwError } from 'rxjs';
+import { SELECTED_SKU_CODE } from 'src/app/core/global';
 import Product from 'src/app/core/models/product.model';
 import { Rating } from 'src/app/core/models/rating.model';
 import Sku from 'src/app/core/models/sku.model';
@@ -113,7 +114,6 @@ export class ProductComponent implements OnInit {
   getProductSku(_skuCode: string) {
     return this.productService.getSku(_skuCode).pipe(
       tap((_skuData) => {
-        console.log('dentro do tap getSku');
         this.SkuData = _skuData;
         this.otherSkusList = _skuData.relatedSkus;
       }),
@@ -122,7 +122,6 @@ export class ProductComponent implements OnInit {
       ),
       tap((_rating) => {
         this.rating = _rating;
-        console.log('dentro do tap getProductRating');
       }),
       concatMap(() => {
         return this.favoriteService.getProductUserFavoriteStatus(
@@ -130,7 +129,6 @@ export class ProductComponent implements OnInit {
         );
       }),
       tap((isFavorite) => {
-        console.log('dentro do tap getProductUserFavoriteStatus');
         this.setFavorite(isFavorite);
       }),
       catchError(() =>
@@ -145,7 +143,6 @@ export class ProductComponent implements OnInit {
       concatMap((_product) => this.productService.getSkus(`${_product.id}`)),
       tap((_skuList) => {
         if (_skuList.length > 0) {
-          console.log('_skuList ', _skuList);
           this.skuCode = _skuList[0].skuCode;
           return;
         }
@@ -212,6 +209,7 @@ export class ProductComponent implements OnInit {
 
   clickBuyButton() {
     this.router.navigate(['/purchase']);
+    sessionStorage.setItem(SELECTED_SKU_CODE, JSON.stringify(this.SkuData));
   }
 
   openErrorToast(msg: string) {

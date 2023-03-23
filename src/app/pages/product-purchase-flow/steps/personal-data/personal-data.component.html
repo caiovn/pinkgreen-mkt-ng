@@ -1,4 +1,15 @@
 <div>
+  <div>
+    <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
+      <p-card class="selected-sku">
+        <img [src]="selectedSku.mainImageUrl" />
+        <div>
+          <h2>{{ selectedSku.name }}</h2>
+          <p>{{ selectedSku.price.listPrice | currency }}</p>
+        </div>
+      </p-card>
+    </div>
+  </div>
   <form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmit()">
     <div class="input-wrapper">
       <h2>Dados do usuário</h2>
@@ -31,12 +42,7 @@
 
       <div class="p-field">
         <label for="name">CEP</label>
-        <input
-          id="name"
-          mask="00000-000"
-          formControlName="zipCode"
-          pInputText
-        />
+        <input id="name" mask="00000-000" formControlName="zipCode" pInputText />
       </div>
 
       <div class="input-wrapper">
@@ -47,32 +53,17 @@
           </div>
           <div class="p-field">
             <label for="name">Numero</label>
-            <input
-              id="name"
-              type="number"
-              formControlName="number"
-              pInputText
-            />
+            <input id="name" type="number" formControlName="number" pInputText />
           </div>
         </div>
         <div class="p-field">
           <label for="name">Bairro</label>
-          <input
-            id="name"
-            type="text"
-            formControlName="neighborhood"
-            pInputText
-          />
+          <input id="name" type="text" formControlName="neighborhood" pInputText />
         </div>
 
         <div class="p-field">
           <label for="name">Complemento</label>
-          <input
-            id="name"
-            type="text"
-            formControlName="complement"
-            pInputText
-          />
+          <input id="name" type="text" formControlName="complement" pInputText />
         </div>
         <div class="input-group">
           <div class="p-field">
@@ -88,21 +79,8 @@
     </div>
 
     <div class="button-wrapper">
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Voltar"
-        class="p-button-raised p-button-text"
-      ></button>
-      <button
-        pButton
-        pRipple
-        type="submit"
-        label="Avançar"
-        class="p-button-raised"
-        [disabled]="!form.valid"
-      ></button>
+      <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"></button>
+      <button pButton pRipple type="submit" label="Avançar" class="p-button-raised" [disabled]="!form.valid"></button>
     </div>
   </form>
 </div>
