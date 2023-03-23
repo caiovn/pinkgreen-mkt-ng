@@ -1,23 +1,17 @@
 <div>
-  <p>payment-data works!</p>
+  <h2>Dados de pagamento</h2>
   <div>
-    <div>
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Voltar"
-        class="p-button-raised p-button-text"
-        (click)="clickBackButton()"
-      ></button>
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Avançar"
-        class="p-button-raised"
-        (click)="clickNextButton()"
-      ></button>
-    </div>
+    <form>
+      <div>
+        <span>Forma de pagamento</span>
+      </div>
+
+      <div class="button-wrapper">
+        <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
+          (click)="clickBackButton()"></button>
+        <button pButton pRipple type="button" label="Avançar" class="p-button-raised"
+          (click)="clickNextButton()"></button>
+      </div>
+    </form>
   </div>
 </div>
