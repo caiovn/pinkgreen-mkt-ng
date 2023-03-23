@@ -11,6 +11,7 @@ import { CardModule } from 'primeng/card';
 import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { StepsModule } from 'primeng/steps';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ import { StepsModule } from 'primeng/steps';
     RatingModule,
     TableModule,
     StepsModule,
+    DropdownModule
   ],
 })
 export class PrimengModule {}

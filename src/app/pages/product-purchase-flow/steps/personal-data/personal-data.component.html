@@ -72,7 +72,7 @@
           </div>
           <div class="p-field">
             <label for="name">Estado</label>
-            <input id="name" type="text" formControlName="state" pInputText />
+            <p-dropdown formControlName="state" [options]="statesList" optionLabel="name" optionValue="code" class="states-dropdown"></p-dropdown>
           </div>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { KeycloakService } from 'keycloak-angular';
+import { map } from 'rxjs';
 import {
   PURCHASE_FLOW_PERSONAL_DATA,
   SELECTED_SKU_CODE,
 } from 'src/app/core/global';
 import Sku from 'src/app/core/models/sku.model';
-import { ProductService } from 'src/app/core/services/product.service';
 import { StatesService } from 'src/app/core/services/states.service';
 
 @Component({
@@ -20,6 +20,8 @@ export class PersonalDataComponent implements OnInit {
   form!: FormGroup;
   selectedSku!: Sku;
 
+  statesList!: { name: string; code: string }[];
+
   constructor(
     private keycloak: KeycloakService,
     private formBuilder: FormBuilder,
@@ -27,10 +29,25 @@ export class PersonalDataComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
-    this.selectedSku = JSON.parse(
-      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
-    );
+    this.stateService
+      .getStates()
+      .pipe(
+        map((states) => {
+          return states.map((state) => {
+            return { name: state.nome, code: state.sigla };
+          });
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.statesList = res;
+          this.createForm();
+
+          this.selectedSku = JSON.parse(
+            sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+          );
+        },
+      });
   }
 
   createForm() {
