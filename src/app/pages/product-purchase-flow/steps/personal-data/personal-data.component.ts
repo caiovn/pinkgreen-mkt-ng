@@ -42,10 +42,6 @@ export class PersonalDataComponent implements OnInit {
         next: (res) => {
           this.statesList = res;
           this.createForm();
-
-          this.selectedSku = JSON.parse(
-            sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
-          );
         },
       });
   }

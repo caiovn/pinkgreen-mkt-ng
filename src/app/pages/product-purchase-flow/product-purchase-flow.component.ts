@@ -6,6 +6,7 @@ import {
   ACTUAL_STEP_PURCHASE_FLOW,
   SELECTED_SKU_CODE,
 } from 'src/app/core/global';
+import Sku from 'src/app/core/models/sku.model';
 
 @Component({
   selector: 'app-product-purchase-flow',
@@ -14,12 +15,14 @@ import {
 })
 export class ProductPurchaseFlowComponent implements OnInit, OnDestroy {
   step: number;
-  selectedSku: string;
+  selectedSku: Sku;
   items!: MenuItem[];
 
   constructor(private router: Router) {
     this.step = Number(sessionStorage.getItem(ACTUAL_STEP_PURCHASE_FLOW)) || 0;
-    this.selectedSku = sessionStorage.getItem(SELECTED_SKU_CODE) || '';
+    this.selectedSku = JSON.parse(
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+    );
 
     if (!this.selectedSku) router.navigate(['/']);
   }

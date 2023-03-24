@@ -12,6 +12,8 @@ import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { StepsModule } from 'primeng/steps';
 import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [],
@@ -27,7 +29,9 @@ import { DropdownModule } from 'primeng/dropdown';
     RatingModule,
     TableModule,
     StepsModule,
-    DropdownModule
+    DropdownModule,
+    RadioButtonModule,
+    CheckboxModule,
   ],
 })
 export class PrimengModule {}

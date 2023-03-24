@@ -12,8 +12,4 @@ export class OrderSummaryComponent {
   clickNextButton() {
     this.nextStepEvent.emit();
   }
-
-  clickBackButton() {
-    this.backStepEvent.emit();
-  }
 }

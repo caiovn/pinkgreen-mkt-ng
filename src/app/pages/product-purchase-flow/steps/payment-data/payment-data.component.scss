@@ -3,6 +3,13 @@ form {
   flex-direction: column;
   gap: 16px;
 
+  .field-checkbox {
+    margin: 12px 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
   .input-group {
     display: flex;
     gap: 16px;
@@ -13,10 +20,40 @@ form {
     flex-direction: column;
     gap: 16px;
   }
+
+  .bank-slip-wrapper {
+    width: 580px;
+    display: flex;
+    align-items: center;
+    background-color: #ebeaea;
+    padding: 16px;
+    justify-content: space-around;
+
+    i {
+      font-size: 45px;
+    }
+
+    p {
+      width: 70%;
+    }
+  }
 }
 
 .button-wrapper {
   display: flex;
   flex-direction: row;
   gap: 16px;
+}
+
+.p-field * {
+  display: block;
+  width: 330px;
+}
+
+::ng-deep {
+  .states-dropdown {
+    .p-dropdown {
+      width: 100%;
+    }
+  }
 }
