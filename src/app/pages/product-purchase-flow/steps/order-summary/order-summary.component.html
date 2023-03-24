@@ -1,8 +1,27 @@
-<div>
-  <p>order-summary works!</p>
-  <div>
-    <div>
-
+<div class="order-summary-wrapper">
+  <div class="address-wrapper">
+    <h2>Endereço</h2>
+    <span>Noobidade klinke</span>
+    <span>Avenida Paulista, 1001, Bela Vista, Sáo Paulo, SP 01310-904 - Brasil</span>
+  </div>
+  <div class="payment-method-wrapper">
+    <h2>Método de pagamento</h2>
+    <span>Crédito VISA 9876</span>
+    <div class="total-price">
+      <div>
+        <h3>Sub-total</h3>
+        <span>{{ 100.99 | currency}}</span>
+      </div>
+      <div>
+        <h3>Frete:</h3>
+        <span>{{0 | currency}}</span>
+      </div>
     </div>
+  </div>
+  <div class="button-wrapper">
+    <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
+      (click)="clickBackButton()"></button>
+    <button pButton pRipple type="button" label="FInalizar compra" class="p-button-raised"
+      (click)="clickNextButton()"></button>
   </div>
 </div>

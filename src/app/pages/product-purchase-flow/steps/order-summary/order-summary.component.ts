@@ -10,6 +10,10 @@ export class OrderSummaryComponent {
   @Output() backStepEvent = new EventEmitter();
 
   clickNextButton() {
-    this.nextStepEvent.emit();
+    console.log('booooooooooooooooooooooooooooooooooooooooooom')
+  }
+  
+  clickBackButton() {
+    this.backStepEvent.emit();
   }
 }

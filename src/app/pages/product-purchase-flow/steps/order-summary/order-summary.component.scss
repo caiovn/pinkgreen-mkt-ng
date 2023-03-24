@@ -1,0 +1,30 @@
+.order-summary-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.address-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.payment-method-wrapper {
+    display: flex;
+    flex-direction: column;
+    .total-price {
+        display: flex;
+        flex-direction: column;
+        div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 32px;
+        }
+    }
+}
+
+ .button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
