@@ -1,31 +1,31 @@
 import {
   APP_INITIALIZER,
   DEFAULT_CURRENCY_CODE,
-  NgModule,
+  NgModule
 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { CategoryComponent } from './pages/category/category.component';
-import { ProductComponent } from './pages/product/product.component';
 import { BrandComponent } from './pages/brand/brand.component';
+import { CategoryComponent } from './pages/category/category.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
-import { SearchComponent } from './pages/search/search.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { HomeComponent } from './pages/home/home.component';
 import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/product-purchase-flow.component';
-import { PersonalDataComponent } from './pages/product-purchase-flow/steps/personal-data/personal-data.component';
-import { PaymentDataComponent } from './pages/product-purchase-flow/steps/payment-data/payment-data.component';
 import { OrderSummaryComponent } from './pages/product-purchase-flow/steps/order-summary/order-summary.component';
-import { AppAuthGuard } from './core/guards/app.authguard';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { PaymentDataComponent } from './pages/product-purchase-flow/steps/payment-data/payment-data.component';
+import { PersonalDataComponent } from './pages/product-purchase-flow/steps/personal-data/personal-data.component';
+import { ProductComponent } from './pages/product/product.component';
+import { SearchComponent } from './pages/search/search.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -69,6 +69,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     SlickCarouselModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    CalendarModule
   ],
   providers: [
     MessageService,
@@ -86,4 +87,4 @@ function initializeKeycloak(keycloak: KeycloakService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
-import { SELECTED_SKU_CODE } from 'src/app/core/global';
 import Sku from 'src/app/core/models/sku.model';
 import { StatesService } from 'src/app/core/services/states.service';
 
@@ -22,7 +21,7 @@ export class PaymentDataComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private stateService: StatesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.paymentMethodList = [
@@ -57,10 +56,51 @@ export class PaymentDataComponent implements OnInit {
       });
   }
 
+  validateForm(): void {
+    if (this.form.get('differentTitular')?.value) {
+      this.form.get('differentCpf')?.setValidators([Validators.required]);
+      this.form.updateValueAndValidity();
+      return;
+    }
+
+    this.form.get('differentCpf')?.clearValidators();
+    this.form.get('differentCpf')?.setValue(['']);
+    this.form.updateValueAndValidity();
+  }
+
+  resetForm(): void {
+    console.log(this.form.getRawValue());
+    if (this.form.get('paymentMethod')?.value === 'CREDIT_CARD' || this.form.get('paymentMethod')?.value === 'DEBIT_CARD') {
+      this.form.get('numberCard')?.setValidators([Validators.required]);
+      this.form.get('cardHolder')?.setValidators([Validators.required]);
+      this.form.get('cvv')?.setValidators([Validators.required]);
+      this.form.get('validateData')?.setValidators([Validators.required]);
+
+      this.form.updateValueAndValidity();
+      return;
+    }
+
+    this.form.get('numberCard')?.clearValidators();
+    this.form.get('cardHolder')?.clearValidators();
+    this.form.get('cvv')?.clearValidators();
+    this.form.get('validateData')?.clearValidators();
+
+    this.form.get('numberCard')?.setValue('');
+    this.form.get('cardHolder')?.setValue('');
+    this.form.get('cvv')?.setValue('');
+    this.form.get('validateData')?.setValue('');;
+
+    this.form.updateValueAndValidity();
+  }
+
   createForm() {
     this.form = this.formBuilder.group({
       paymentMethod: ['', [Validators.required]],
-      differentAddress: ['', [Validators.required]],
+
+      differentAddress: [false],
+      differentTitular: [false],
+
+      differentCpf: [''],
 
       zipCode: ['', [Validators.required]],
       street: ['', [Validators.required]],
@@ -69,6 +109,11 @@ export class PaymentDataComponent implements OnInit {
       complement: [''],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
+
+      numberCard: [''],
+      cardHolder: [''],
+      cvv: [''],
+      validateData: ['']
     });
 
     this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {
@@ -90,8 +135,11 @@ export class PaymentDataComponent implements OnInit {
     return this.form.get(name);
   }
 
-  clickNextButton() {
-    this.nextStepEvent.emit();
+  clickNextButton(): void {
+    console.log(this.form.valid);
+    if (this.form.get('paymentMethod')?.value === 'BANK_SLIP') {
+    }
+    // this.nextStepEvent.emit();
   }
 
   clickBackButton() {

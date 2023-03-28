@@ -1,103 +1,130 @@
 <div>
-  <h2>Dados de pagamento</h2>
-  <div>
-    <form class="flex flex-column gap-3" [formGroup]="form">
-      <div class="input-wrapper">
-        <div>
-          <span>Forma de pagamento</span>
-          <div *ngFor="let paymentMethod of paymentMethodList; let idx = index" class="field-checkbox">
-            <p-radioButton [inputId]="'radio-button-payment-method-'+ idx" [value]="paymentMethod.value"
-              formControlName="paymentMethod"></p-radioButton>
-            <label [for]="'radio-button-payment-method-'+ idx" class="ml-2">{{ paymentMethod.label }}</label>
-          </div>
-        </div>
-        <div class="p-field">
-          <label for="name">Numero do cartão</label>
-          <input id="name" type="text" pInputText />
-        </div>
-        <div class="p-field">
-          <label for="name">Nome do titular</label>
-          <input id="name" type="text" pInputText />
-        </div>
+    <h2>Dados de pagamento</h2>
+    <div>
+        <form class="flex flex-column gap-3" [formGroup]="form" *ngIf="form">
+            <div class="input-wrapper">
+                <div>
+                    <span>Forma de pagamento</span>
+                    <div *ngFor="let paymentMethod of paymentMethodList; let idx = index" class="field-checkbox">
+                        <p-radioButton [inputId]="'radio-button-payment-method-'+ idx" [value]="paymentMethod.value"
+                            formControlName="paymentMethod" (onClick)="resetForm()"></p-radioButton>
+                        <label [for]="'radio-button-payment-method-'+ idx" class="ml-2">{{ paymentMethod.label
+                            }}</label>
+                    </div>
+                </div>
 
-        <div class="input-group">
-          <div class="p-field">
-            <label for="name">CVV</label>
-            <input id="name" type="text" pInputText />
-          </div>
-          <div class="p-field">
-            <label for="name">Data de validade</label>
-            <input id="name" type="text" pInputText />
-          </div>
-        </div>
+                <div
+                    *ngIf="form.get('paymentMethod')?.value === 'CREDIT_CARD' || form.get('paymentMethod')?.value === 'DEBIT_CARD' ">
 
-        <div class="field-checkbox">
-          <p-checkbox formControlName="differentAddress" value="true" inputId="checkbox-titular-different"></p-checkbox>
-          <label for="checkbox-titular-differents">O titular do cartão é diferente do usuário da conta</label>
-        </div>
-        <div class="p-field">
-          <label for="name">CPF</label>
-          <input id="name" type="text" pInputText />
-        </div>
-      </div>
-      <div class="bank-slip-wrapper">
-        <i class="pi pi-exclamation-triangle"></i>
-        <p>
-          Vencimento em 3 dias. A data de entrega será alterada devido ao
-          tempo de compensação do boleto.
-        </p>
-      </div>
+                    <div class="p-field">
+                        <label for="name">Numero do cartão</label>
+                        <input mask="0000 0000 0000 0000" id="numberCard" type="text" pInputText
+                            formControlName="numberCard" />
+                    </div>
 
-      <div class="input-wrapper">
-        <div class="field-checkbox">
-          <p-checkbox formControlName="differentAddress" value="true" inputId="checkbox-different-address"></p-checkbox>
-          <label for="checkbox-different-address">Endereco de cobranca é diferente do endereco de entrega</label>
-        </div>
-        <div class="input-wrapper">
-          <h2>Endereço</h2>
-          <div class="p-field">
-            <label for="name">CEP</label>
-            <input id="name" mask="00000-000" formControlName="zipCode" pInputText />
-          </div>
-          <div class="input-group">
-            <div class="p-field">
-              <label for="name">Rua</label>
-              <input id="name" type="text" formControlName="street" pInputText />
+                    <div class="p-field">
+                        <label for="name">Nome do titular</label>
+                        <input id="name" type="text" pInputText formControlName="cardHolder" />
+                    </div>
+
+                    <div class="input-group">
+                        <div class="p-field">
+                            <label for="name">CVV</label>
+                            <input mask="000" id="cvv" type="text" pInputText formControlName="cvv" />
+                        </div>
+
+                        <div class="p-field">
+                            <label for="name">Data de validade</label>
+                            <p-calendar formControlName="validateData" view="month" dateFormat="mm/yy"
+                                [showIcon]="true"></p-calendar>
+                        </div>
+                    </div>
+
+                    <div class="field-checkbox">
+                        <p-checkbox formControlName="differentTitular" [binary]="true" value="true"
+                            inputId="checkbox-titular-different" (onChange)="validateForm()"></p-checkbox>
+                        <label for="checkbox-titular-differents">O titular do cartão é diferente do usuário da
+                            conta</label>
+                    </div>
+
+                    <div class="p-field" *ngIf="form.get('differentTitular')?.value">
+                        <label for="name">CPF</label>
+                        <input mask="000.000.000-00" formControlName="differentCpf" type="text" pInputText />
+                    </div>
+                </div>
+
             </div>
-            <div class="p-field">
-              <label for="name">Numero</label>
-              <input id="name" type="text" formControlName="number" pInputText />
-            </div>
-          </div>
-          <div class="p-field">
-            <label for="name">Bairro</label>
-            <input id="name" type="text" formControlName="neighborhood" pInputText />
-          </div>
 
-          <div class="p-field">
-            <label for="name">Complemento</label>
-            <input id="name" type="text" formControlName="complement" pInputText />
-          </div>
-          <div class="input-group">
-            <div class="p-field">
-              <label for="name">Cidade</label>
-              <input id="name" type="text" formControlName="city" pInputText />
+            <div *ngIf="form.get('paymentMethod')?.value ==='BANK_SLIP' ">
+                <div class="bank-slip-wrapper">
+                    <i class="pi pi-exclamation-triangle"></i>
+                    <p>
+                        Vencimento em 3 dias. A data de entrega será alterada devido ao
+                        tempo de compensação do boleto.
+                    </p>
+                </div>
             </div>
-            <div class="p-field">
-              <label for="name">Estado</label>
-              <p-dropdown formControlName="state" [options]="statesList" optionLabel="name" optionValue="code"
-                class="states-dropdown"></p-dropdown>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="button-wrapper">
-        <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
-          (click)="clickBackButton()"></button>
-        <button pButton pRipple type="button" label="Proximo" class="p-button-raised"
-          (click)="clickNextButton()"></button>
-      </div>
-    </form>
-  </div>
+            <div class="input-wrapper">
+                <div class="field-checkbox">
+                    <p-checkbox formControlName="differentAddress" [binary]="true" value="true"
+                        inputId="checkbox-different-address"></p-checkbox>
+                    <label for="checkbox-different-address">Endereco de cobranca é diferente do endereco de
+                        entrega</label>
+                </div>
+
+                <div *ngIf="form.get('differentAddress')?.value">
+                    <div class="input-wrapper">
+                        <h2>Endereço</h2>
+                        <div class="p-field">
+                            <label for="name">CEP</label>
+                            <input id="zipCode" mask="00000-000" formControlName="zipCode" pInputText />
+                        </div>
+
+                        <div class="input-group">
+                            <div class="p-field">
+                                <label for="name">Rua</label>
+                                <input id="street" type="text" formControlName="street" pInputText />
+                            </div>
+
+                            <div class="p-field">
+                                <label for="name">Numero</label>
+                                <input id="number" type="text" formControlName="number" pInputText />
+                            </div>
+                        </div>
+
+                        <div class="p-field">
+                            <label for="name">Bairro</label>
+                            <input id="neighborhood" type="text" formControlName="neighborhood" pInputText />
+                        </div>
+
+                        <div class="p-field">
+                            <label for="name">Complemento</label>
+                            <input id="complement" type="text" formControlName="complement" pInputText />
+                        </div>
+
+                        <div class="input-group">
+                            <div class="p-field">
+                                <label for="name">Cidade</label>
+                                <input id="city" type="text" formControlName="city" pInputText />
+                            </div>
+
+                            <div class="p-field">
+                                <label for="name">Estado</label>
+                                <p-dropdown formControlName="state" [options]="statesList" optionLabel="name"
+                                    optionValue="code" class="states-dropdown"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-wrapper">
+                <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
+                    (click)="clickBackButton()"></button>
+                <button pButton pRipple type="button" label="Proximo" class="p-button-raised"
+                    (click)="clickNextButton()"></button>
+            </div>
+        </form>
+    </div>
 </div>
