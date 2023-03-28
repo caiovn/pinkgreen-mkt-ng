@@ -34,7 +34,7 @@ export interface ShippingData {
 
 export interface Address {
   country: string;
-  zipcode: string;
+  zipCode: string;
   street: string;
   number: string;
   neighborhood: string;

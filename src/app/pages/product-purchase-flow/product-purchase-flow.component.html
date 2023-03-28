@@ -1,29 +1,24 @@
 <div>
   <p-steps [model]="items" [activeIndex]="step"></p-steps>
-  <h1>Compra.</h1>
-  <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
-    <p-card class="selected-sku">
-      <img [src]="selectedSku.mainImageUrl" />
-      <div>
-        <h2>{{ selectedSku.name }}</h2>
-        <p>{{ selectedSku.price.listPrice | currency }}</p>
+  <div class="steps-wrapper">
+    <div class="step-content">
+      <h1>Compra.</h1>
+      <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
+        <p-card class="selected-sku">
+          <img [src]="selectedSku.mainImageUrl" />
+          <div>
+            <h2>{{ selectedSku.name }}</h2>
+            <p>{{ selectedSku.price.listPrice | currency }}</p>
+          </div>
+        </p-card>
       </div>
-    </p-card>
-  </div>
-  <div [ngSwitch]="step">
-    <app-personal-data
-      *ngSwitchCase="0"
-      (nextStepEvent)="nextStep()"
-    ></app-personal-data>
-    <app-payment-data
-      *ngSwitchCase="1"
-      (backStepEvent)="backStep()"
-      (nextStepEvent)="nextStep()"
-    ></app-payment-data>
-    <app-order-summary
-      *ngSwitchCase="2"
-      (backStepEvent)="backStep()"
-      (nextStepEvent)="nextStep()"
-    ></app-order-summary>
+      <div [ngSwitch]="step">
+        <app-personal-data *ngSwitchCase="0" (nextStepEvent)="nextStep()"></app-personal-data>
+        <app-payment-data *ngSwitchCase="1" (backStepEvent)="backStep()"
+          (nextStepEvent)="nextStep()"></app-payment-data>
+        <app-order-summary *ngSwitchCase="2" (backStepEvent)="backStep()"
+          (nextStepEvent)="nextStep()"></app-order-summary>
+      </div>
+    </div>
   </div>
 </div>

@@ -65,6 +65,7 @@ export class PersonalDataComponent implements OnInit {
         complement: [formData.complement || ''],
         city: [formData.city || '', [Validators.required]],
         state: [formData.state || '', [Validators.required]],
+        country: ['Brasil']
       });
 
       this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {

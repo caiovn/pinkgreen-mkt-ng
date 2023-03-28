@@ -1,8 +1,8 @@
 <div class="order-summary-wrapper">
   <div class="address-wrapper">
     <h2>Endereço</h2>
-    <span>Noobidade klinke</span>
-    <span>Avenida Paulista, 1001, Bela Vista, Sáo Paulo, SP 01310-904 - Brasil</span>
+    <span>{{userName}}</span>
+    <span>{{addressData.street}}, {{addressData.number}}, {{addressData.neighborhood}}, {{addressData.city}}, {{addressData.state}}, {{addressData.zipCode}} - {{addressData.country }}</span>
   </div>
   <div class="payment-method-wrapper">
     <h2>Método de pagamento</h2>
@@ -10,11 +10,15 @@
     <div class="total-price">
       <div>
         <h3>Sub-total</h3>
-        <span>{{ 100.99 | currency}}</span>
+        <span>{{ skuData.price.listPrice | currency}}</span>
       </div>
       <div>
         <h3>Frete:</h3>
         <span>{{0 | currency}}</span>
+      </div>
+      <div>
+        <h2> Total</h2>
+        <span>{{skuData.price.listPrice + 0 | currency}}</span>
       </div>
     </div>
   </div>
