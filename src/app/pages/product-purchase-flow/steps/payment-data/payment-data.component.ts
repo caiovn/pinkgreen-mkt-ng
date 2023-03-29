@@ -36,10 +36,10 @@ export class PaymentDataComponent implements OnInit {
         label: 'Cartão de débito',
         value: 'DEBIT_CARD',
       },
-      {
-        label: 'Boleto',
-        value: 'BANK_SLIP',
-      },
+      // {
+      //   label: 'Boleto',
+      //   value: 'BANK_SLIP',
+      // },
     ];
 
     this.stateService
