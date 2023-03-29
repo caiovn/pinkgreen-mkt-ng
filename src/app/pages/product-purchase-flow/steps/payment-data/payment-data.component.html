@@ -36,13 +36,13 @@
                         <div class="p-field">
                             <label for="name">Data de validade</label>
                             <p-calendar formControlName="validateData" view="month" dateFormat="mm/yy"
-                                [showIcon]="true"></p-calendar>
+                                [showIcon]="true" (onSelect)="formatData()"></p-calendar>
                         </div>
                     </div>
 
                     <div class="field-checkbox">
                         <p-checkbox formControlName="differentTitular" [binary]="true" value="true"
-                            inputId="checkbox-titular-different" (onChange)="validateForm()"></p-checkbox>
+                            inputId="checkbox-titular-different" (onChange)="validateForm($event.checked)"></p-checkbox>
                         <label for="checkbox-titular-differents">O titular do cartão é diferente do usuário da
                             conta</label>
                     </div>
@@ -68,7 +68,7 @@
             <div class="input-wrapper">
                 <div class="field-checkbox">
                     <p-checkbox formControlName="differentAddress" [binary]="true" value="true"
-                        inputId="checkbox-different-address"></p-checkbox>
+                        inputId="checkbox-different-address" (onChange)="differentAddress($event.checked)"></p-checkbox>
                     <label for="checkbox-different-address">Endereco de cobranca é diferente do endereco de
                         entrega</label>
                 </div>
@@ -123,7 +123,7 @@
                 <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
                     (click)="clickBackButton()"></button>
                 <button pButton pRipple type="button" label="Proximo" class="p-button-raised"
-                    (click)="clickNextButton()"></button>
+                    (click)="clickNextButton()" [disabled]="!this.form.valid"></button>
             </div>
         </form>
     </div>

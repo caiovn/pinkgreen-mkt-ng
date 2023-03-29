@@ -1,6 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
+import { PURCHASE_FLOW_PAYMENT_DATA } from 'src/app/core/global';
 import Sku from 'src/app/core/models/sku.model';
 import { StatesService } from 'src/app/core/services/states.service';
 
@@ -20,7 +22,8 @@ export class PaymentDataComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private stateService: StatesService
+    private stateService: StatesService,
+    public datepipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -56,8 +59,8 @@ export class PaymentDataComponent implements OnInit {
       });
   }
 
-  validateForm(): void {
-    if (this.form.get('differentTitular')?.value) {
+  validateForm(checked: boolean): void {
+    if (checked) {
       this.form.get('differentCpf')?.setValidators([Validators.required]);
       this.form.updateValueAndValidity();
       return;
@@ -69,7 +72,6 @@ export class PaymentDataComponent implements OnInit {
   }
 
   resetForm(): void {
-    console.log(this.form.getRawValue());
     if (this.form.get('paymentMethod')?.value === 'CREDIT_CARD' || this.form.get('paymentMethod')?.value === 'DEBIT_CARD') {
       this.form.get('numberCard')?.setValidators([Validators.required]);
       this.form.get('cardHolder')?.setValidators([Validators.required]);
@@ -88,7 +90,7 @@ export class PaymentDataComponent implements OnInit {
     this.form.get('numberCard')?.setValue('');
     this.form.get('cardHolder')?.setValue('');
     this.form.get('cvv')?.setValue('');
-    this.form.get('validateData')?.setValue('');;
+    this.form.get('validateData')?.setValue('');
 
     this.form.updateValueAndValidity();
   }
@@ -102,13 +104,13 @@ export class PaymentDataComponent implements OnInit {
 
       differentCpf: [''],
 
-      zipCode: ['', [Validators.required]],
-      street: ['', [Validators.required]],
-      number: ['', [Validators.required]],
-      neighborhood: ['', [Validators.required]],
+      zipCode: [''],
+      street: [''],
+      number: [''],
+      neighborhood: [''],
       complement: [''],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
+      city: [''],
+      state: [''],
 
       numberCard: [''],
       cardHolder: [''],
@@ -131,15 +133,49 @@ export class PaymentDataComponent implements OnInit {
     });
   }
 
+  formatData(): void {
+    this.form.get('validateData')?.setValue(
+      this.datepipe.transform(this.form.get('validateData')?.value, 'MM/yyyy')
+    );
+  }
+
+  differentAddress(checked: boolean): void {
+    if (checked) {
+      this.form.get('zipCode')?.setValidators([Validators.required]);
+      this.form.get('street')?.setValidators([Validators.required]);
+      this.form.get('number')?.setValidators([Validators.required]);
+      this.form.get('neighborhood')?.setValidators([Validators.required]);
+      this.form.get('city')?.setValidators([Validators.required]);
+      this.form.get('state')?.setValidators([Validators.required]);
+
+      this.form.updateValueAndValidity();
+      return;
+    }
+
+    this.form.get('zipCode')?.clearValidators();
+    this.form.get('street')?.clearValidators();
+    this.form.get('number')?.clearValidators();
+    this.form.get('neighborhood')?.clearValidators();
+    this.form.get('city')?.clearValidators();
+    this.form.get('state')?.clearValidators();
+
+    this.form.get('zipCode')?.setValue('');
+    this.form.get('street')?.setValue('');
+    this.form.get('number')?.setValue('');
+    this.form.get('neighborhood')?.setValue('');
+    this.form.get('city')?.setValue('');
+    this.form.get('state')?.setValue('');
+
+    this.form.updateValueAndValidity();
+  }
+
   getFormInput(name: string) {
     return this.form.get(name);
   }
 
   clickNextButton(): void {
-    console.log(this.form.valid);
-    if (this.form.get('paymentMethod')?.value === 'BANK_SLIP') {
-    }
-    // this.nextStepEvent.emit();
+    sessionStorage.setItem(PURCHASE_FLOW_PAYMENT_DATA, JSON.stringify(this.form.getRawValue()));
+    this.nextStepEvent.emit();
   }
 
   clickBackButton() {

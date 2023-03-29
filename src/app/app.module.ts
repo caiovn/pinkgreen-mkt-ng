@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { MessageService } from 'primeng/api';
+import { DatePipe } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -73,6 +74,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   ],
   providers: [
     MessageService,
+    DatePipe,
     provideNgxMask(),
     {
       provide: APP_INITIALIZER,
