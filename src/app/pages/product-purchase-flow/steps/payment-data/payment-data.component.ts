@@ -96,26 +96,28 @@ export class PaymentDataComponent implements OnInit {
   }
 
   createForm() {
+    const formData = JSON.parse(sessionStorage.getItem(PURCHASE_FLOW_PAYMENT_DATA) || '{}')
+
     this.form = this.formBuilder.group({
-      paymentMethod: ['', [Validators.required]],
+      paymentMethod: [formData.paymentMethod || '', [Validators.required]],
 
-      differentAddress: [false],
-      differentTitular: [false],
+      differentAddress: [formData.differentAddress || false],
+      differentTitular: [formData.differentTitular || false],
 
-      differentCpf: [''],
+      differentCpf: [formData.differentCpf || ''],
 
-      zipCode: [''],
-      street: [''],
-      number: [''],
-      neighborhood: [''],
-      complement: [''],
-      city: [''],
-      state: [''],
+      zipCode: [formData.zipCode || ''],
+      street: [formData.street || ''],
+      number: [formData.number || ''],
+      neighborhood: [formData.neighborhood || ''],
+      complement: [formData.complement || ''],
+      city: [formData.city || ''],
+      state: [formData.state || ''],
 
-      numberCard: [''],
-      cardHolder: [''],
-      cvv: [''],
-      validateData: ['']
+      numberCard: [formData.numberCard || ''],
+      cardHolder: [formData.cardHolder || ''],
+      cvv: [formData.cvv || ''],
+      validateData: [formData.validateData || '']
     });
 
     this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import {
   PURCHASE_FINISHED,
+  PURCHASE_FLOW_PAYMENT_DATA,
   PURCHASE_FLOW_PERSONAL_DATA,
 } from 'src/app/core/global';
 import {
@@ -46,6 +47,7 @@ export class ProductPurchaseFlowComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(ACTUAL_STEP_PURCHASE_FLOW, '');
     sessionStorage.setItem(SELECTED_SKU_CODE, '');
     sessionStorage.setItem(PURCHASE_FLOW_PERSONAL_DATA, '');
+    sessionStorage.setItem(PURCHASE_FLOW_PAYMENT_DATA, '');
     sessionStorage.setItem(PURCHASE_FINISHED, 'false');
   }
 
