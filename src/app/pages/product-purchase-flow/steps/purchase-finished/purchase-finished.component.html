@@ -1,0 +1,26 @@
+<div class="conclusion">
+  <div class="title-wrapper">
+    <i class="pi pi-check-circle"></i>
+    <h1>Compra feita com sucesso.</h1>
+    <span>Após a confirmação do pagamento, o seu pedido será enviado.</span>
+  </div>
+
+  <div>
+    <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
+      <p-card class="selected-sku">
+        <img [src]="selectedSku.mainImageUrl" />
+        <div>
+          <h2>{{ selectedSku.name }}</h2>
+          <p>{{ selectedSku.price.listPrice | currency }}</p>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button pButton pRipple type="button" label="Ir para meus pedidos." class="p-button-raised p-button-text"
+      (click)="navigate('/orders')"></button>
+    <button pButton pRipple type="button" label="Ir para home." class="p-button-raised"
+      (click)="navigate('/')"></button>
+  </div>
+</div>

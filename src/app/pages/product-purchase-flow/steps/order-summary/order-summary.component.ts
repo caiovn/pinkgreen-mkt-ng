@@ -10,11 +10,19 @@ import { Address } from 'src/app/core/models/user.model';
   styleUrls: ['./order-summary.component.scss'],
 })
 export class OrderSummaryComponent implements OnInit {
+  @Output() nextStepEvent = new EventEmitter();
+  @Output() backStepEvent = new EventEmitter();
+  @Output() setPurchaseSuccessEvent = new EventEmitter<boolean>();
+
   addressData!: Address;
   skuData!: Sku;
   userName!: string;
-  @Output() nextStepEvent = new EventEmitter();
-  @Output() backStepEvent = new EventEmitter();
+
+  paymentMethods = {
+    CREDIT_CARD: 'Cartão de crédito',
+    DEBIT_CARD: 'Cartão de débito',
+    BANK_SLIP: 'Boleto',
+  }
 
   constructor(private keycloak: KeycloakService) {}
 
@@ -31,7 +39,7 @@ export class OrderSummaryComponent implements OnInit {
   }
 
   clickNextButton() {
-    console.log('booooooooooooooooooooooooooooooooooooooooooom');
+    this.setPurchaseSuccessEvent.emit(true);
   }
 
   clickBackButton() {

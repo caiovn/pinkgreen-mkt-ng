@@ -2,11 +2,12 @@
   <div class="address-wrapper">
     <h2>Endereço</h2>
     <span>{{userName}}</span>
-    <span>{{addressData.street}}, {{addressData.number}}, {{addressData.neighborhood}}, {{addressData.city}}, {{addressData.state}}, {{addressData.zipCode}} - {{addressData.country }}</span>
+    <span>{{addressData.street}}, {{addressData.number}}, {{addressData.neighborhood}}, {{addressData.city}},
+      {{addressData.state}}, {{addressData.zipCode}} - {{addressData.country }}</span>
   </div>
   <div class="payment-method-wrapper">
     <h2>Método de pagamento</h2>
-    <span>Crédito VISA 9876</span>
+    <span>{{paymentMethods['CREDIT_CARD']}}</span>
     <div class="total-price">
       <div>
         <h3>Sub-total</h3>
@@ -25,7 +26,7 @@
   <div class="button-wrapper">
     <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
       (click)="clickBackButton()"></button>
-    <button pButton pRipple type="button" label="FInalizar compra" class="p-button-raised"
+    <button pButton pRipple type="button" label="Finalizar compra" class="p-button-raised"
       (click)="clickNextButton()"></button>
   </div>
 </div>
