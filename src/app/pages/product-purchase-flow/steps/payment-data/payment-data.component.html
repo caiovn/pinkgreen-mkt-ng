@@ -34,7 +34,7 @@
 
             <div class="p-field">
               <label for="name">Data de validade</label>
-              <p-calendar formControlName="validateData" view="month" dateFormat="mm/yy" [showIcon]="true"
+              <p-calendar formControlName="validateData" view="month" dateFormat="mm/y" [showIcon]="true"
                 (onSelect)="formatData()"></p-calendar>
             </div>
           </div>
@@ -79,7 +79,7 @@
             <h2>Endereço</h2>
             <div class="p-field">
               <label for="name">CEP</label>
-              <input id="zipCode" mask="00000-000" formControlName="zipCode" pInputText />
+              <input id="zipcode" mask="00000-000" formControlName="zipcode" pInputText />
             </div>
 
             <div class="input-group">

@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
     private readonly categoryService: CategoryService,
     private readonly brandService: BrandService,
     private messageService: MessageService,
-    private router: Router
   ) {}
 
   ngOnInit() {

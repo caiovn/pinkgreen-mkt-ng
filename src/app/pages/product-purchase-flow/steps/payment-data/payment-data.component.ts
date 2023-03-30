@@ -106,7 +106,7 @@ export class PaymentDataComponent implements OnInit {
 
       differentCpf: [formData.differentCpf || ''],
 
-      zipCode: [formData.zipCode || ''],
+      zipcode: [formData.zipcode || ''],
       street: [formData.street || ''],
       number: [formData.number || ''],
       neighborhood: [formData.neighborhood || ''],
@@ -120,9 +120,9 @@ export class PaymentDataComponent implements OnInit {
       validateData: [formData.validateData || '']
     });
 
-    this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {
-      if (zipCode.length === 8) {
-        this.stateService.getCep(zipCode).subscribe({
+    this.getFormInput('zipcode')?.valueChanges.subscribe((zipcode) => {
+      if (zipcode.length === 8) {
+        this.stateService.getCep(zipcode).subscribe({
           next: (res) => {
             this.getFormInput('street')?.setValue(res.logradouro);
             this.getFormInput('neighborhood')?.setValue(res.bairro);
@@ -137,13 +137,13 @@ export class PaymentDataComponent implements OnInit {
 
   formatData(): void {
     this.form.get('validateData')?.setValue(
-      this.datepipe.transform(this.form.get('validateData')?.value, 'MM/yyyy')
+      this.datepipe.transform(this.form.get('validateData')?.value, 'MM/yy')
     );
   }
 
   differentAddress(checked: boolean): void {
     if (checked) {
-      this.form.get('zipCode')?.setValidators([Validators.required]);
+      this.form.get('zipcode')?.setValidators([Validators.required]);
       this.form.get('street')?.setValidators([Validators.required]);
       this.form.get('number')?.setValidators([Validators.required]);
       this.form.get('neighborhood')?.setValidators([Validators.required]);
@@ -154,14 +154,14 @@ export class PaymentDataComponent implements OnInit {
       return;
     }
 
-    this.form.get('zipCode')?.clearValidators();
+    this.form.get('zipcode')?.clearValidators();
     this.form.get('street')?.clearValidators();
     this.form.get('number')?.clearValidators();
     this.form.get('neighborhood')?.clearValidators();
     this.form.get('city')?.clearValidators();
     this.form.get('state')?.clearValidators();
 
-    this.form.get('zipCode')?.setValue('');
+    this.form.get('zipcode')?.setValue('');
     this.form.get('street')?.setValue('');
     this.form.get('number')?.setValue('');
     this.form.get('neighborhood')?.setValue('');

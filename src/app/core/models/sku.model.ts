@@ -4,6 +4,7 @@ export default interface Sku {
   skuCode: string;
   name: string;
   stockQuantity: number;
+  quantity?: number;
   height: number;
   width: number;
   length: number;

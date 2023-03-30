@@ -5,6 +5,7 @@ import { BrandComponent } from './pages/brand/brand.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { HomeComponent } from './pages/home/home.component';
+import { OrderComponent } from './pages/order/order.component';
 import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/product-purchase-flow.component';
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
@@ -20,6 +21,11 @@ const routes: Routes = [
     path: 'purchase',
     canActivate: [AppAuthGuard],
     component: ProductPurchaseFlowComponent,
+  },
+  {
+    path: 'order',
+    canActivate: [AppAuthGuard],
+    component: OrderComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },

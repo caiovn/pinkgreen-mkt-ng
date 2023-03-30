@@ -3,11 +3,11 @@
     <h2>Endereço</h2>
     <span>{{userName}}</span>
     <span>{{addressData.street}}, {{addressData.number}}, {{addressData.neighborhood}}, {{addressData.city}},
-      {{addressData.state}}, {{addressData.zipCode}} - {{addressData.country }}</span>
+      {{addressData.state}}, {{transformStrToCep(addressData.zipcode)}} - {{addressData.country}}</span>
   </div>
   <div class="payment-method-wrapper">
     <h2>Método de pagamento</h2>
-    <span>{{paymentMethods['CREDIT_CARD']}}</span>
+    <span>{{paymentMethods[this.paymentData.paymentMethod]}}</span>
     <div class="total-price">
       <div>
         <h3>Sub-total</h3>
@@ -29,4 +29,5 @@
     <button pButton pRipple type="button" label="Finalizar compra" class="p-button-raised"
       (click)="clickNextButton()"></button>
   </div>
+  <p-toast position="bottom-left"></p-toast>
 </div>

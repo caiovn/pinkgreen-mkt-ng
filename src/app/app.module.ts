@@ -28,6 +28,7 @@ import { PersonalDataComponent } from './pages/product-purchase-flow/steps/perso
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
 import { PurchaseFinishedComponent } from './pages/product-purchase-flow/steps/purchase-finished/purchase-finished.component';
+import { OrderComponent } from './pages/order/order.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -59,6 +60,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     PaymentDataComponent,
     OrderSummaryComponent,
     PurchaseFinishedComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

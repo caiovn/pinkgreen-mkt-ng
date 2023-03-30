@@ -58,7 +58,7 @@ export class PersonalDataComponent implements OnInit {
         email: [{ value: res.email, disabled: true }],
         telephone: [{ value: res.attributes.phone[0], disabled: true }],
         cpf: [{ value: res.attributes.CPF[0], disabled: true }],
-        zipCode: [formData.zipCode || '', [Validators.required]],
+        zipcode: [formData.zipcode || '', [Validators.required]],
         street: [formData.street || '', [Validators.required]],
         number: [formData.number || '', [Validators.required]],
         neighborhood: [formData.neighborhood || '', [Validators.required]],
@@ -68,9 +68,9 @@ export class PersonalDataComponent implements OnInit {
         country: ['Brasil']
       });
 
-      this.getFormInput('zipCode')?.valueChanges.subscribe((zipCode) => {
-        if (zipCode.length === 8) {
-          this.stateService.getCep(zipCode).subscribe({
+      this.getFormInput('zipcode')?.valueChanges.subscribe((zipcode) => {
+        if (zipcode.length === 8) {
+          this.stateService.getCep(zipcode).subscribe({
             next: (res) => {
               this.getFormInput('street')?.setValue(res.logradouro);
               this.getFormInput('neighborhood')?.setValue(res.bairro);
