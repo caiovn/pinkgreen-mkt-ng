@@ -5,12 +5,9 @@
   <div *ngIf="!loading">
     <div class="product-presentation">
       <div>
-        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="imageSlideConfig">
-          <div>
-            <img [src]="SkuData.mainImageUrl" [alt]="'imagem do produto' + SkuData.name" width="520" />
-          </div>
-          <div ngxSlickItem *ngFor="let images of SkuData.urlImages" class="card-container">
-            <img [src]="images" />
+        <ngx-slick-carousel class="carousel carousel-product-images" [config]="imageSlideConfig">
+          <div ngxSlickItem *ngFor="let images of SkuData.urlImages" class="slide card-container">
+            <img [src]="images" width="520" />
           </div>
         </ngx-slick-carousel>
       </div>

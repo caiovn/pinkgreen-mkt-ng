@@ -40,8 +40,12 @@ export class ProductComponent implements OnInit {
 
   imageSlideConfig = {
     dots: true,
-    infinite: true,
-    variableWidth: true,
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+    adaptiveWidth: true,
+    lazyLoad: 'progressive'
   };
 
   otherProductSlideConfig = {
@@ -115,7 +119,11 @@ export class ProductComponent implements OnInit {
     return this.productService.getSku(_skuCode).pipe(
       tap((_skuData) => {
         this.SkuData = _skuData;
+        this.SkuData.urlImages = [this.SkuData.mainImageUrl].concat(this.SkuData.urlImages)
         this.otherSkusList = _skuData.relatedSkus;
+        if (this.SkuData.stockQuantity === 0) {
+          this.blockPurchase = true
+        }
       }),
       concatMap((_skuData) =>
         this.ratingService.getProductRating(_skuData.skuCode)
