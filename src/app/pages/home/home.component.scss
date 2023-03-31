@@ -4,17 +4,27 @@
   min-width: 230px;
 
   .root {
-    color: #ffffff;
-    background-color: #000000;
     padding: 12px;
     width: 100%;
     display: flex;
   }
 
   .card-image {
-    height: 75px;
-
+    height: 100px;
     background-size: cover;
     background-position: center;
+  }
+
+}
+
+::ng-deep {
+  .p-card-category {
+    .p-card-body {
+      padding: 0;
+
+      .p-card-content {
+        padding: 0;
+      }
+    }
   }
 }

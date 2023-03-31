@@ -21,7 +21,15 @@ export class HomeComponent implements OnInit {
     dots: false,
     infinite: false,
     variableWidth: true,
-    arrows: false,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 769,
+        settings: {
+          arrows: false
+        },
+      },
+    ],
   };
 
   constructor(

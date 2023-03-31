@@ -4,7 +4,7 @@
 
   .product-item {
     display: block;
-    width: 250px;
+    width: 224px;
     height: 300px;
 
     .image-wrapper {
@@ -24,6 +24,26 @@
   }
 }
 
+@media(max-width: 501px) {
+  .product-wrapper {
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .product-link {
+      width: 100%;
+    }
+
+    .product-item {
+      width: 100%;
+
+      .image-wrapper {
+        width: 275px;
+        height: 100%;
+      }
+    }
+  }
+}
+
 ::ng-deep {
   .product-item {
     .p-card {
@@ -39,6 +59,16 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+      }
+    }
+  }
+
+  @media(max-width: 501px) {
+    .product-item {
+      .p-card {
+        &-content {
+          gap: 16px;
+        }
       }
     }
   }

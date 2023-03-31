@@ -2,7 +2,7 @@
   <div>
     <a class="nav__title" routerLink="/">Pinkgreen.</a>
   </div>
-  <div>
+  <div class="search-term">
     <form (ngSubmit)="onSubmitForm()" #formDir="ngForm">
       <span class="p-input-icon-right">
         <i class="pi pi-search"></i>
@@ -11,11 +11,21 @@
     </form>
   </div>
 
-  <div>
+  <div class="desktop-buttons">
     <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-rounded p-button-text p-button-plain"
       routerLink="/favorites"></button>
     <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-text p-button-plain"
       (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="items"></p-menu>
   </div>
+
+  <div class="mobile-button">
+    <p-button (click)="sidebarVisible = true" icon="pi pi-bars"
+    styleClass="p-button-secondary p-button-text"></p-button>
+  </div>
 </div>
+
+
+<p-sidebar [(visible)]="sidebarVisible" [fullScreen]="true">
+  <h3>Full Screen Sidebar</h3>
+</p-sidebar>

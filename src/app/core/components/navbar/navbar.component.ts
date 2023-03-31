@@ -13,6 +13,7 @@ import { MenuItem } from 'primeng/api';
 export class NavbarComponent implements OnInit {
   items!: MenuItem[];
   searchTerm = new FormControl('');
+  sidebarVisible = false;
 
   public isLoggedIn = false;
   public userProfile: KeycloakProfile | null = null;

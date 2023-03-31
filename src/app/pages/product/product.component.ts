@@ -45,16 +45,34 @@ export class ProductComponent implements OnInit {
     slidesToScroll: 1,
     adaptiveHeight: true,
     adaptiveWidth: true,
-    lazyLoad: 'progressive'
+    azyLoad: 'ondemand',
+    responsive: [
+      {
+        breakpoint: 769,
+        settings: {
+          arrows: false,
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   otherProductSlideConfig = {
+    slidesToShow: 3,
     dots: true,
     infinite: false,
     adaptiveheight: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
     focusOnSelect: true,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 769,
+        settings: {
+          arrows: false,
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   constructor(
@@ -119,10 +137,12 @@ export class ProductComponent implements OnInit {
     return this.productService.getSku(_skuCode).pipe(
       tap((_skuData) => {
         this.SkuData = _skuData;
-        this.SkuData.urlImages = [this.SkuData.mainImageUrl].concat(this.SkuData.urlImages)
+        this.SkuData.urlImages = [this.SkuData.mainImageUrl].concat(
+          this.SkuData.urlImages
+        );
         this.otherSkusList = _skuData.relatedSkus;
         if (this.SkuData.stockQuantity === 0) {
-          this.blockPurchase = true
+          this.blockPurchase = true;
         }
       }),
       concatMap((_skuData) =>

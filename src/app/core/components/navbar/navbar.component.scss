@@ -9,7 +9,27 @@
     font-size: 22px;
   }
 
-  input {
-    width: 448px;
+  .search-term {
+    input {
+      width: 448px;
+    }
+  }
+  .mobile-button {
+    display: none;
+  }
+}
+
+@media(max-width: 767px) {
+  .nav {
+    padding: 16px;
+    .search-term {
+      display: none;
+    }
+    .desktop-buttons {
+      display: none;
+    }
+    .mobile-button {
+      display: block;
+    }
   }
 }
