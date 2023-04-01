@@ -11,3 +11,9 @@ export default interface Product {
   name: string;
   price: number;
 }
+
+export const PaymentMethods: Record<string, string> = {
+  CREDIT_CARD: 'Cartão de crédito',
+  DEBIT_CARD: 'Cartão de débito',
+  BANK_SLIP: 'Boleto',
+};

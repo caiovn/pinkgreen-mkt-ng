@@ -66,9 +66,9 @@ export class FavoriteService implements OnDestroy {
     return this.http.delete(endpoint, { headers: this.mountHeaders() });
   }
 
-  mountHeaders() {
+  private mountHeaders() {
     return {
-      Authorizarion: `Bearer ${this.userData.id}`,
+      Authorization: `Bearer ${this.tokenKeycloak}`,
     };
   }
 }

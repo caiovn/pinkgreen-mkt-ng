@@ -61,7 +61,9 @@
         <ng-template pTemplate="body" let-skuAttribute>
           <tr>
             <td>{{ skuAttribute.label }}</td>
-            <td>{{ skuAttribute.value }}</td>
+            <td>
+              <div [innerHTML]="skuAttribute.value"></div>
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -69,10 +71,10 @@
     <div *ngIf="SkuData.skuCode">
       <h2>Dimensões</h2>
       <p-table [value]="[
-          { label: 'Altura', value: SkuData.height },
-          { label: 'Largura', value: SkuData.width },
-          { label: 'Comprimento', value: SkuData.length },
-          { label: 'Peso', value: SkuData.weight }
+          { label: 'Altura (cm)', value: SkuData.height },
+          { label: 'Largura (cm)', value: SkuData.width },
+          { label: 'Comprimento (cm)', value: SkuData.length },
+          { label: 'Peso (g)', value: SkuData.weight }
         ]" styleClass="p-datatable-sm p-datatable-striped">
         <ng-template pTemplate="body" let-dimensions>
           <tr>

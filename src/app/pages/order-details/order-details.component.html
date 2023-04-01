@@ -1,0 +1,50 @@
+<div>
+  <h1>Pedido.</h1>
+  <h2>Número do pedido: {{order.id}}</h2>
+
+  <div>
+    <div [routerLink]="['/', 'product', order.productList[0].product.id]"
+      [queryParams]="{ skuCode: order.productList[0].skuCode }">
+      <p-card class="order-product">
+        <img [src]="order.productList[0].mainImageUrl" />
+        <div>
+          <h2>{{ order.productList[0].name }}</h2>
+          <p>{{ order.productList[0].price | currency }}</p>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <div>
+    <h2>Endereço</h2>
+    <span>{{order.shippingData.address.street}} {{order.shippingData.address.number}}
+      {{order.shippingData.address.neighborhood}} {{order.shippingData.address.city}},
+      {{order.shippingData.address.state}} {{order.shippingData.address.zipcode}} -
+      {{order.shippingData.address.country}}</span>
+  </div>
+
+  <div>
+    <h2>Forma de pagamento</h2>
+    <span>
+      {{paymentMethods[order.paymentData.paymentMethod]}}
+    </span>
+    <div>
+      <span>
+        **** **** **** {{order.paymentData.paymentProperties.last4}}
+      </span>
+      <span>
+        {{order.paymentData.amount | currency}}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="order.history">
+    <h2>Status do pedido</h2>
+    <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
+  </div>
+
+  <div *ngIf="order.history[activeHistoryOrder].status === 'ORDER_SHIPPED'">
+    <h2>Avaliação do pedido</h2>
+    <h2>Avalie seu pedido</h2>
+  </div>
+</div>

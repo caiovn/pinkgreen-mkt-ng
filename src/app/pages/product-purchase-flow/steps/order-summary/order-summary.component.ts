@@ -6,6 +6,7 @@ import {
   PURCHASE_FLOW_PERSONAL_DATA,
   SELECTED_SKU_CODE,
 } from 'src/app/core/global';
+import { PaymentMethods } from 'src/app/core/models/product.model';
 import Sku from 'src/app/core/models/sku.model';
 import { Address } from 'src/app/core/models/user.model';
 import { OrderService } from 'src/app/core/services/order.service';
@@ -27,11 +28,7 @@ export class OrderSummaryComponent implements OnInit {
   userName!: string;
   customer: any;
 
-  paymentMethods: Record<string, string> = {
-    CREDIT_CARD: 'Cartão de crédito',
-    DEBIT_CARD: 'Cartão de débito',
-    BANK_SLIP: 'Boleto',
-  };
+  paymentMethods = PaymentMethods
 
   constructor(
     private keycloak: KeycloakService,

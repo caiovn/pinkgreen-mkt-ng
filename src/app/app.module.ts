@@ -29,6 +29,7 @@ import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
 import { PurchaseFinishedComponent } from './pages/product-purchase-flow/steps/purchase-finished/purchase-finished.component';
 import { OrderComponent } from './pages/order/order.component';
+import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -61,6 +62,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     OrderSummaryComponent,
     PurchaseFinishedComponent,
     OrderComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     BrowserModule,

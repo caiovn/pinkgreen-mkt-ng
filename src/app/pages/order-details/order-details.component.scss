@@ -1,0 +1,33 @@
+.order-product {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    width: 7.5rem;
+  }
+
+  p {
+    padding: 8px;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 14px;
+    margin: 0 0 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+::ng-deep {
+  .order-product {
+    .p-card-content {
+      display: flex;
+      padding: 0 !important;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+}
