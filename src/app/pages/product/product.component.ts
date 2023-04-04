@@ -189,7 +189,7 @@ export class ProductComponent implements OnInit {
       },
       stockQuantity: 0,
       relatedSkus: [],
-      urlImages: [],
+      urlImages: [value.mainImageUrl],
       skuCode: '',
       skuAttributes: [],
       product: {

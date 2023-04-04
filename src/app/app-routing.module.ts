@@ -10,6 +10,7 @@ import { OrderComponent } from './pages/order/order.component';
 import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/product-purchase-flow.component';
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
+import { CatalogAdministrationComponent } from './pages/catalog-administration/catalog-administration.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: 'order/:id',
     canActivate: [AppAuthGuard],
     component: OrderDetailsComponent,
+  },
+  {
+    path: 'catalog-administration',
+    canActivate: [AppAuthGuard],
+    component: CatalogAdministrationComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },

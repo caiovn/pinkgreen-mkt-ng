@@ -15,6 +15,8 @@ export class NavbarComponent implements OnInit {
   searchTerm = new FormControl('');
   sidebarVisible = false;
 
+  userRoles!: string[];
+
   public isLoggedIn = false;
   public userProfile: KeycloakProfile | null = null;
 
@@ -28,8 +30,8 @@ export class NavbarComponent implements OnInit {
 
     if (this.isLoggedIn) {
       this.userProfile = await this.keycloak.loadUserProfile();
+      this.userRoles = this.keycloak.getUserRoles(true);
     }
-
     this.mountMenu();
   }
 
@@ -45,7 +47,7 @@ export class NavbarComponent implements OnInit {
 
   mountMenu() {
     if (this.isLoggedIn) {
-      return (this.items = [
+      this.items = [
         {
           label: `Olá, ${this.userProfile?.firstName}!`,
           items: [
@@ -63,10 +65,24 @@ export class NavbarComponent implements OnInit {
             },
           ],
         },
-      ]);
+      ];
+
+      const catalogAdminItem: MenuItem[] = [{
+        label: 'Administrar Catálogo',
+        icon: 'pi pi-box',
+        routerLink: '/catalog-administration',
+      }];
+
+      if(this.userRoles.includes('create-sku')) {
+        this.items[0].items = catalogAdminItem.concat(this.items[0].items as any)
+      }
+
+      console.log(this.items);
+
+      return;
     }
 
-    return (this.items = [
+    this.items = [
       {
         label: 'Você não esta logado.',
         items: [
@@ -79,7 +95,7 @@ export class NavbarComponent implements OnInit {
           },
         ],
       },
-    ]);
+    ];
   }
 
   login() {
