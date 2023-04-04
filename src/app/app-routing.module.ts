@@ -11,6 +11,7 @@ import { ProductPurchaseFlowComponent } from './pages/product-purchase-flow/prod
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
 import { CatalogAdministrationComponent } from './pages/catalog-administration/catalog-administration.component';
+import { OrderAdministrationComponent } from './pages/order-administration/order-administration.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -38,6 +39,11 @@ const routes: Routes = [
     path: 'catalog-administration',
     canActivate: [AppAuthGuard],
     component: CatalogAdministrationComponent,
+  },
+  {
+    path: 'order-administration',
+    canActivate: [AppAuthGuard],
+    component: OrderAdministrationComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
