@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 import { MenuItem } from 'primeng/api';
-import Order, { ORDER_STATUS } from 'src/app/core/models/order.model';
+import Order, { ORDER_STATUS_TEXT } from 'src/app/core/models/order.model';
 import { PaymentMethods } from 'src/app/core/models/product.model';
 import { OrderService } from 'src/app/core/services/order.service';
+import { RatingService } from 'src/app/core/services/rating.service';
 
 @Component({
   selector: 'app-order-details',
@@ -12,13 +15,25 @@ import { OrderService } from 'src/app/core/services/order.service';
   styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit {
+  form!: FormGroup;
+
   orderId!: string;
   order!: Order;
-  customerId!: string;
+
+  customerData!: KeycloakProfile;
 
   orderHistory: MenuItem[] = [];
   lastOrderHistoryItemIndex!: number;
   activeHistoryOrder!: number;
+
+  ratingStarNumber = 0;
+  RATING_TEXT: Record<number, string> = {
+    1: 'Péssimo',
+    2: 'Ruim',
+    3: 'Neutro',
+    4: 'Bom',
+    5: 'Excelente',
+  };
 
   regularFlow = [
     'ORDER_CREATED',
@@ -33,7 +48,10 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private ratingService: RatingService,
+    private keycloak: KeycloakService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -41,26 +59,53 @@ export class OrderDetailsComponent implements OnInit {
       this.orderId = params['id'];
     });
     this.loadData();
+    this.createForm();
   }
 
   loadData() {
-    this.orderService.getOrder(this.orderId).subscribe((res) => {
-      this.order = res;
-      this.loadOrderHistory();
+    this.keycloak.loadUserProfile().then((res) => {
+      this.customerData = res;
+      this.orderService.getOrder(this.orderId).subscribe((res) => {
+        this.order = res;
+        this.loadOrderHistory();
+      });
     });
+  }
+
+  createForm() {
+    this.form = this.formBuilder.group({
+      stars: [0, Validators.required],
+      comment: [''],
+    });
+  }
+
+  submitRatingForm() {
+    this.ratingService
+      .createProductRating(
+        this.orderId,
+        this.order.productList[0].skuCode,
+        this.form.get('stars')?.value,
+        this.RATING_TEXT[this.form.get('stars')?.value],
+        this.form.get('comment')?.value
+      )
+      .subscribe({
+        next: () => {
+          console.log('mandou');
+        },
+      });
   }
 
   loadOrderHistory() {
     this.activeHistoryOrder = this.order.history.length - 1;
 
     const history = this.order.history.map((o) => {
-      return { label: ORDER_STATUS[o.status] };
+      return { label: ORDER_STATUS_TEXT[o.status] };
     });
 
     const futureHistory = this.loadFutureOrderHistory(
       this.order.history[this.activeHistoryOrder].status
     ).map((fo) => {
-      return { label: ORDER_STATUS[fo] };
+      return { label: ORDER_STATUS_TEXT[fo] };
     });
 
     this.orderHistory = history.concat(futureHistory);

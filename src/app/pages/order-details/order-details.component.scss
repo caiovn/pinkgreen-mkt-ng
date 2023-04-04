@@ -21,6 +21,16 @@
   }
 }
 
+.order-values {
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0;
+
+  &-item {
+    margin: 4px 0;
+  }
+}
+
 ::ng-deep {
   .order-product {
     .p-card-content {
@@ -28,6 +38,11 @@
       padding: 0 !important;
       align-items: center;
       gap: 16px;
+    }
+  }
+  .rating-order {
+    .p-rating-icon {
+      font-size: 1.7rem;
     }
   }
 }

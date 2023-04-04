@@ -34,7 +34,7 @@ export default interface Order {
   updatedAt: string;
 }
 
-export const ORDER_STATUS: Record<string, string> = {
+export const ORDER_STATUS_TEXT: Record<string, string> = {
   ORDER_CANCELED: 'Pedido cancelado',
   ORDER_SHIPPED: 'Pedido entregue',
   ORDER_EN_ROUTE: 'Pedido em rota de entrega',

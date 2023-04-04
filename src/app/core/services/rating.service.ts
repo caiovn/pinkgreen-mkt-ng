@@ -27,4 +27,32 @@ export class RatingService {
       },
     });
   }
+
+  createProductRating(
+    orderId: string,
+    skuCode: string,
+    stars: number,
+    title: string,
+    comment: string
+  ) {
+    console.log("meopooo", orderId, skuCode, stars, title,comment)
+    return this.http.post(
+      `${this.url}/evaluations/order/${orderId}/product/${skuCode}`,
+      {
+        stars,
+        title,
+        evaluation: comment,
+      },
+      {
+        headers: this.mountHeaders(),
+      }
+    );
+  }
+
+  private mountHeaders() {
+    return {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${this.tokenKeycloak}`,
+    };
+  }
 }

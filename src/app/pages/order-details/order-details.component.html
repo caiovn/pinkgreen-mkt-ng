@@ -1,6 +1,8 @@
-<div>
-  <h1>Pedido.</h1>
-  <h2>Número do pedido: {{order.id}}</h2>
+<div style="display:flex; flex-direction: column; gap: 32px; margin: 64px;">
+  <div>
+    <h1>Pedido.</h1>
+    <h2>Número do pedido: {{order.id}}</h2>
+  </div>
 
   <div>
     <div [routerLink]="['/', 'product', order.productList[0].product.id]"
@@ -15,26 +17,48 @@
     </div>
   </div>
 
-  <div>
-    <h2>Endereço</h2>
-    <span>{{order.shippingData.address.street}} {{order.shippingData.address.number}}
-      {{order.shippingData.address.neighborhood}} {{order.shippingData.address.city}},
-      {{order.shippingData.address.state}} {{order.shippingData.address.zipcode}} -
-      {{order.shippingData.address.country}}</span>
-  </div>
-
-  <div>
-    <h2>Forma de pagamento</h2>
-    <span>
-      {{paymentMethods[order.paymentData.paymentMethod]}}
-    </span>
+  <div style="display: flex; justify-content: space-between;">
     <div>
+      <h2>Endereço</h2>
+      <p>{{customerData.firstName}} {{customerData.lastName}}</p>
+      <p>{{order.shippingData.address.street}}, {{order.shippingData.address.number}}
+      <p>{{order.shippingData.address.complement}}</p>
+      <p>{{order.shippingData.address.neighborhood}}</p>
+      <p>{{order.shippingData.address.city}}, {{order.shippingData.address.state}}
+        {{order.shippingData.address.zipcode}}
+      </p>
+      <p>{{order.shippingData.address.country}}</p>
+    </div>
+    <div>
+      <h2>Forma de pagamento</h2>
       <span>
-        **** **** **** {{order.paymentData.paymentProperties.last4}}
+        <strong>
+          {{paymentMethods[order.paymentData.paymentMethod]}}
+        </strong>
+        com o final {{order.paymentData.paymentProperties.last4}}
       </span>
-      <span>
-        {{order.paymentData.amount | currency}}
-      </span>
+
+    </div>
+    <div class="order-values">
+      <h2>Resumo do pedido</h2>
+      <div class="order-values-item">
+        <span>Subtotal:</span>
+        <span>
+          {{order.paymentData.amount | currency}}
+        </span>
+      </div>
+
+      <div class="order-values-item">
+        <span>Frete:</span>
+        <span>
+          {{order.shippingData.freightPrice | currency}}
+        </span>
+
+      </div>
+      <div class="order-values-item">
+        <span>Total:</span>
+        {{order.paymentData.amount + order.shippingData.freightPrice | currency}}
+      </div>
     </div>
   </div>
 
@@ -43,8 +67,28 @@
     <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
   </div>
 
-  <div *ngIf="order.history[activeHistoryOrder].status === 'ORDER_SHIPPED'">
-    <h2>Avaliação do pedido</h2>
+  <div>
+    <!-- <div *ngIf="order.history[activeHistoryOrder].status === 'ORDER_SHIPPED'"> -->
+    <!-- <h2>Avaliação do pedido</h2> -->
     <h2>Avalie seu pedido</h2>
+    <div>
+      <form [formGroup]="form" (ngSubmit)="submitRatingForm()">
+        <div style="display: flex; flex-direction: column; width: fit-content; align-items: center;">
+          <p-rating [stars]="5" [cancel]="false" formControlName="stars" class="rating-order"></p-rating>
+          <p style="margin: 8px 0;">{{RATING_TEXT[form.get('stars')?.value]}}</p>
+        </div>
+
+        <div *ngIf="form.get('stars')?.value !== 0">
+          <div style="margin: 12px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+            <label for="rating-text-field">Quer deixar um comentário?</label>
+            <textarea id="rating-text-field" rows="5" cols="30" pInputTextarea [autoResize]="true"
+              formControlName="comment"></textarea>
+          </div>
+
+          <button pButton pRipple label="Enviar" class="p-button-success"></button>
+        </div>
+
+      </form>
+    </div>
   </div>
 </div>

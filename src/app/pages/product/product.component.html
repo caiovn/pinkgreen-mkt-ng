@@ -87,29 +87,53 @@
     <div>
       <h2>Avaliações</h2>
       <div>
-        <div *ngIf="rating && rating.count > 0; else noRatings">
-          <p>Avaliação média</p>
-          <p-rating [(ngModel)]="rating.average" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
-          {{ rating.average }}
-        </div>
-        <p>{{ rating.count }} avaliações</p>
-        <div *ngFor="let ratingItem of rating.data">
-          <div>
-            <p-rating [(ngModel)]="ratingItem.stars" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
-            {{ ratingItem.stars }}
-          </div>
-          <div>
-            <div>
-              <span>{{ ratingItem.title }}</span>&nbsp;
-              <span>{{ ratingItem.customer.name }}</span>
+        <div>
+          <div *ngIf="rating && rating.count > 0; else noRatings">
+            <p>Avaliação média</p>
+            <div class="rate-wrapper">
+              <p-rating [(ngModel)]="rating.average" [readonly]="true" [stars]="5" [cancel]="false"
+                class="average-rate"></p-rating>
+              <span>
+                ({{ rating.average }})
+              </span>
             </div>
-            <span>{{ ratingItem.evaluation }}</span>
+          </div>
+
+          <div>
+            <div *ngIf="rating.count === 1; else rateCountPlural">
+              <p>{{ rating.count }} avaliação</p>
+            </div>
+            <ng-template #rateCountPlural>
+              <p>{{ rating.count }} avaliações</p>
+            </ng-template>
           </div>
         </div>
+
+        <div class="ratings-session">
+          <div class="rating-item">
+            <div *ngFor="let ratingItem of rating.data">
+              <div class="rate-wrapper">
+                <p-rating [(ngModel)]="ratingItem.stars" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
+                <span>
+                  ({{ rating.average }})
+                </span>
+              </div>
+
+              <div class="comment-wrapper">
+                <div class="rating-author">
+                  <span>"{{ ratingItem.title }}"</span>&nbsp;
+                  <span>- {{ ratingItem.customer.name }}</span>
+                </div>
+                <span>{{ ratingItem.evaluation }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noRatings>
+          <span>Sem avaliações :(</span>
+        </ng-template>
       </div>
-      <ng-template #noRatings>
-        <span>Sem avaliações :(</span>
-      </ng-template>
     </div>
   </div>
   <p-toast position="bottom-left"></p-toast>
