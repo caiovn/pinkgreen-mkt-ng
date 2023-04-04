@@ -1,3 +1,16 @@
 <div>
-  {{orders | json}}
+  <h1>Pedidos</h1>
+  <div class="product-wrapper">
+    <span *ngIf="orders?.length == 0">Poxa, você ainda não realizou nenhum pedido :(</span>
+    <a *ngFor="let order of orders" [routerLink]="['/', 'order', order.id]">
+      <p-card>
+        <div class="image-wrapper" [ngStyle]="{
+            'background-image': getImageUrl(order.productList[0].mainImageUrl)
+          }"></div>
+        <div class="product-details">
+          <span>{{ order.productList[0].name }}</span>
+        </div>
+      </p-card>
+    </a>
+  </div>
 </div>

@@ -22,6 +22,10 @@ export class OrderComponent {
     });
   }
 
+  getImageUrl(imageUrl: string) {
+    return `url(${imageUrl})`;
+  }
+
   loadData() {
     this.orderService.getAllUserOrders(this.customerId).subscribe({
       next: (res) => {

@@ -1,0 +1,45 @@
+.product-wrapper {
+	display: flex;
+	gap: 16px;
+
+	p-card {
+		display: block;
+		width: 250px;
+		height: 300px;
+
+		.image-wrapper {
+			display: flex;
+			justify-content: center;
+			height: 150px;
+
+			background-size: cover;
+			background-position: center;
+		}
+
+		.product-details {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+	}
+}
+
+::ng-deep {
+	p-card {
+		.p-card {
+			height: 100%;
+
+			&-body {
+				height: 100%;
+			}
+
+			&-content {
+				padding: 0 !important;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+		}
+	}
+}
