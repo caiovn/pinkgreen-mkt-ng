@@ -67,28 +67,33 @@ export class NavbarComponent implements OnInit {
         },
       ];
 
-      const adminOrdersItem: MenuItem[] = [{
-        label: 'Administrar pedidos',
-        icon: 'pi pi-box',
-        routerLink: '/order-administration'
-      }]
+      const adminOrdersItem: MenuItem[] = [
+        {
+          label: 'Administrar pedidos',
+          icon: 'pi pi-box',
+          routerLink: '/order-administration',
+        },
+      ];
 
-      const catalogAdminItem: MenuItem[] = [{
-        label: 'Administrar Catálogo',
-        icon: 'pi pi-database',
-        routerLink: '/catalog-administration',
-      }];
+      const catalogAdminItem: MenuItem[] = [
+        {
+          label: 'Administrar Catálogo',
+          icon: 'pi pi-database',
+          routerLink: '/catalog-administration',
+        },
+      ];
 
-      if(this.userRoles.includes('create-sku')) {
-        this.items[0].items = catalogAdminItem.concat(this.items[0].items as any)
+      if (this.userRoles.includes('create-sku')) {
+        this.items[0].items = catalogAdminItem.concat(
+          this.items[0].items as any
+        );
       }
 
-      if(this.userRoles.includes('update-order-status')) {
-        this.items[0].items = adminOrdersItem.concat(this.items[0].items as any)
+      if (this.userRoles.includes('update-order-status')) {
+        this.items[0].items = adminOrdersItem.concat(
+          this.items[0].items as any
+        );
       }
-
-      console.log(this.items);
-
       return;
     }
 

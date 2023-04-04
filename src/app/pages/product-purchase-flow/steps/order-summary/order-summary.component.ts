@@ -28,13 +28,12 @@ export class OrderSummaryComponent implements OnInit {
   userName!: string;
   customer: any;
 
-  paymentMethods = PaymentMethods
+  paymentMethods = PaymentMethods;
 
   constructor(
     private keycloak: KeycloakService,
     private orderService: OrderService,
-    private messageService: MessageService,
-
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -116,9 +115,8 @@ export class OrderSummaryComponent implements OnInit {
           detail: 'Erro ao efetuar o pedido.',
           life: 3000,
         });
-      }
+      },
     });
-    console.log(orderPayload);
   }
 
   clickBackButton() {

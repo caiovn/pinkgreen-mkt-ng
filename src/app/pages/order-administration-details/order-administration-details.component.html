@@ -1,0 +1,83 @@
+<div *ngIf="!loading; else loadingComponent" class="order-wrapper">
+  <p-toast position="bottom-left"></p-toast>
+  <div>
+    <div>
+      <div>
+        <h1>Pedido.</h1>
+        <h2>Número do pedido: {{order.id}}</h2>
+      </div>
+
+      <div>
+        <div [routerLink]="['/', 'product', order.productList[0].product.id]"
+          [queryParams]="{ skuCode: order.productList[0].skuCode }">
+          <p-card class="order-product">
+            <img [src]="order.productList[0].mainImageUrl" />
+            <div>
+              <h2>{{ order.productList[0].name }}</h2>
+              <p>{{ order.productList[0].price | currency }}</p>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="order-data-information">
+        <div>
+          <h2>Endereço</h2>
+          <p>{{customerData.firstName}} {{customerData.lastName}}</p>
+          <p>{{order.shippingData.address.street}}, {{order.shippingData.address.number}}
+          <p>{{order.shippingData.address.complement}}</p>
+          <p>{{order.shippingData.address.neighborhood}}</p>
+          <p>{{order.shippingData.address.city}}, {{order.shippingData.address.state}}
+            {{order.shippingData.address.zipcode}}
+          </p>
+          <p>{{order.shippingData.address.country}}</p>
+        </div>
+        <div>
+          <h2>Forma de pagamento</h2>
+          <span>
+            <strong>
+              {{paymentMethods[order.paymentData.paymentMethod]}}
+            </strong>
+            com o final {{order.paymentData.paymentProperties.last4}}
+          </span>
+
+        </div>
+        <div class="order-values">
+          <h2>Resumo do pedido</h2>
+          <div class="order-values-item">
+            <span>Subtotal:</span>
+            <span>
+              {{order.paymentData.amount | currency}}
+            </span>
+          </div>
+
+          <div class="order-values-item">
+            <span>Frete:</span>
+            <span>
+              {{order.shippingData.freightPrice | currency}}
+            </span>
+
+          </div>
+          <div class="order-values-item">
+            <span>Total:</span>
+            {{order.paymentData.amount + order.shippingData.freightPrice | currency}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="order.history">
+    <h2>Status do pedido</h2>
+    <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
+  </div>
+
+  <div *ngIf="actualOrderStatus !== 'ORDER_SHIPPED'">
+    <p-button [label]="'Mudar para status &quot;' + ORDER_STATUS_TEXT[nextOrderStatus] + '&quot;'"
+      (click)="changeOrderStatus()"></p-button>
+  </div>
+</div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

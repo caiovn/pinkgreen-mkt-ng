@@ -26,7 +26,6 @@ export class OrderDetailsComponent implements OnInit {
   customerData!: KeycloakProfile;
 
   orderHistory: MenuItem[] = [];
-  lastOrderHistoryItemIndex!: number;
   activeHistoryOrder!: number;
 
   ratingFormValue!: ProductDetailsRating;
@@ -82,10 +81,7 @@ export class OrderDetailsComponent implements OnInit {
               _order.productList[0].skuCode
             )
           ),
-          tap((_rating) => {
-            console.log(_rating);
-            this.ratingFormValue = _rating;
-          }),
+          tap((_rating) => (this.ratingFormValue = _rating)),
           catchError(() =>
             throwError(() => new Error('Erro ao carregar o conteúdo'))
           )
@@ -93,7 +89,7 @@ export class OrderDetailsComponent implements OnInit {
         .subscribe({
           next: () => {
             this.createForm();
-            this.loadOrderHistory()
+            this.loadOrderHistory();
             this.loading = false;
           },
           error: () => {
@@ -138,7 +134,7 @@ export class OrderDetailsComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.ratingFormValue.ratingFilled = true
+          this.ratingFormValue.ratingFilled = true;
         },
         error: () => {
           this.messageService.add({
@@ -147,18 +143,18 @@ export class OrderDetailsComponent implements OnInit {
             detail: 'Erro ao avaliar o pedido.',
             life: 3000,
           });
-        }
+        },
       });
   }
 
   loadOrderHistory() {
     this.activeHistoryOrder = this.order.history.length - 1;
 
-    const history = this.order.history.map((o) => {
+    const history: MenuItem[] = this.order.history.map((o) => {
       return { label: ORDER_STATUS_TEXT[o.status] };
     });
 
-    const futureHistory = this.loadFutureOrderHistory(
+    const futureHistory: MenuItem[] = this.loadFutureOrderHistory(
       this.order.history[this.activeHistoryOrder].status
     ).map((fo) => {
       return { label: ORDER_STATUS_TEXT[fo] };
@@ -168,7 +164,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   loadFutureOrderHistory(lastItem: string) {
-    console.log(lastItem);
     const reversedRegularFlow = this.regularFlow.slice().reverse();
     const futureFlowIndex = reversedRegularFlow.findIndex((status) => {
       return status === lastItem;

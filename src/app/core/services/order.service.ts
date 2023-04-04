@@ -18,7 +18,7 @@ export class OrderService {
     private readonly http: HttpClient,
     private readonly keycloak: KeycloakService
   ) {
-    this.loadKeycloakData()
+    this.loadKeycloakData();
   }
 
   async loadKeycloakData() {
@@ -43,6 +43,20 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.url}/order/customer/${customerId}`, {
       headers: this.mountHeaders(),
     });
+  }
+
+  getOrdersReadyToShip(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.url}/order/state/ready-to-ship`, {
+      headers: this.mountHeaders(),
+    });
+  }
+
+  updateOrderStatus(orderId: string, newStatus: string) {
+    return this.http.patch(
+      `${this.url}/order/${orderId}/update/${newStatus}`,
+      null,
+      { headers: this.mountHeaders() }
+    );
   }
 
   private mountHeaders() {

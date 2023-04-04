@@ -1,1 +1,31 @@
-<p>order-administration works!</p>
+<div>
+  <h1>Administrar pedidos</h1>
+  <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:25%">Nome do produto</th>
+        <th style="width:10%">Preço</th>
+        <th style="width:15%">Nome do cliente</th>
+        <th style="width:10%">Data de criação</th>
+        <th style="width:10%">Última atualização</th>
+        <th style="width:10%">Status</th>
+        <th style="width:20%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>{{ order.productList[0].name }}</td>
+        <td>{{ order.productList[0].price | currency }}</td>
+        <td>{{ order.customerData.name }} {{ order.customerData.lastname }}</td>
+        <td>{{ order.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>{{ order.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>
+          <p-tag [value]="ORDER_STATUS_TEXT[order.history.slice(-1).pop().status]"></p-tag>
+        </td>
+        <td style="text-align: center;">
+          <p-button label="Detalhes" styleClass="p-button-link" (click)="selectOrder(order)"></p-button>
+      </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

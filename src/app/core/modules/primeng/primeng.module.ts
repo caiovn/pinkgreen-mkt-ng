@@ -16,6 +16,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SidebarModule } from 'primeng/sidebar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TagModule } from 'primeng/tag';
+
 @NgModule({
   declarations: [],
   imports: [CommonModule],
@@ -35,6 +37,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     CheckboxModule,
     SidebarModule,
     InputTextareaModule,
+    TagModule,
   ],
 })
 export class PrimengModule {}

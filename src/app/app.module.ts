@@ -32,6 +32,7 @@ import { OrderComponent } from './pages/order/order.component';
 import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 import { CatalogAdministrationComponent } from './pages/catalog-administration/catalog-administration.component';
 import { OrderAdministrationComponent } from './pages/order-administration/order-administration.component';
+import { OrderAdministrationDetailsComponent } from './pages/order-administration-details/order-administration-details.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -67,6 +68,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     OrderDetailsComponent,
     CatalogAdministrationComponent,
     OrderAdministrationComponent,
+    OrderAdministrationDetailsComponent,
   ],
   imports: [
     BrowserModule,
