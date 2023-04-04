@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
-import { Rating } from '../models/rating.model';
+import { ProductDetailsRating, Rating } from '../models/rating.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,6 @@ export class RatingService {
     title: string,
     comment: string
   ) {
-    console.log("meopooo", orderId, skuCode, stars, title,comment)
     return this.http.post(
       `${this.url}/evaluations/order/${orderId}/product/${skuCode}`,
       {
@@ -47,6 +46,23 @@ export class RatingService {
         headers: this.mountHeaders(),
       }
     );
+  }
+
+  getUserProductRating(orderId: string, skuCode: string): Observable<ProductDetailsRating> {
+    return new Observable((observer) => {
+      this.http
+        .get<ProductDetailsRating>(`${this.url}/evaluations/order/${orderId}/product/${skuCode}`, {
+          headers: this.mountHeaders(),
+        })
+        .subscribe({
+          next: (res) => {
+            observer.next({...res, ratingFilled: true});
+          },
+          error: () => {
+            observer.next({ratingFilled: false} as any);
+          },
+        });
+    });
   }
 
   private mountHeaders() {

@@ -3,9 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { catchError, concatMap, tap, throwError } from 'rxjs';
 import Order, { ORDER_STATUS_TEXT } from 'src/app/core/models/order.model';
 import { PaymentMethods } from 'src/app/core/models/product.model';
+import { ProductDetailsRating } from 'src/app/core/models/rating.model';
 import { OrderService } from 'src/app/core/services/order.service';
 import { RatingService } from 'src/app/core/services/rating.service';
 
@@ -16,6 +18,7 @@ import { RatingService } from 'src/app/core/services/rating.service';
 })
 export class OrderDetailsComponent implements OnInit {
   form!: FormGroup;
+  loading = true;
 
   orderId!: string;
   order!: Order;
@@ -26,6 +29,7 @@ export class OrderDetailsComponent implements OnInit {
   lastOrderHistoryItemIndex!: number;
   activeHistoryOrder!: number;
 
+  ratingFormValue!: ProductDetailsRating;
   ratingStarNumber = 0;
   RATING_TEXT: Record<number, string> = {
     1: 'Péssimo',
@@ -51,7 +55,8 @@ export class OrderDetailsComponent implements OnInit {
     private orderService: OrderService,
     private ratingService: RatingService,
     private keycloak: KeycloakService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -59,23 +64,66 @@ export class OrderDetailsComponent implements OnInit {
       this.orderId = params['id'];
     });
     this.loadData();
-    this.createForm();
   }
 
   loadData() {
     this.keycloak.loadUserProfile().then((res) => {
       this.customerData = res;
-      this.orderService.getOrder(this.orderId).subscribe((res) => {
-        this.order = res;
-        this.loadOrderHistory();
-      });
+
+      return this.orderService
+        .getOrder(this.orderId)
+        .pipe(
+          tap((_order) => {
+            this.order = _order;
+          }),
+          concatMap((_order) =>
+            this.ratingService.getUserProductRating(
+              _order.id,
+              _order.productList[0].skuCode
+            )
+          ),
+          tap((_rating) => {
+            console.log(_rating);
+            this.ratingFormValue = _rating;
+          }),
+          catchError(() =>
+            throwError(() => new Error('Erro ao carregar o conteúdo'))
+          )
+        )
+        .subscribe({
+          next: () => {
+            this.createForm();
+            this.loadOrderHistory()
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao carregar o conteúdo.',
+              life: 3000,
+            });
+          },
+        });
     });
   }
 
   createForm() {
     this.form = this.formBuilder.group({
-      stars: [0, Validators.required],
-      comment: [''],
+      stars: [
+        {
+          value: this.ratingFormValue?.stars || 0,
+          disabled: this.ratingFormValue?.ratingFilled,
+        },
+        Validators.required,
+      ],
+      comment: [
+        {
+          value: this.ratingFormValue?.evaluation || '',
+          disabled: this.ratingFormValue?.ratingFilled,
+        },
+      ],
     });
   }
 
@@ -90,8 +138,16 @@ export class OrderDetailsComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          console.log('mandou');
+          this.ratingFormValue.ratingFilled = true
         },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao avaliar o pedido.',
+            life: 3000,
+          });
+        }
       });
   }
 

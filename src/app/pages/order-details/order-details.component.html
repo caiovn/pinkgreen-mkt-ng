@@ -1,4 +1,4 @@
-<div style="display:flex; flex-direction: column; gap: 32px; margin: 64px;">
+<div *ngIf="!loading; else loadingComponent" class="order-wrapper">
   <div>
     <h1>Pedido.</h1>
     <h2>Número do pedido: {{order.id}}</h2>
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div style="display: flex; justify-content: space-between;">
+  <div class="order-data-information">
     <div>
       <h2>Endereço</h2>
       <p>{{customerData.firstName}} {{customerData.lastName}}</p>
@@ -67,28 +67,36 @@
     <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
   </div>
 
-  <div>
-    <!-- <div *ngIf="order.history[activeHistoryOrder].status === 'ORDER_SHIPPED'"> -->
-    <!-- <h2>Avaliação do pedido</h2> -->
-    <h2>Avalie seu pedido</h2>
+  <div *ngIf="ratingFormValue.ratingFilled || order.history[activeHistoryOrder].status === 'ORDER_SHIPPED'">
+    <h2>{{ratingFormValue.ratingFilled ? 'Avaliação do pedido' : 'Avalie seu pedido'}}</h2>
     <div>
       <form [formGroup]="form" (ngSubmit)="submitRatingForm()">
-        <div style="display: flex; flex-direction: column; width: fit-content; align-items: center;">
+        <div class="stars-wrapper">
           <p-rating [stars]="5" [cancel]="false" formControlName="stars" class="rating-order"></p-rating>
-          <p style="margin: 8px 0;">{{RATING_TEXT[form.get('stars')?.value]}}</p>
+          <p class="star-subtitle">{{RATING_TEXT[form.get('stars')?.value]}}</p>
         </div>
 
         <div *ngIf="form.get('stars')?.value !== 0">
-          <div style="margin: 12px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
-            <label for="rating-text-field">Quer deixar um comentário?</label>
-            <textarea id="rating-text-field" rows="5" cols="30" pInputTextarea [autoResize]="true"
+          <div class="rating-form-wrapper">
+            <label for="rating-text-field">
+              {{ratingFormValue.ratingFilled ? 'Comentário' : 'Quer deixar um comentário?'}}
+            </label>
+            <textarea id="rating-text-field" rows="5" cols="35" pInputTextarea [autoResize]="true"
               formControlName="comment"></textarea>
           </div>
 
-          <button pButton pRipple label="Enviar" class="p-button-success"></button>
+          <div>
+            <button pButton pRipple [label]="!ratingFormValue.ratingFilled ? 'Enviar' : 'Enviado'"
+              [disabled]="ratingFormValue.ratingFilled" class="p-button-success"></button>
+          </div>
         </div>
 
       </form>
     </div>
   </div>
+  <p-toast position="bottom-left"></p-toast>
 </div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>
