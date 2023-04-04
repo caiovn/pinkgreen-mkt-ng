@@ -45,15 +45,24 @@ export class OrderService {
     });
   }
 
-  getOrdersReadyToShip(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.url}/order/state/ready-to-ship`, {
+  getAllOrdersAsAdmin(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.url}/order-administration/order`, {
       headers: this.mountHeaders(),
     });
   }
 
+  getOrderAsAdmin(orderId: string) {
+    return this.http.get<Order>(
+      `${this.url}/order-administration/order/${orderId}`,
+      {
+        headers: this.mountHeaders(),
+      }
+    );
+  }
+
   updateOrderStatus(orderId: string, newStatus: string) {
     return this.http.patch(
-      `${this.url}/order/${orderId}/update/${newStatus}`,
+      `${this.url}/order-administration/order/${orderId}/update/${newStatus}`,
       null,
       { headers: this.mountHeaders() }
     );

@@ -16,7 +16,7 @@ export class OrderAdministrationComponent implements OnInit {
   ORDER_STATUS_TEXT =  ORDER_STATUS_TEXT
 
   ngOnInit(): void {
-    this.orderService.getOrdersReadyToShip().subscribe({
+    this.orderService.getAllOrdersAsAdmin().subscribe({
       next: (res) => {
         this.orders = res
       },

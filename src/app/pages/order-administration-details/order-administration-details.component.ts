@@ -28,7 +28,7 @@ export class OrderAdministrationDetailsComponent implements OnInit {
   orderHistory: MenuItem[] = [];
   activeHistoryOrder!: number;
 
-  ORDER_STATUS_TEXT =  ORDER_STATUS_TEXT
+  ORDER_STATUS_TEXT = ORDER_STATUS_TEXT;
 
   regularFlow = [
     'ORDER_CREATED',
@@ -58,7 +58,7 @@ export class OrderAdministrationDetailsComponent implements OnInit {
   loadData() {
     this.keycloak.loadUserProfile().then((res) => {
       this.customerData = res;
-      return this.orderService.getOrder(this.orderId).subscribe({
+      return this.orderService.getOrderAsAdmin(this.orderId).subscribe({
         next: (res) => {
           this.order = res;
           this.loadOrderHistory();
