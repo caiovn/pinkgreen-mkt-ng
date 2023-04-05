@@ -32,7 +32,8 @@
     <div>
       <div class="header-wrapper">
         <h2>Categorias</h2>
-        <p-button label="Criar nova categoria" icon="pi pi-plus" iconPos="right" (click)="openCategoryPage()"></p-button>
+        <p-button label="Criar nova categoria" icon="pi pi-plus" iconPos="right"
+          (click)="openCategoryPage()"></p-button>
       </div>
       <p-table [value]="categories" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
@@ -60,7 +61,7 @@
     <div>
       <div class="header-wrapper">
         <h2>Produtos</h2>
-        <p-button label="Criar novo produto" icon="pi pi-plus" iconPos="right"></p-button>
+        <p-button label="Criar novo produto" icon="pi pi-plus" iconPos="right" (click)="openProductPage()"></p-button>
       </div>
       <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
@@ -85,7 +86,7 @@
             </td>
             <td>{{ products.price | currency }}</td>
             <td style="text-align: center;">
-              <p-button label="Editar" styleClass="p-button-link"></p-button>
+              <p-button label="Editar" styleClass="p-button-link" (click)="openProductPage(products.id)"></p-button>
             </td>
           </tr>
         </ng-template>

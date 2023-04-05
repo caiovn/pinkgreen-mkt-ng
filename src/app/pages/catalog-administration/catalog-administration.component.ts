@@ -48,10 +48,17 @@ export class CatalogAdministrationComponent implements OnInit {
     ]);
   }
 
-  openCategoryPage(CategoryId = '') {
+  openCategoryPage(categoryId = '') {
     this.router.navigate([
       '/catalog-administration/category',
-      CategoryId ? CategoryId : '',
+      categoryId ? categoryId : '',
+    ]);
+  }
+
+  openProductPage(productId = '') {
+    this.router.navigate([
+      '/catalog-administration/product',
+      productId ? productId : '',
     ]);
   }
 }

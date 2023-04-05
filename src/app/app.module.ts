@@ -35,6 +35,7 @@ import { OrderDetailsComponent } from './pages/order/pages/order-details/order-d
 import { OrderAdministrationDetailsComponent } from './pages/order-administration/pages/order-administration-details/order-administration-details.component';
 import { CreateEditBrandComponent } from './pages/catalog-administration/pages/create-edit-brand/create-edit-brand.component';
 import { CreateEditCategoryComponent } from './pages/catalog-administration/pages/create-edit-category/create-edit-category.component';
+import { CreateEditProductComponent } from './pages/catalog-administration/pages/create-edit-product/create-edit-product.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -73,6 +74,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     OrderAdministrationDetailsComponent,
     CreateEditBrandComponent,
     CreateEditCategoryComponent,
+    CreateEditProductComponent,
   ],
   imports: [
     BrowserModule,
