@@ -1,1 +1,93 @@
-<p>catalog-administration works!</p>
+<div>
+  <h1>Administrar catálogo</h1>
+
+  <div style="display: flex; flex-direction: column; gap: 48px;">
+    <div>
+      <div class="header-wrapper">
+        <h2>Marcas</h2>
+        <p-button label="Criar nova marca" icon="pi pi-plus" iconPos="right"></p-button>
+      </div>
+      <p-table [value]="brands" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%;">Nome da marca</th>
+            <th style="width: 20%;">Imagem</th>
+            <th style="width: 20%;"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-brands>
+          <tr>
+            <td>{{ brands.name }}</td>
+            <td><img [src]="brands.brandImage" width="100px"></td>
+            <td style="text-align: center;">
+              <p-button label="Editar" styleClass="p-button-link"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between"></div>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div>
+      <div class="header-wrapper">
+        <h2>Categorias</h2>
+        <p-button label="Criar nova categoria" icon="pi pi-plus" iconPos="right"></p-button>
+      </div>
+      <p-table [value]="categories" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%;">Nome da categoria</th>
+            <th style="width: 20%;">Imagem</th>
+            <th style="width: 20%;"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category>
+          <tr>
+            <td>{{ category.name }}</td>
+            <td><img [src]="category.image" width="100px"></td>
+            <td style="text-align: center;">
+              <p-button label="Editar" styleClass="p-button-link"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between"></div>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div>
+      <div class="header-wrapper">
+        <h2>Produtos</h2>
+        <p-button label="Criar novo produto" icon="pi pi-plus" iconPos="right"></p-button>
+      </div>
+      <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width:20%">Nome do produto</th>
+            <th style="width:15%">Marca</th>
+            <th style="width:15%">Categoria</th>
+            <th style="width:15%">Preço</th>
+            <th style="width:25%"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-products>
+          <tr>
+            <td>{{ products.name }}</td>
+            <td>{{ products.brand.name }}</td>
+            <td>{{ products.categories[0].name }}</td>
+            <td>{{ products.price | currency }}</td>
+            <td style="text-align: center;">
+              <p-button label="Editar" styleClass="p-button-link"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between"></div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

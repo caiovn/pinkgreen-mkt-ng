@@ -17,6 +17,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { SidebarModule } from 'primeng/sidebar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TagModule } from 'primeng/tag';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [],
@@ -38,6 +39,7 @@ import { TagModule } from 'primeng/tag';
     SidebarModule,
     InputTextareaModule,
     TagModule,
+    AccordionModule,
   ],
 })
 export class PrimengModule {}
