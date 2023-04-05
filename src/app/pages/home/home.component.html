@@ -22,7 +22,7 @@
       <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
         <div ngxSlickItem *ngFor="let brand of brandList" class="card-container">
           <p-card class="p-card-category">
-            <a [routerLink]="['/', 'brand', brand.id,brand.name]">
+            <a [routerLink]="['/', 'brand', brand.id]">
               <div class="card-image" [ngStyle]="{ 'background-image': getImageUrl(brand.brandImage) }"></div>
               <span class="root">{{ brand.name }}</span>
             </a>

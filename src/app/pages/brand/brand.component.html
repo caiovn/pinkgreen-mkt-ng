@@ -1,5 +1,5 @@
-<div>
-  <h1>Tudo sobre {{ brandName }}.</h1>
+<div *ngIf="!loading; else loadingComponent">
+  <h1>Tudo sobre {{ brand.name }}.</h1>
   <div class="product-wrapper">
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
       <p-card>
@@ -12,3 +12,7 @@
     </a>
   </div>
 </div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

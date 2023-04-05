@@ -1,35 +1,7 @@
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .input-group {
-    display: flex;
-    gap: 16px;
-  }
-
-  .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-}
-
 ::ng-deep {
   .states-dropdown {
     .p-dropdown {
       width: 100%;
     }
   }
-}
-
-.button-wrapper {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-}
-
-.p-field * {
-  display: block;
-  width: 330px;
 }

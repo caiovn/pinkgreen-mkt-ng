@@ -15,11 +15,46 @@ a {
 }
 
 .slick-list.draggable {
-  height: 100%!important;
+  height: 100% !important;
 }
 
 .slick-prev:before,
 .slick-next:before {
-  opacity: 1!important;
+  opacity: 1 !important;
   color: black !important;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .input-group {
+    display: flex;
+    gap: 16px;
+  }
+
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .field-checkbox {
+    margin: 12px 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .p-field * {
+    display: block;
+    width: 330px;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
 }

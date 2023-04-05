@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { map } from 'rxjs';
 import {
@@ -25,8 +26,13 @@ export class PersonalDataComponent implements OnInit {
   constructor(
     private keycloak: KeycloakService,
     private formBuilder: FormBuilder,
-    private stateService: StatesService
-  ) {}
+    private stateService: StatesService,
+    private router: Router
+  ) {
+    this.selectedSku = JSON.parse(
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+    );
+  }
 
   ngOnInit(): void {
     this.stateService
@@ -65,7 +71,7 @@ export class PersonalDataComponent implements OnInit {
         complement: [formData.complement || ''],
         city: [formData.city || '', [Validators.required]],
         state: [formData.state || '', [Validators.required]],
-        country: ['Brasil']
+        country: ['Brasil'],
       });
 
       this.getFormInput('zipcode')?.valueChanges.subscribe((zipcode) => {
@@ -86,6 +92,14 @@ export class PersonalDataComponent implements OnInit {
 
   getFormInput(name: string) {
     return this.form.get(name);
+  }
+
+  backProductPage() {
+    this.router.navigate(['/', 'product', this.selectedSku.product.id], {
+      queryParams: {
+        skuCode: this.selectedSku.skuCode,
+      },
+    });
   }
 
   onSubmit() {

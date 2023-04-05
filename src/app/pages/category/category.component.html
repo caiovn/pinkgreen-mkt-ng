@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!loading; else loadingComponent">
   <h1 *ngIf="actualCategory?.name">Tudo sobre {{ actualCategory.name }}.</h1>
   <div class="product-wrapper">
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]" class="product-link">
@@ -12,3 +12,7 @@
     </a>
   </div>
 </div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

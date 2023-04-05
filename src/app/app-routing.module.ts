@@ -17,11 +17,15 @@ import { CreateEditBrandComponent } from './pages/catalog-administration/pages/c
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'favorites', component: FavoritesComponent },
   { path: 'search', component: SearchComponent },
   { path: 'category/:id', component: CategoryComponent },
   { path: 'product/:id', component: ProductComponent },
-  { path: 'brand/:id/:name', component: BrandComponent },
+  { path: 'brand/:id', component: BrandComponent },
+  {
+    path: 'favorites',
+    canActivate: [AppAuthGuard],
+    component: FavoritesComponent,
+  },
   {
     path: 'purchase',
     canActivate: [AppAuthGuard],

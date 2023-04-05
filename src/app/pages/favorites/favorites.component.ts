@@ -10,6 +10,9 @@ import { FavoriteService } from 'src/app/core/services/favorite.service';
   styleUrls: ['./favorites.component.scss'],
 })
 export class FavoritesComponent implements OnInit {
+  loading = true;
+  customerId!: string;
+
   isLoggedIn!: boolean;
   isFavorite = false;
 
@@ -21,23 +24,25 @@ export class FavoritesComponent implements OnInit {
     private favoriteProductService: FavoriteService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.isLoggedIn = await this.keycloak.isLoggedIn();
-
-    if (!this.isLoggedIn) return this.keycloak.login();
-
-    await this.loadData();
+  ngOnInit() {
+    this.keycloak.loadUserProfile().then((user) => {
+      this.customerId = user.id || '';
+      this.loadData();
+    });
   }
 
-  async loadData() {
-    const sku$ =
-      await this.favoriteProductService.getAllFavoriteProductsByUser();
-
-    forkJoin([sku$]).subscribe({
-      next: (results) => {
-        this.favoriteProductList = results[0];
-      },
-    });
+  loadData() {
+    this.favoriteProductService
+      .getAllFavoriteProductsByUser(this.customerId)
+      .subscribe({
+        next: (results) => {
+          this.favoriteProductList = results;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   getImageUrl(imageUrl: string) {

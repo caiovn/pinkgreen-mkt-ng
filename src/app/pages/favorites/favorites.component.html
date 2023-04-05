@@ -1,8 +1,8 @@
-<div>
+<div *ngIf="!loading; else loadingComponent">
   <h1>Favoritos.</h1>
   <div class="product-wrapper">
-    <span *ngIf="favoriteProductList?.length == 0">Você ainda não favoritou nenhum produto :(</span>
-    <a *ngFor="let sku of favoriteProductList" [routerLink]="['/', 'product', sku.product.id]">
+    <span *ngIf="favoriteProductList?.length === 0">Você ainda não favoritou nenhum produto :(</span>
+    <a *ngFor="let sku of favoriteProductList" [routerLink]="['/', 'product', sku.product.id]" [queryParams]="{ skuCode: sku.skuCode }">
       <p-card>
         <div class="image-wrapper" [ngStyle]="{
             'background-image': getImageUrl(sku.product.mainImageUrl)
@@ -14,3 +14,7 @@
     </a>
   </div>
 </div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

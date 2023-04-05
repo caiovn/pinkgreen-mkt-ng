@@ -1,1 +1,29 @@
-<p>create-edit-brand works!</p>
+<div>
+  <h1>{{isEdition ? 'Editar marca' : 'Criar marca'}}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submitBrand()" *ngIf="form">
+    <div class="input-wrapper">
+      <div class="input-group">
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input id="name" formControlName="name" pInputText />
+        </div>
+        <div class="p-field">
+          <label for="brandImage">Imagem</label>
+          <input id="brandImage" formControlName="brandImage" pInputText />
+        </div>
+
+      </div>
+    </div>
+    <div class="input-wrapper" *ngIf="form.get('brandImage')?.value">
+      <span>Imagem da marca</span>
+      <img [src]="form.get('brandImage')?.value" width="250px">
+    </div>
+
+    <div class="submit-brand button-wrapper">
+      <button pButton pRipple type="submit" [label]="isEdition ? 'Salvar' : 'Criar'" class="p-button-success"
+        [disabled]="!form.valid"></button>
+    </div>
+  </form>
+  <p-toast position="bottom-left"></p-toast>
+</div>

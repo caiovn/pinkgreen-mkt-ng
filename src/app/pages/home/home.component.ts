@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadData() {
-    const brand$ = this.brandService.getBrand();
+    const brand$ = this.brandService.getBrands();
     const category$ = this.categoryService.getcategories();
 
     forkJoin([category$, brand$]).subscribe({

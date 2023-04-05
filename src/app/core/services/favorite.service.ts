@@ -12,7 +12,9 @@ import Sku from '../models/sku.model';
 export class FavoriteService implements OnDestroy {
   private subscription = new Subscription();
   private tokenKeycloak!: string;
+
   private userData!: KeycloakProfile;
+  customerId!: string;
   private url = 'http://localhost:8181';
 
   constructor(
@@ -49,11 +51,10 @@ export class FavoriteService implements OnDestroy {
     });
   }
 
-  async getAllFavoriteProductsByUser(): Promise<Observable<Sku[]>> {
-    if (!this.userData)
-      this.router.navigate(['/home']);
-
-    return this.http.get<Sku[]>(`${this.url}/favorite/user/${this.userData?.id}`)
+  getAllFavoriteProductsByUser(customerId: string): Observable<Sku[]> {
+    return this.http.get<Sku[]>(`${this.url}/favorite/user/${customerId}`, {
+      headers: this.mountHeaders(),
+    });
   }
 
   addProductToFavorite(skuCode: string, operation: 'POST' | 'DELETE') {
