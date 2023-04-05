@@ -47,4 +47,11 @@ export class CatalogAdministrationComponent implements OnInit {
       brandId ? brandId : '',
     ]);
   }
+
+  openCategoryPage(CategoryId = '') {
+    this.router.navigate([
+      '/catalog-administration/category',
+      CategoryId ? CategoryId : '',
+    ]);
+  }
 }

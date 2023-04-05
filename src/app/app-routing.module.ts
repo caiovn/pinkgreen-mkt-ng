@@ -14,6 +14,7 @@ import { OrderAdministrationComponent } from './pages/order-administration/order
 import { OrderDetailsComponent } from './pages/order/pages/order-details/order-details.component';
 import { OrderAdministrationDetailsComponent } from './pages/order-administration/pages/order-administration-details/order-administration-details.component';
 import { CreateEditBrandComponent } from './pages/catalog-administration/pages/create-edit-brand/create-edit-brand.component';
+import { CreateEditCategoryComponent } from './pages/catalog-administration/pages/create-edit-category/create-edit-category.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -55,6 +56,16 @@ const routes: Routes = [
     path: 'catalog-administration/brand/:id',
     canActivate: [AppAuthGuard],
     component: CreateEditBrandComponent,
+  },
+  {
+    path: 'catalog-administration/category',
+    canActivate: [AppAuthGuard],
+    component: CreateEditCategoryComponent,
+  },
+  {
+    path: 'catalog-administration/category/:id',
+    canActivate: [AppAuthGuard],
+    component: CreateEditCategoryComponent,
   },
   {
     path: 'order-administration',

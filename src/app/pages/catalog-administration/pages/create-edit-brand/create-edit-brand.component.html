@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!loading; else loadingComponent">
   <h1>{{isEdition ? 'Editar marca' : 'Criar marca'}}</h1>
 
   <form [formGroup]="form" (ngSubmit)="submitBrand()" *ngIf="form">
@@ -27,3 +27,7 @@
   </form>
   <p-toast position="bottom-left"></p-toast>
 </div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

@@ -11,6 +11,7 @@ import { BrandService } from 'src/app/core/services/brand.service';
   styleUrls: ['./create-edit-brand.component.scss'],
 })
 export class CreateEditBrandComponent implements OnInit {
+  loading = true;
   form!: FormGroup;
   isEdition = false;
 
@@ -39,12 +40,14 @@ export class CreateEditBrandComponent implements OnInit {
         next: (res) => {
           this.brand = res;
           this.createForm();
+          this.loading = false;
         },
       });
       return;
     }
 
     this.createForm();
+    this.loading = false;
   }
 
   createForm() {
@@ -64,7 +67,7 @@ export class CreateEditBrandComponent implements OnInit {
           summary: 'Marca criada com sucesso',
           life: 3000,
         });
-        this.router.navigate(['/catalog-administration'])
+        this.router.navigate(['/catalog-administration']);
       },
       error: () => {
         this.messageService.add({

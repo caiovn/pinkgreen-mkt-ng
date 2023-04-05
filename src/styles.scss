@@ -7,27 +7,13 @@ body {
   height: 100%;
   background-color: var(--surface-a);
   color: var(--text-color);
-}
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
-.slick-list.draggable {
-  height: 100% !important;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  opacity: 1 !important;
-  color: black !important;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
   .input-group {
     display: flex;
@@ -47,8 +33,9 @@ form {
     align-items: center;
   }
 
-  .p-field * {
-    display: block;
+  .p-field {
+    display: flex;
+    flex-direction: column;
     width: 330px;
   }
 
@@ -57,4 +44,19 @@ form {
     flex-direction: row;
     gap: 16px;
   }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.slick-list.draggable {
+  height: 100% !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  opacity: 1 !important;
+  color: black !important;
 }
