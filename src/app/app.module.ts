@@ -29,10 +29,11 @@ import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
 import { PurchaseFinishedComponent } from './pages/product-purchase-flow/steps/purchase-finished/purchase-finished.component';
 import { OrderComponent } from './pages/order/order.component';
-import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 import { CatalogAdministrationComponent } from './pages/catalog-administration/catalog-administration.component';
 import { OrderAdministrationComponent } from './pages/order-administration/order-administration.component';
-import { OrderAdministrationDetailsComponent } from './pages/order-administration-details/order-administration-details.component';
+import { OrderDetailsComponent } from './pages/order/pages/order-details/order-details.component';
+import { OrderAdministrationDetailsComponent } from './pages/order-administration/pages/order-administration-details/order-administration-details.component';
+import { CreateEditBrandComponent } from './pages/catalog-administration/pages/create-edit-brand/create-edit-brand.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -69,6 +70,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     CatalogAdministrationComponent,
     OrderAdministrationComponent,
     OrderAdministrationDetailsComponent,
+    CreateEditBrandComponent,
   ],
   imports: [
     BrowserModule,
