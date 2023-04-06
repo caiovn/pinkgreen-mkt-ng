@@ -1,1 +1,31 @@
-<p>create-edit-category works!</p>
+<div *ngIf="!loading; else loadingComponent">
+    <h1>{{isEdition ? 'Editar categoria' : 'Criar categoria'}}</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submitCategory()" *ngIf="form">
+        <div class="input-wrapper">
+            <div class="input-group">
+                <div class="p-field">
+                    <label for="name">Nome</label>
+                    <input id="name" formControlName="name" pInputText />
+                </div>
+                <div class="p-field">
+                    <label for="image">Imagem</label>
+                    <input id="image" formControlName="image" pInputText />
+                </div>
+            </div>
+        </div>
+        <div class="input-wrapper" *ngIf="form.get('image')?.value">
+            <span>Imagem da categoria</span>
+            <img [src]="form.get('image')?.value" width="250px">
+        </div>
+        <div class="submit-brand button-wrapper">
+            <button pButton pRipple type="submit" [label]="isEdition ? 'Salvar' : 'Criar'" class="p-button-success"
+                [disabled]="!form.valid"></button>
+        </div>
+    </form>
+    <p-toast position="bottom-left"></p-toast>
+</div>
+
+<ng-template #loadingComponent>
+    <app-loading></app-loading>
+</ng-template>
