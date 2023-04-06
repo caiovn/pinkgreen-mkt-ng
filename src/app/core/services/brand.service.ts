@@ -33,8 +33,12 @@ export class BrandService {
     return this.http.get<Product[]>(`${this.url}/product/brand/${id}`);
   }
 
+  deleteBrandById(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/brand-administration/brand/${id}`);
+  }
+
   createBrand(brand: Brand) {
-    return this.http.post(`${this.url}/brand`, brand, {
+    return this.http.post(`${this.url}/brand-administration/brand`, brand, {
       headers: this.mountHeaders(),
     });
   }

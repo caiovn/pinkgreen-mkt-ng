@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +38,7 @@ import { CreateEditCategoryComponent } from './pages/catalog-administration/page
 import { CreateEditProductComponent } from './pages/catalog-administration/pages/create-edit-product/create-edit-product.component';
 import { CreateEditSkuComponent } from './pages/catalog-administration/pages/create-edit-product/components/create-edit-sku/create-edit-sku.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -91,13 +92,15 @@ function initializeKeycloak(keycloak: KeycloakService) {
     SlickCarouselModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    CalendarModule
+    CalendarModule,
+    ConfirmDialogModule
   ],
   providers: [
     DynamicDialogRef,
     DialogService,
     MessageService,
     DatePipe,
+    ConfirmationService,
     provideNgxMask(),
     {
       provide: APP_INITIALIZER,
