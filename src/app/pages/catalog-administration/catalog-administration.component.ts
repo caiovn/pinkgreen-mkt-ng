@@ -31,7 +31,7 @@ export class CatalogAdministrationComponent implements OnInit {
   ngOnInit(): void {
     const brand$ = this.brandService.getBrands();
     const categories$ = this.categoryService.getcategories();
-    const products$ = this.productService.getProducts();
+    const products$ = this.productService.getProductsAsAdmin();
 
     forkJoin([brand$, categories$, products$]).subscribe({
       next: (res) => {

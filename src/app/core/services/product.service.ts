@@ -37,6 +37,10 @@ export class ProductService {
     return this.http.get<Sku[]>(`${this.url}/sku/product_skus/${id}`);
   }
 
+  getSkusAsAdmin(id: string): Observable<Sku[]> {
+    return this.http.get<Sku[]>(`${this.url}/sku-administration/sku/product/${id}`);
+  }
+
   getSku(skuCode: string): Observable<Sku> {
     return this.http.get<Sku>(`${this.url}/sku/${skuCode}`);
   }
@@ -46,6 +50,26 @@ export class ProductService {
       `${this.url}/product-administration/product`,
       product,
       { headers: this.mountHeaders() }
+    );
+  }
+
+  updateProduct(productId: string, product: Product) {
+    return this.http.put(
+      `${this.url}/product-administration/product/${productId}`,
+      product,
+      { headers: this.mountHeaders() }
+    );
+  }
+
+  getProductAsAdmin(productId: string): Observable<Product> {
+    return this.http.get<Product>(
+      `${this.url}/product-administration/product/${productId}`
+    );
+  }
+
+  getProductsAsAdmin(): Observable<Product[]> {
+    return this.http.get<Product[]>(
+      `${this.url}/product-administration/product`
     );
   }
 

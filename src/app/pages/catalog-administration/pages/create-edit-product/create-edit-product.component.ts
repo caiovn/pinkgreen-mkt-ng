@@ -10,7 +10,8 @@ import { CategoryService } from 'src/app/core/services/category.service';
 import { CreateEditSkuComponent } from './components/create-edit-sku/create-edit-sku.component';
 import Product from 'src/app/core/models/product.model';
 import { ProductService } from 'src/app/core/services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-edit-product',
@@ -25,43 +26,8 @@ export class CreateEditProductComponent implements OnInit {
   productId!: string;
   brands!: Brand[];
   categories!: Category[];
-  skus: Sku[] = [
-    {
-      name: 'sadasdasd123213',
-      skuCode: 'asdasdas',
-      price: {
-        listPrice: 0.12,
-      },
-      stockQuantity: 1322,
-      height: 23,
-      width: 2312,
-      length: 323,
-      weight: 2,
-      mainImageUrl: 'https://imgs.casasbahia.com.br/55054464/1g.jpg',
-      urlImages: [
-        'https://imgs.casasbahia.com.br/55054464/2g.jpg',
-        'https://imgs.casasbahia.com.br/55054464/3g.jpg',
-      ],
-      product: {} as any,
-      skuAttributes: [
-        {
-          label: 'valor1',
-          type: 'valor1',
-          value: 'valor1',
-        },
-        {
-          label: 'valor2',
-          type: 'valor2',
-          value: 'valor2',
-        },
-        {
-          label: 'valor3',
-          type: 'valor3',
-          value: 'valor3',
-        },
-      ],
-    },
-  ];
+  skus!: Sku[];
+  product!: Product;
 
   isEdition = false;
   form!: FormGroup;
@@ -72,26 +38,51 @@ export class CreateEditProductComponent implements OnInit {
     private categoryService: CategoryService,
     private productService: ProductService,
     private route: ActivatedRoute,
-    public dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.productId = params['id'];
+
+      if (this.productId) this.isEdition = true;
     });
 
     this.loadData();
-    this.createForm();
   }
 
   loadData() {
     const brands$ = this.brandService.getBrands();
     const categories$ = this.categoryService.getcategories();
 
+    if (this.productId) {
+      const product$ = this.productService.getProductAsAdmin(this.productId);
+      const sku$ = this.productService.getSkusAsAdmin(this.productId);
+
+      forkJoin([product$, sku$, brands$, categories$]).subscribe({
+        next: (res) => {
+          this.product = res[0];
+          this.skus = res[1];
+          this.brands = res[2];
+          this.categories = res[3];
+          this.createForm();
+          this.loading = false;
+        },
+        error: () => {
+          console.log('erorrrrrou!');
+        },
+      });
+
+      return;
+    }
+
     forkJoin([brands$, categories$]).subscribe({
       next: (res) => {
         this.brands = res[0];
         this.categories = res[1];
+        this.createForm();
         this.loading = false;
       },
       error: () => {
@@ -102,11 +93,14 @@ export class CreateEditProductComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      mainImageUrl: ['', [Validators.required]],
-      brand: ['', [Validators.required]],
-      categories: ['', [Validators.required]],
+      name: [this.product?.name || '', [Validators.required]],
+      price: [this.product?.price || '', [Validators.required]],
+      mainImageUrl: [this.product?.mainImageUrl || '', [Validators.required]],
+      brand: [this.product?.brand?.id || '', [Validators.required]],
+      categories: [
+        this.product?.categories?.map((category) => category.id) || '',
+        [Validators.required],
+      ],
     });
   }
 
@@ -141,9 +135,30 @@ export class CreateEditProductComponent implements OnInit {
       brand: { id: this.form.get('brand')?.value } as any,
     };
 
+    if (this.isEdition) {
+      this.productService
+        .updateProduct(this.productId, productPayload)
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Produto atualizado com sucesso',
+              life: 3000,
+            });
+            this.router.navigate(['/catalog-administration']);
+          },
+        });
+      return;
+    }
+
     this.productService.createProduct(productPayload).subscribe({
       next: () => {
-        console.log('asdasdas');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Produto criado com sucesso',
+          life: 3000,
+        });
+        this.router.navigate(['/catalog-administration']);
       },
     });
   }
