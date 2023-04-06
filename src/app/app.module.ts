@@ -36,6 +36,8 @@ import { OrderAdministrationDetailsComponent } from './pages/order-administratio
 import { CreateEditBrandComponent } from './pages/catalog-administration/pages/create-edit-brand/create-edit-brand.component';
 import { CreateEditCategoryComponent } from './pages/catalog-administration/pages/create-edit-category/create-edit-category.component';
 import { CreateEditProductComponent } from './pages/catalog-administration/pages/create-edit-product/create-edit-product.component';
+import { CreateEditSkuComponent } from './pages/catalog-administration/pages/create-edit-product/components/create-edit-sku/create-edit-sku.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -75,6 +77,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     CreateEditBrandComponent,
     CreateEditCategoryComponent,
     CreateEditProductComponent,
+    CreateEditSkuComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +94,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     CalendarModule
   ],
   providers: [
+    DynamicDialogRef,
+    DialogService,
     MessageService,
     DatePipe,
     provideNgxMask(),

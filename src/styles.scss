@@ -33,6 +33,12 @@ body {
     align-items: center;
   }
 
+  .p-inputnumber,
+  .p-dropdown,
+  .p-multiselect {
+    width: 100%;
+  }
+
   .p-field {
     display: flex;
     flex-direction: column;

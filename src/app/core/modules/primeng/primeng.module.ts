@@ -18,6 +18,12 @@ import { SidebarModule } from 'primeng/sidebar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TagModule } from 'primeng/tag';
 import { AccordionModule } from 'primeng/accordion';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DialogModule } from 'primeng/dialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   declarations: [],
@@ -40,6 +46,12 @@ import { AccordionModule } from 'primeng/accordion';
     InputTextareaModule,
     TagModule,
     AccordionModule,
+    InputNumberModule,
+    MultiSelectModule,
+    DialogModule,
+    DynamicDialogModule,
+    KeyFilterModule,
+    ChipsModule,
   ],
 })
 export class PrimengModule {}

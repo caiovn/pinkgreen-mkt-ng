@@ -5,7 +5,7 @@ export default interface Product {
   active?: boolean;
   brand?: Brand;
   categories?: Array<Category>;
-  id: number;
+  id?: number;
   skuCode?: string;
   mainImageUrl: string;
   name: string;

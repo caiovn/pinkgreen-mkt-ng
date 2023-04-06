@@ -1,1 +1,82 @@
-<p>create-edit-product works!</p>
+<div *ngIf="!loading; else loadingComponent">
+  <h1>{{isEdition ? 'Editar produto' : 'Criar produto'}}</h1>
+
+  <form [formGroup]="form">
+    <div class="input-wrapper">
+      <div class="input-group">
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input id="name" formControlName="name" pInputText />
+        </div>
+        <div class="p-field">
+          <label for="price">Preço</label>
+          <p-inputNumber formControlName="price" inputId="price" mode="currency" currency="BRL" locale="pt-BR">
+          </p-inputNumber>
+        </div>
+
+      </div>
+      <div class="input-group">
+        <div class="p-field">
+          <label for="categories">Categoria do produto</label>
+          <p-multiSelect [options]="categories" formControlName="categories" optionLabel="name"
+            optionValue="id"></p-multiSelect>
+        </div>
+        <div class="p-field">
+          <label for="brand">Marca</label>
+          <p-dropdown [options]="brands" placeholder="Selecione uma marca" formControlName="brand" optionLabel="name"
+            optionValue="id"></p-dropdown>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="p-field">
+          <label for="mainImageUrl">Imagem</label>
+          <input id="mainImageUrl" formControlName="mainImageUrl" pInputText />
+        </div>
+      </div>
+    </div>
+    <div class="input-wrapper" *ngIf="form.get('mainImageUrl')?.value">
+      <span>Imagem do produto</span>
+      <img [src]="form.get('mainImageUrl')?.value" width="250px">
+    </div>
+
+    <div class="input-wrapper">
+      <div class="header-wrapper">
+        <h2>SKUs</h2>
+        <p-button label="Criar novo SKU" icon="pi pi-plus" iconPos="right" (click)="openSkuDialog()"></p-button>
+      </div>
+      <p-table [value]="skus" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nome</th>
+            <th>Código SKU</th>
+            <th>Preço</th>
+            <th>Quantidade no estoque</th>
+            <th style="width: 5rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-sku let-rowIndex="rowIndex">
+          <tr>
+            <td>{{ sku.name }}</td>
+            <td>{{ sku.skuCode }}</td>
+            <td>{{ sku.price.listPrice | currency }}</td>
+            <td>{{ sku.stockQuantity }}</td>
+            <td>
+              <p-button type="button" label="Editar" styleClass="p-button-link"
+                (click)="openSkuDialog(sku, rowIndex)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="button-wrapper">
+      <button pButton pRipple type="button" [label]="isEdition ? 'Salvar' : 'Criar'" class="p-button-success"
+        [disabled]="!form.valid" (click)="submitProduct()"></button>
+    </div>
+  </form>
+  <p-toast position="bottom-left"></p-toast>
+</div>
+
+<ng-template #loadingComponent>
+  <app-loading></app-loading>
+</ng-template>

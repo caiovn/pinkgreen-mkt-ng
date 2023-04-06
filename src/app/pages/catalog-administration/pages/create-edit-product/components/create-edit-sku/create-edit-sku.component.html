@@ -1,0 +1,132 @@
+<div *ngIf="!loading; else loadingComponent">
+  <form [formGroup]="form">
+    <div class="input-wrapper">
+      <div class="input-group">
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input id="name" formControlName="name" pInputText />
+        </div>
+        <div class="p-field">
+          <label for="skuCode">Código do SKU</label>
+          <input id="skuCode" formControlName="skuCode" pInputText />
+        </div>
+        <div class="p-field">
+          <label for="price">Preço</label>
+          <p-inputNumber formControlName="price" inputId="price" mode="currency" currency="BRL" locale="pt-BR">
+          </p-inputNumber>
+        </div>
+        <div class="p-field">
+          <label>Quantidade no estoque</label>
+          <p-inputNumber inputId="integeronly" formControlName="stockQuantity"></p-inputNumber>
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="p-field">
+          <label for="width">Largura(cm)</label>
+          <p-inputNumber formControlName="width" inputId="width" mode="decimal" [maxFractionDigits]="2">
+          </p-inputNumber>
+        </div>
+        <div class="p-field">
+          <label for="length">Comprimento(cm)</label>
+          <p-inputNumber formControlName="length" inputId="length" mode="decimal" [maxFractionDigits]="2">
+          </p-inputNumber>
+        </div>
+        <div class="p-field">
+          <label for="height">Altura(cm)</label>
+          <p-inputNumber formControlName="height" inputId="height" mode="decimal" [maxFractionDigits]="2">
+          </p-inputNumber>
+        </div>
+        <div class="p-field">
+          <label for="weight">Peso(kg)</label>
+          <p-inputNumber formControlName="weight" inputId="weight" mode="decimal" [maxFractionDigits]="2">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="p-field image-field">
+          <label for="mainImageUrl">Imagem principal</label>
+          <input id="mainImageUrl" formControlName="mainImageUrl" pInputText />
+        </div>
+        <div class="p-field images-chip">
+          <label for="urlImages">Imagens</label>
+          <p-chips inputId="urlImages" formControlName="urlImages"></p-chips>
+        </div>
+      </div>
+    </div>
+    <div class="input-wrapper" *ngIf="form.get('mainImageUrl')?.value || form.get('urlImages')?.value">
+      <span>Imagens do produto</span>
+      <ngx-slick-carousel class="carousel carousel-product-images" [config]="imageSlideConfig">
+        <div ngxSlickItem class="slide card-container">
+          <img [src]="form.get('mainImageUrl')?.value" width="250px">
+        </div>
+        <div ngxSlickItem *ngFor="let images of form.get('urlImages')?.value" class="slide card-container">
+          <img [src]="images" width="250px" />
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </form>
+  <div style="margin: 32px 0;">
+    <div class="header-wrapper">
+      <h3>Atributos do SKU</h3>
+      <p-button icon="pi pi-plus" iconPos="right" (click)="createSkuAttribute()"></p-button>
+    </div>
+    <p-table [value]="skuAttributes" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:33%">Tipo de atributo</th>
+          <th style="width:33%">Nome do atributo</th>
+          <th style="width:33%">Valor do atributo</th>
+          <th style="width:33%"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-skuAttribute let-editing="editing" let-rowIndex="rowIndex">
+        <tr>
+          <td [pEditableColumn]="skuAttribute.type" pEditableColumnField="type">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="skuAttribute.type" />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ skuAttribute.type }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td [pEditableColumn]="skuAttribute.label" pEditableColumnField="label">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="skuAttribute.label" required />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ skuAttribute.label }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td [pEditableColumn]="skuAttribute.value" pEditableColumnField="value">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText [(ngModel)]="skuAttribute.value" />
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ skuAttribute.value }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <button pButton pRipple type="button" label="Deletar" class="p-button-danger p-button-text"
+              (click)="deleteSkuAttribute(rowIndex)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="button-wrapper">
+    <button pButton pRipple type="button" [label]="isEdition ? 'Salvar SKU' : 'Criar SKU'" class="p-button-success"
+      [disabled]="!form.valid" (click)="submitSku()"></button>
+  </div>
+
+
+</div>
+
+<ng-template #loadingComponent></ng-template>
