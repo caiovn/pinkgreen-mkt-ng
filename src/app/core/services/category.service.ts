@@ -31,12 +31,16 @@ export class CategoryService {
     return this.http.get<Category[]>(`${this.url}/category`);
   }
 
+  deleteCategoryById(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/category-administration/category/${id}`);
+  }
+
   getCategoryById(id: string): Observable<Category> {
     return this.http.get<Category>(`${this.url}/category/${id}`);
   }
 
   createCategory(category: Category) {
-    return this.http.post(`${this.url}/category`, category, {
+    return this.http.post(`${this.url}/category-administration/category`, category, {
       headers: this.mountHeaders(),
     });
   }

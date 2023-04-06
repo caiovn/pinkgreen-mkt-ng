@@ -19,7 +19,10 @@
             <td>{{ brand.name }}</td>
             <td><img [src]="brand.brandImage" width="100px"></td>
             <td style="text-align: center;">
-              <p-button label="Editar" styleClass="p-button-link" (click)="openBrandPage(brand.id)"></p-button>
+              <button pButton pRipple type="button" label="Editar" class="p-button-text"
+                (click)="openBrandPage(brand.id)"></button>
+              <button pButton pRipple type="button" label="Deletar" class="p-button-danger p-button-text"
+                (click)="deleteBrandById(brand.id)"></button>
             </td>
           </tr>
         </ng-template>
@@ -48,7 +51,10 @@
             <td>{{ category.name }}</td>
             <td><img [src]="category.image" width="100px"></td>
             <td style="text-align: center;">
-              <p-button label="Editar" styleClass="p-button-link" (click)="openCategoryPage(category.id)"></p-button>
+              <button pButton pRipple type="button" label="Editar" class="p-button-text"
+                (click)="openCategoryPage(category.id)"></button>
+              <button pButton pRipple type="button" label="Deletar" class="p-button-danger p-button-text"
+                (click)="deleteCategoryById(category.id)"></button>
             </td>
           </tr>
         </ng-template>
@@ -86,7 +92,8 @@
             </td>
             <td>{{ products.price | currency }}</td>
             <td style="text-align: center;">
-              <p-button label="Editar" styleClass="p-button-link" (click)="openProductPage(products.id)"></p-button>
+              <button pButton pRipple type="button" label="Editar" class="p-button-text"
+                (click)="openProductPage(products.id)"></button>
             </td>
           </tr>
         </ng-template>
@@ -101,3 +108,11 @@
 <ng-template #loadingComponent>
   <app-loading></app-loading>
 </ng-template>
+
+<p-confirmDialog #cd>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" label="Não" class="p-button-raised p-button-text"
+      (click)="cd.reject()"></button>
+    <button pButton pRipple type="button" label="Sim" class="p-button-raised" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
