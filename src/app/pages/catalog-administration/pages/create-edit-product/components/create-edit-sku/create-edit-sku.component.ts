@@ -28,7 +28,7 @@ export class CreateEditSkuComponent implements OnInit {
     slidesToShow: 4,
     adaptiveWidth: true,
     lazyLoad: 'ondemand',
-    arrows: false,
+    arrows: true,
   };
 
   constructor(
@@ -38,9 +38,12 @@ export class CreateEditSkuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('dentro', this.config.data);
+
     this.isEdition = this.config.data.isEdition;
-    this.initialSkuData = this.config.data.skuData;
-    this.skuAttributes = this.initialSkuData.skuAttributes;
+    this.initialSkuData = this.config.data?.skuData;
+
+    this.skuAttributes = this.initialSkuData?.skuAttributes || [];
 
     this.createForm();
     this.loading = false;
@@ -48,8 +51,12 @@ export class CreateEditSkuComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
+      active: [this.initialSkuData?.active || false],
       name: [this.initialSkuData?.name || '', [Validators.required]],
-      skuCode: [this.initialSkuData?.skuCode || '', [Validators.required]],
+      skuCode: [
+        { value: this.initialSkuData?.skuCode || '', disabled: this.isEdition },
+        [Validators.required],
+      ],
       price: [
         this.initialSkuData?.price?.listPrice || '',
         [Validators.required],
@@ -77,14 +84,16 @@ export class CreateEditSkuComponent implements OnInit {
   }
 
   deleteSkuAttribute(index: number) {
-    console.log(index);
     this.skuAttributes.splice(index, 1);
   }
 
   submitSku() {
+    console.log(this.form.getRawValue());
+
     this.ref.close({
       isEdition: this.isEdition,
       skuData: {
+        active: this.form.get('active')?.value,
         name: this.form.get('name')?.value,
         skuCode: this.form.get('skuCode')?.value,
         price: { listPrice: this.form.get('price')?.value },
@@ -96,7 +105,7 @@ export class CreateEditSkuComponent implements OnInit {
         weight: this.form.get('weight')?.value,
 
         mainImageUrl: this.form.get('mainImageUrl')?.value,
-        urlImages: this.form.get('urlImages')?.value,
+        urlImages: this.form.get('urlImages')?.value || [],
         skuAttributes: this.skuAttributes,
       },
     });

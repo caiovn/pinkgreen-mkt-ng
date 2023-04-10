@@ -20,6 +20,12 @@
           <p-inputNumber inputId="integeronly" formControlName="stockQuantity"></p-inputNumber>
         </div>
       </div>
+      <div>
+        <div class="field-checkbox">
+          <p-checkbox formControlName="active" [binary]="true" value="true" inputId="active"></p-checkbox>
+          <label for="active">Ativo para compra</label>
+        </div>
+      </div>
       <div class="input-group">
         <div class="p-field">
           <label for="width">Largura(cm)</label>

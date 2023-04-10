@@ -33,17 +33,6 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.url}/product/category/${id}`);
   }
 
-  getSkus(id: string): Observable<Sku[]> {
-    return this.http.get<Sku[]>(`${this.url}/sku/product_skus/${id}`);
-  }
-
-  getSkusAsAdmin(id: string): Observable<Sku[]> {
-    return this.http.get<Sku[]>(`${this.url}/sku-administration/sku/product/${id}`);
-  }
-
-  getSku(skuCode: string): Observable<Sku> {
-    return this.http.get<Sku>(`${this.url}/sku/${skuCode}`);
-  }
 
   createProduct(product: Product) {
     return this.http.post(

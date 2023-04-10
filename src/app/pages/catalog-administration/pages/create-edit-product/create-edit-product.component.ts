@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
 import Category from 'src/app/core/models/category.model';
 import Sku from 'src/app/core/models/sku.model';
@@ -12,6 +12,8 @@ import Product from 'src/app/core/models/product.model';
 import { ProductService } from 'src/app/core/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { SkuService } from 'src/app/core/services/sku.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-create-edit-product',
@@ -26,7 +28,7 @@ export class CreateEditProductComponent implements OnInit {
   productId!: string;
   brands!: Brand[];
   categories!: Category[];
-  skus!: Sku[];
+  skus: { isEdition: boolean; skuData: Sku }[] = [];
   product!: Product;
 
   isEdition = false;
@@ -37,6 +39,7 @@ export class CreateEditProductComponent implements OnInit {
     private brandService: BrandService,
     private categoryService: CategoryService,
     private productService: ProductService,
+    private skuService: SkuService,
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private router: Router,
@@ -59,14 +62,18 @@ export class CreateEditProductComponent implements OnInit {
 
     if (this.productId) {
       const product$ = this.productService.getProductAsAdmin(this.productId);
-      const sku$ = this.productService.getSkusAsAdmin(this.productId);
+      const sku$ = this.skuService.getSkusAsAdmin(this.productId);
 
       forkJoin([product$, sku$, brands$, categories$]).subscribe({
         next: (res) => {
           this.product = res[0];
-          this.skus = res[1];
           this.brands = res[2];
           this.categories = res[3];
+
+          this.skus = res[1].map((sku) => {
+            return { isEdition: true, skuData: sku };
+          });
+
           this.createForm();
           this.loading = false;
         },
@@ -93,6 +100,7 @@ export class CreateEditProductComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
+      active: [this.product?.active || false],
       name: [this.product?.name || '', [Validators.required]],
       price: [this.product?.price || '', [Validators.required]],
       mainImageUrl: [this.product?.mainImageUrl || '', [Validators.required]],
@@ -104,28 +112,29 @@ export class CreateEditProductComponent implements OnInit {
     });
   }
 
-  openSkuDialog(sku?: Sku, index?: number) {
+  openSkuDialog(sku?: { isEdition: boolean; skudata: Sku }, index?: number) {
     this.ref = this.dialogService.open(CreateEditSkuComponent, {
-      data: { skuData: sku ? sku : null, isEdition: sku ? true : false },
-      header: sku ? 'Criar SKU' : 'Editar SKU',
+      data: sku ? sku : { isEdition: false, skuData: null },
+      header: sku?.isEdition ? 'Editar SKU' : 'Criar SKU',
       width: '50vw',
     });
 
     this.ref.onClose.subscribe((res) => {
       if (res) {
+        console.log(res);
         if (res.isEdition && index != undefined) {
-          this.skus[index] = res.skuData;
+          this.skus[index] = res;
           return;
         }
 
-        this.skus.push(res.skuData);
+        this.skus.push(res);
       }
     });
   }
 
   submitProduct() {
     const productPayload: Product = {
-      active: true,
+      active: this.form.get('active')?.value,
       name: this.form.get('name')?.value,
       mainImageUrl: this.form.get('mainImageUrl')?.value,
       price: this.form.get('price')?.value,
@@ -135,17 +144,24 @@ export class CreateEditProductComponent implements OnInit {
       brand: { id: this.form.get('brand')?.value } as any,
     };
 
+    console.log(productPayload);
+    console.log(this.skus);
+
     if (this.isEdition) {
       this.productService
         .updateProduct(this.productId, productPayload)
         .subscribe({
           next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Produto atualizado com sucesso',
-              life: 3000,
+            this.updateCreateSku().subscribe({
+              next: () => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Produto atualizado com sucesso',
+                  life: 3000,
+                });
+                this.router.navigate(['/catalog-administration']);
+              },
             });
-            this.router.navigate(['/catalog-administration']);
           },
         });
       return;
@@ -153,13 +169,56 @@ export class CreateEditProductComponent implements OnInit {
 
     this.productService.createProduct(productPayload).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Produto criado com sucesso',
-          life: 3000,
+        this.updateCreateSku().subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Produto criado com sucesso',
+              life: 3000,
+            });
+            this.router.navigate(['/catalog-administration']);
+          },
         });
-        this.router.navigate(['/catalog-administration']);
       },
     });
+  }
+
+  updateCreateSku(): Observable<any> {
+    if (this.skus.length > 0) {
+      const skus$: Observable<any>[] = [];
+
+      this.skus.map((sku) => {
+        const skuPayload: Sku = {
+          ...sku.skuData,
+          price: {
+            ...sku.skuData.price,
+            endDate: new Date(),
+            salePrice: 0,
+            startDate: new Date(),
+          },
+          product: {
+            id: this.productId,
+          } as any,
+        };
+
+        if (sku.isEdition) {
+          console.log('deu push', sku);
+          skus$.push(
+            this.skuService.updateSku(skuPayload.skuCode || '', skuPayload)
+          );
+          return;
+        }
+
+        console.log('deu push', sku);
+        skus$.push(this.skuService.createSku(skuPayload));
+      });
+
+      console.log(skus$);
+
+      return forkJoin(skus$);
+    }
+
+    console.log('caiu aqui fora');
+    return of(forkJoin([]));
   }
 }

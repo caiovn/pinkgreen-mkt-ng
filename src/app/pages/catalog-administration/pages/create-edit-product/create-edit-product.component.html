@@ -13,7 +13,12 @@
           <p-inputNumber formControlName="price" inputId="price" mode="currency" currency="BRL" locale="pt-BR">
           </p-inputNumber>
         </div>
-
+      </div>
+      <div>
+        <div class="field-checkbox">
+          <p-checkbox formControlName="active" [binary]="true" value="true" inputId="active"></p-checkbox>
+          <label for="active">Ativo para compra</label>
+        </div>
       </div>
       <div class="input-group">
         <div class="p-field">
@@ -51,15 +56,17 @@
             <th>Código SKU</th>
             <th>Preço</th>
             <th>Quantidade no estoque</th>
+            <th>SKU ativo?</th>
             <th style="width: 5rem"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-sku let-rowIndex="rowIndex">
           <tr>
-            <td>{{ sku.name }}</td>
-            <td>{{ sku.skuCode }}</td>
-            <td>{{ sku.price.listPrice | currency }}</td>
-            <td>{{ sku.stockQuantity }}</td>
+            <td>{{ sku.skuData.name }}</td>
+            <td>{{ sku.skuData.skuCode }}</td>
+            <td>{{ sku.skuData.price.listPrice | currency }}</td>
+            <td>{{ sku.skuData.stockQuantity }}</td>
+            <td>{{ sku.skuData.active ? 'Sim' : 'Não' }}</td>
             <td>
               <p-button type="button" label="Editar" styleClass="p-button-link"
                 (click)="openSkuDialog(sku, rowIndex)"></p-button>

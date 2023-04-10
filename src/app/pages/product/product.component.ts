@@ -10,6 +10,7 @@ import Sku from 'src/app/core/models/sku.model';
 import { FavoriteService } from 'src/app/core/services/favorite.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { RatingService } from 'src/app/core/services/rating.service';
+import { SkuService } from 'src/app/core/services/sku.service';
 
 @Component({
   selector: 'app-product',
@@ -79,6 +80,7 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
+    private skuService: SkuService,
     private readonly keycloak: KeycloakService,
     private ratingService: RatingService,
     private favoriteService: FavoriteService,
@@ -134,7 +136,7 @@ export class ProductComponent implements OnInit {
   }
 
   getProductSku(_skuCode: string) {
-    return this.productService.getSku(_skuCode).pipe(
+    return this.skuService.getSku(_skuCode).pipe(
       tap((_skuData) => {
         this.SkuData = _skuData;
         this.SkuData.urlImages = [this.SkuData.mainImageUrl].concat(
@@ -168,7 +170,7 @@ export class ProductComponent implements OnInit {
   getProduct() {
     return this.productService.getProduct(this.productId).pipe(
       tap((_product) => (this.product = _product)),
-      concatMap((_product) => this.productService.getSkus(`${_product.id}`)),
+      concatMap((_product) => this.skuService.getSkus(`${_product.id}`)),
       tap((_skuList) => {
         if (_skuList.length > 0) {
           this.skuCode = _skuList[0].skuCode;

@@ -1,6 +1,7 @@
 .product-wrapper {
   display: flex;
   gap: 16px;
+  flex-wrap: wrap;
 
   .product-item {
     display: block;
