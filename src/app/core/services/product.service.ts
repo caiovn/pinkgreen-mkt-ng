@@ -33,12 +33,11 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.url}/product/category/${id}`);
   }
 
-
   createProduct(product: Product) {
     return this.http.post(
       `${this.url}/product-administration/product`,
       product,
-      { headers: this.mountHeaders() }
+      { headers: this.mountHeaders(), observe: 'response' }
     );
   }
 

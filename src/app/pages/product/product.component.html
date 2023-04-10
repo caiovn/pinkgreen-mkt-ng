@@ -29,7 +29,8 @@
             class="p-button-raised p-button-success product-buy-button" [disabled]="blockPurchase"
             (click)="clickBuyButton()"></button>
           <button pButton pRipple type="button" [icon]="iconValue" (click)="clickFavoriteButton()"
-            class="p-button-rounded p-button-secondary p-button-text" [disabled]="blockPurchase" style="color: black;"></button>
+            class="p-button-rounded p-button-secondary p-button-text" [disabled]="blockPurchase"
+            style="color: black;"></button>
         </div>
         <div *ngIf="!blockPurchase">
           <div *ngIf="SkuData.stockQuantity >= 6; else lowStock">
@@ -115,7 +116,7 @@
               <div class="rate-wrapper">
                 <p-rating [(ngModel)]="ratingItem.stars" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
                 <span>
-                  ({{ rating.average }})
+                  ({{ ratingItem.stars }})
                 </span>
               </div>
 

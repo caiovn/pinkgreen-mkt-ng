@@ -23,8 +23,6 @@ export class OrderDetailsComponent implements OnInit {
   orderId!: string;
   order!: Order;
 
-  customerData!: KeycloakProfile;
-
   orderHistory: MenuItem[] = [];
   activeHistoryOrder!: number;
 
@@ -53,7 +51,6 @@ export class OrderDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private ratingService: RatingService,
-    private keycloak: KeycloakService,
     private formBuilder: FormBuilder,
     private messageService: MessageService
   ) {}
@@ -66,43 +63,39 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   loadData() {
-    this.keycloak.loadUserProfile().then((res) => {
-      this.customerData = res;
-
-      return this.orderService
-        .getOrder(this.orderId)
-        .pipe(
-          tap((_order) => {
-            this.order = _order;
-          }),
-          concatMap((_order) =>
-            this.ratingService.getUserProductRating(
-              _order.id,
-              _order.productList[0].skuCode
-            )
-          ),
-          tap((_rating) => (this.ratingFormValue = _rating)),
-          catchError(() =>
-            throwError(() => new Error('Erro ao carregar o conteúdo'))
+    this.orderService
+      .getOrder(this.orderId)
+      .pipe(
+        tap((_order) => {
+          this.order = _order;
+        }),
+        concatMap((_order) =>
+          this.ratingService.getUserProductRating(
+            _order.id,
+            _order.productList[0].skuCode
           )
+        ),
+        tap((_rating) => (this.ratingFormValue = _rating)),
+        catchError(() =>
+          throwError(() => new Error('Erro ao carregar o conteúdo'))
         )
-        .subscribe({
-          next: () => {
-            this.createForm();
-            this.loadOrderHistory();
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Erro',
-              detail: 'Erro ao carregar o conteúdo.',
-              life: 3000,
-            });
-          },
-        });
-    });
+      )
+      .subscribe({
+        next: () => {
+          this.createForm();
+          this.loadOrderHistory();
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao carregar o conteúdo.',
+            life: 3000,
+          });
+        },
+      });
   }
 
   createForm() {

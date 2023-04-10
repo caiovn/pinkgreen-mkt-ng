@@ -143,7 +143,7 @@ export class ProductComponent implements OnInit {
           this.SkuData.urlImages
         );
         this.otherSkusList = _skuData.relatedSkus;
-        if (this.SkuData.stockQuantity === 0) {
+        if (this.SkuData.stockQuantity <= 0) {
           this.blockPurchase = true;
         }
       }),

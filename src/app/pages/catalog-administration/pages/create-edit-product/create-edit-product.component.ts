@@ -116,7 +116,7 @@ export class CreateEditProductComponent implements OnInit {
     this.ref = this.dialogService.open(CreateEditSkuComponent, {
       data: sku ? sku : { isEdition: false, skuData: null },
       header: sku?.isEdition ? 'Editar SKU' : 'Criar SKU',
-      width: '50vw',
+      width: '85%',
     });
 
     this.ref.onClose.subscribe((res) => {
@@ -168,7 +168,12 @@ export class CreateEditProductComponent implements OnInit {
     }
 
     this.productService.createProduct(productPayload).subscribe({
-      next: () => {
+      next: (res) => {
+        this.productId =
+          res.headers
+            .get('Location')
+            ?.match('http://localhost:8181/product/(.*)')?.[1] || '';
+
         this.updateCreateSku().subscribe({
           next: () => {
             this.messageService.add({

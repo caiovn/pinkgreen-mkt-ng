@@ -17,7 +17,7 @@
         </div>
         <div class="p-field">
           <label>Quantidade no estoque</label>
-          <p-inputNumber inputId="integeronly" formControlName="stockQuantity"></p-inputNumber>
+          <p-inputNumber inputId="integeronly" formControlName="stockQuantity" [min]="0"></p-inputNumber>
         </div>
       </div>
       <div>
@@ -61,15 +61,17 @@
       </div>
     </div>
     <div class="input-wrapper" *ngIf="form.get('mainImageUrl')?.value || form.get('urlImages')?.value">
-      <span>Imagens do produto</span>
-      <ngx-slick-carousel class="carousel carousel-product-images" [config]="imageSlideConfig">
-        <div ngxSlickItem class="slide card-container">
-          <img [src]="form.get('mainImageUrl')?.value" width="250px">
-        </div>
-        <div ngxSlickItem *ngFor="let images of form.get('urlImages')?.value" class="slide card-container">
-          <img [src]="images" width="250px" />
-        </div>
-      </ngx-slick-carousel>
+      <div class="img-carousel">
+        <span>Imagens do produto</span>
+        <ngx-slick-carousel class="carousel carousel-product-images" [config]="imageSlideConfig">
+          <div ngxSlickItem class="slide card-container">
+            <img [src]="form.get('mainImageUrl')?.value" width="250px">
+          </div>
+          <div ngxSlickItem *ngFor="let images of form.get('urlImages')?.value" class="slide card-container">
+            <img [src]="images" width="250px" />
+          </div>
+        </ngx-slick-carousel>
+      </div>
     </div>
   </form>
   <div style="margin: 32px 0;">

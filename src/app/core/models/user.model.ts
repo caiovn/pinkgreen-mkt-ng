@@ -2,7 +2,7 @@ export interface CustomerData {
   id: string;
   document: string;
   name: string;
-  lastName: string;
+  lastname: string;
   email: string;
   phone: string;
 }

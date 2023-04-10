@@ -20,8 +20,6 @@ export class OrderAdministrationDetailsComponent implements OnInit {
   orderId!: string;
   order!: Order;
 
-  customerData!: KeycloakProfile;
-
   actualOrderStatus!: string;
   nextOrderStatus!: string;
 
@@ -56,24 +54,21 @@ export class OrderAdministrationDetailsComponent implements OnInit {
   }
 
   loadData() {
-    this.keycloak.loadUserProfile().then((res) => {
-      this.customerData = res;
-      return this.orderService.getOrderAsAdmin(this.orderId).subscribe({
-        next: (res) => {
-          this.order = res;
-          this.loadOrderHistory();
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Erro ao carregar o conteúdo.',
-            life: 3000,
-          });
-        },
-      });
+    this.orderService.getOrderAsAdmin(this.orderId).subscribe({
+      next: (res) => {
+        this.order = res;
+        this.loadOrderHistory();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao carregar o conteúdo.',
+          life: 3000,
+        });
+      },
     });
   }
 

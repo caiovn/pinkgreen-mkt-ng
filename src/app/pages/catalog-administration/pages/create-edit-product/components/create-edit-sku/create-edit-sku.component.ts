@@ -58,11 +58,11 @@ export class CreateEditSkuComponent implements OnInit {
         [Validators.required],
       ],
       price: [
-        this.initialSkuData?.price?.listPrice || '',
+        this.initialSkuData?.price?.listPrice || 0,
         [Validators.required],
       ],
       stockQuantity: [
-        this.initialSkuData?.stockQuantity || '',
+        this.initialSkuData?.stockQuantity || 0,
         [Validators.required],
       ],
 
@@ -72,10 +72,10 @@ export class CreateEditSkuComponent implements OnInit {
       ],
       urlImages: [this.initialSkuData?.urlImages || ''],
 
-      height: [this.initialSkuData?.height || '', [Validators.required]],
-      width: [this.initialSkuData?.width || '', [Validators.required]],
-      length: [this.initialSkuData?.length || '', [Validators.required]],
-      weight: [this.initialSkuData?.weight || '', [Validators.required]],
+      height: [this.initialSkuData?.height || 0],
+      width: [this.initialSkuData?.width || 0],
+      length: [this.initialSkuData?.length || 0],
+      weight: [this.initialSkuData?.weight || 0],
     });
   }
 
