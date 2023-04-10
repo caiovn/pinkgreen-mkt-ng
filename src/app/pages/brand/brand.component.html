@@ -1,6 +1,8 @@
 <div *ngIf="!loading; else loadingComponent">
   <h1>Tudo sobre {{ brand.name }}.</h1>
   <div class="product-wrapper">
+    <span *ngIf="productList?.length === 0">Ainda não temos nenhum produto em nossa base de dados para essa marca
+      :(</span>
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
       <p-card>
         <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(product.mainImageUrl) }"></div>
