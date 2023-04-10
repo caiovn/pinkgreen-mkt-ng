@@ -1,5 +1,7 @@
 .nav {
   display: flex;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   align-items: center;
   justify-content: space-between;
   padding: 8px 32px;
@@ -14,6 +16,7 @@
       width: 448px;
     }
   }
+
   .mobile-button {
     display: none;
   }
@@ -22,12 +25,15 @@
 @media(max-width: 767px) {
   .nav {
     padding: 16px;
+
     .search-term {
       display: none;
     }
+
     .desktop-buttons {
       display: none;
     }
+
     .mobile-button {
       display: block;
     }

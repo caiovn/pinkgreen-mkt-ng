@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
 import Category from 'src/app/core/models/category.model';
@@ -26,6 +26,7 @@ export class CatalogAdministrationComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +83,11 @@ export class CatalogAdministrationComponent implements OnInit {
     this.brandService.deleteBrandById(brandId).subscribe({
       next: () => {
         this.ngOnInit();
-      }
+      },
+      error: (err) => {
+        this.openErrorToast(err.error.message);
+        this.loading = false;
+      },
     })
   }
 
@@ -98,11 +103,24 @@ export class CatalogAdministrationComponent implements OnInit {
     this.categoryService.deleteCategoryById(categoryId).subscribe({
       next: () => {
         this.ngOnInit();
-      }
+      },
+      error: (err) => {
+        this.openErrorToast(err.error.message);
+        this.loading = false;
+      },
     });
   }
 
   reject(): void {
     return;
+  }
+
+  openErrorToast(msg: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: msg,
+      life: 3000,
+    });
   }
 }
