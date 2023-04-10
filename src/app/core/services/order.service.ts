@@ -34,7 +34,7 @@ export class OrderService {
   }
 
   getOrder(orderId: string): Observable<Order> {
-    return this.http.get<Order>(`${this.url}/order-administration/order/${orderId}`, {
+    return this.http.get<Order>(`${this.url}/order/${orderId}`, {
       headers: this.mountHeaders(),
     });
   }
