@@ -5,7 +5,7 @@
   <div class="search-term">
     <form (ngSubmit)="onSubmitForm()" #formDir="ngForm">
       <span class="p-input-icon-right">
-        <i class="pi pi-search"></i>
+        <i class="pi pi-search" style="color: black;"></i>
         <input type="text" pInputText [formControl]="searchTerm" />
       </span>
     </form>
@@ -13,9 +13,9 @@
 
   <div class="desktop-buttons">
     <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-rounded p-button-text p-button-plain"
-      routerLink="/favorites"></button>
+      routerLink="/favorites" style="color: black;"></button>
     <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-text p-button-plain"
-      (click)="menu.toggle($event)"></button>
+      (click)="menu.toggle($event)" style="color: black;"></button>
     <p-menu #menu [popup]="true" [model]="items"></p-menu>
   </div>
 
