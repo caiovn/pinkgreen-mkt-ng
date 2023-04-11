@@ -68,6 +68,16 @@ export class CatalogAdministrationComponent implements OnInit {
     });
   }
 
+  deleteProductById(productId: string) {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza que deseja deletar o producto selecionadao',
+      header: 'Confirmação',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => this.deleteProduct(productId),
+      reject: () => this.reject()
+    });
+  }
+
   deleteBrandById(brandId: string) {
     this.confirmationService.confirm({
       message: 'Você tem certeza que deseja deletar a marca selecionada?',
@@ -82,11 +92,12 @@ export class CatalogAdministrationComponent implements OnInit {
     this.loading = true;
     this.brandService.deleteBrandById(brandId).subscribe({
       next: () => {
+        this.openSuccessToast("Marca deletada com sucesso!");
         this.ngOnInit();
       },
       error: (err) => {
-        this.openErrorToast(err.error.message);
         this.loading = false;
+        this.openErrorToast(err.error.message);
       },
     })
   }
@@ -98,15 +109,30 @@ export class CatalogAdministrationComponent implements OnInit {
     ]);
   }
 
+  deleteProduct(productId: string) {
+    this.loading = true;
+    this.productService.deleteProductById(productId).subscribe({
+      next: () => {
+        this.openSuccessToast("Produto deletado com sucesso!");
+        this.ngOnInit();
+      },
+      error: (err) => {
+        this.loading = false;
+        this.openErrorToast(err.error.menssage);
+      }
+    });
+  }
+
   deleteCategory(categoryId: string) {
     this.loading = true;
     this.categoryService.deleteCategoryById(categoryId).subscribe({
       next: () => {
+        this.openSuccessToast("Categoria deletada com sucesso!");
         this.ngOnInit();
       },
       error: (err) => {
-        this.openErrorToast(err.error.message);
         this.loading = false;
+        this.openErrorToast(err.error.message);
       },
     });
   }
@@ -119,6 +145,15 @@ export class CatalogAdministrationComponent implements OnInit {
     this.messageService.add({
       severity: 'error',
       summary: 'Erro',
+      detail: msg,
+      life: 3000,
+    });
+  }
+
+  openSuccessToast(msg: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
       detail: msg,
       life: 3000,
     });

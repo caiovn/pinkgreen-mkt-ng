@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
 import Category from 'src/app/core/models/category.model';
+import Product from 'src/app/core/models/product.model';
 import Sku from 'src/app/core/models/sku.model';
 import { BrandService } from 'src/app/core/services/brand.service';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { CreateEditSkuComponent } from './components/create-edit-sku/create-edit-sku.component';
-import Product from 'src/app/core/models/product.model';
 import { ProductService } from 'src/app/core/services/product.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { SkuService } from 'src/app/core/services/sku.service';
-import { of } from 'rxjs';
+import { CreateEditSkuComponent } from './components/create-edit-sku/create-edit-sku.component';
 
 @Component({
   selector: 'app-create-edit-product',
@@ -44,7 +43,7 @@ export class CreateEditProductComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -207,14 +206,12 @@ export class CreateEditProductComponent implements OnInit {
         };
 
         if (sku.isEdition) {
-          console.log('deu push', sku);
           skus$.push(
             this.skuService.updateSku(skuPayload.skuCode || '', skuPayload)
           );
           return;
         }
 
-        console.log('deu push', sku);
         skus$.push(this.skuService.createSku(skuPayload));
       });
 

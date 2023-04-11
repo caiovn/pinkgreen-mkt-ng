@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
 import Product from '../models/product.model';
-import Sku from '../models/sku.model';
-import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +30,10 @@ export class ProductService {
 
   getProductsBycategory(id: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/product/category/${id}`);
+  }
+
+  deleteProductById(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/product-administration/product/${id}`);
   }
 
   createProduct(product: Product) {
