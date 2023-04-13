@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, forkJoin, of } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
@@ -13,6 +13,11 @@ import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { SkuService } from 'src/app/core/services/sku.service';
 import { CreateEditSkuComponent } from './components/create-edit-sku/create-edit-sku.component';
+
+interface SkuTable {
+  action: 'create' | 'edit' | 'delete';
+  skuData: Sku;
+}
 
 @Component({
   selector: 'app-create-edit-product',
@@ -27,7 +32,7 @@ export class CreateEditProductComponent implements OnInit {
   productId!: string;
   brands!: Brand[];
   categories!: Category[];
-  skus: { isEdition: boolean; skuData: Sku }[] = [];
+  skus: SkuTable[] = [];
   product!: Product;
 
   isEdition = false;
@@ -42,8 +47,9 @@ export class CreateEditProductComponent implements OnInit {
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private router: Router,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -70,7 +76,7 @@ export class CreateEditProductComponent implements OnInit {
           this.categories = res[3];
 
           this.skus = res[1].map((sku) => {
-            return { isEdition: true, skuData: sku };
+            return { action: 'edit', skuData: sku };
           });
 
           this.createForm();
@@ -111,10 +117,14 @@ export class CreateEditProductComponent implements OnInit {
     });
   }
 
-  openSkuDialog(sku?: { isEdition: boolean; skudata: Sku }, index?: number) {
+  returnFilteredSkuArray() {
+    return this.skus.filter((sku) => sku.action !== 'delete');
+  }
+
+  openSkuDialog(sku?: SkuTable, index?: number) {
     this.ref = this.dialogService.open(CreateEditSkuComponent, {
       data: sku ? sku : { isEdition: false, skuData: null },
-      header: sku?.isEdition ? 'Editar SKU' : 'Criar SKU',
+      header: sku?.action === 'edit' ? 'Editar SKU' : 'Criar SKU',
       width: '85%',
     });
 
@@ -187,6 +197,27 @@ export class CreateEditProductComponent implements OnInit {
     });
   }
 
+  openDeleteSkuDialog(sku: SkuTable, rowIndex: number) {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza que deseja deletar o SKU selecionado?',
+      header: 'Confirmação',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => this.deleteSku(sku, rowIndex),
+      reject: () => this.reject(),
+    });
+  }
+
+  deleteSku(sku: SkuTable, rowIndex: number) {
+    console.log(this.skus);
+    console.log(this.skus[rowIndex]);
+
+    this.skus[rowIndex] = { ...sku, action: 'delete' };
+    console.log('=========================================');
+
+    console.log(this.skus);
+    console.log(this.skus[rowIndex]);
+  }
+
   updateCreateSku(): Observable<any> {
     if (this.skus.length > 0) {
       const skus$: Observable<any>[] = [];
@@ -205,10 +236,13 @@ export class CreateEditProductComponent implements OnInit {
           } as any,
         };
 
-        if (sku.isEdition) {
-          skus$.push(
-            this.skuService.updateSku(skuPayload.skuCode || '', skuPayload)
-          );
+        if (sku.action === 'edit') {
+          skus$.push(this.skuService.updateSku(skuPayload.skuCode, skuPayload));
+          return;
+        }
+
+        if (sku.action === 'delete') {
+          skus$.push(this.skuService.deleteSku(skuPayload.skuCode));
           return;
         }
 
@@ -222,5 +256,9 @@ export class CreateEditProductComponent implements OnInit {
 
     console.log('caiu aqui fora');
     return of(forkJoin([]));
+  }
+
+  reject(): void {
+    return;
   }
 }

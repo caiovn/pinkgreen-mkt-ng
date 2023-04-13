@@ -49,7 +49,7 @@
         <h2>SKUs</h2>
         <p-button label="Criar novo SKU" icon="pi pi-plus" iconPos="right" (click)="openSkuDialog()"></p-button>
       </div>
-      <p-table [value]="skus" [tableStyle]="{ 'min-width': '50rem' }">
+      <p-table [value]="returnFilteredSkuArray()" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
           <tr>
             <th>Nome</th>
@@ -57,7 +57,7 @@
             <th>Preço</th>
             <th>Quantidade no estoque</th>
             <th>SKU ativo?</th>
-            <th style="width: 5rem"></th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-sku let-rowIndex="rowIndex">
@@ -70,6 +70,8 @@
             <td>
               <p-button type="button" label="Editar" styleClass="p-button-link"
                 (click)="openSkuDialog(sku, rowIndex)"></p-button>
+              <button pButton pRipple type="button" label="Deletar" class="p-button-danger p-button-text"
+                (click)="openDeleteSkuDialog(sku, rowIndex)"></button>
             </td>
           </tr>
         </ng-template>
@@ -86,3 +88,11 @@
 <ng-template #loadingComponent>
   <app-loading></app-loading>
 </ng-template>
+
+<p-confirmDialog #cd>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple type="button" label="Não" class="p-button-raised p-button-text"
+      (click)="cd.reject()"></button>
+    <button pButton pRipple type="button" label="Sim" class="p-button-raised" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>

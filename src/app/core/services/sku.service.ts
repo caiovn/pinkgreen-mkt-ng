@@ -41,7 +41,17 @@ export class SkuService {
   }
 
   updateSku(skuCode: string, skuPayload: Sku) {
-    return this.http.put(`${this.url}/sku-administration/sku/${skuCode}`, skuPayload, {
+    return this.http.put(
+      `${this.url}/sku-administration/sku/${skuCode}`,
+      skuPayload,
+      {
+        headers: this.mountHeaders(),
+      }
+    );
+  }
+
+  deleteSku(skuCode: string) {
+    return this.http.delete(`${this.url}/sku-administration/sku/${skuCode}`, {
       headers: this.mountHeaders(),
     });
   }
