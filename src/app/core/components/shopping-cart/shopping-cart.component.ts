@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ShoppingCartService } from '../../services/shopping-cart.service';
 import Sku from '../../models/sku.model';
+import { ShoppingCartService } from '../../services/shopping-cart.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -8,11 +8,37 @@ import Sku from '../../models/sku.model';
   styleUrls: ['./shopping-cart.component.scss'],
 })
 export class ShoppingCartComponent implements OnInit {
+
+  totalPrice: number = 0;
   cartList!: Sku[];
 
-  constructor(private shoppingCartService: ShoppingCartService) {}
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+  ) { }
 
   ngOnInit(): void {
     this.cartList = this.shoppingCartService.getCartItems();
+    this.getTotalPrice();
+  }
+
+  modifyValue(event: any, item: Sku) {
+    if (event.formattedValue > event.value) {
+      this.shoppingCartService.decrementProductQuantity(item, event.value);
+      this.ngOnInit();
+      return;
+    }
+
+    this.shoppingCartService.incrementProductQuantity(item, event.value);
+    this.ngOnInit();
+  }
+
+  removeProduct(skuCode: string) {
+    this.shoppingCartService.deleteItemBySkuCode(skuCode);
+    this.ngOnInit();
+  }
+
+  getTotalPrice() {
+    this.totalPrice = 0;
+    return this.cartList.map((_item) => this.totalPrice += _item.price.listPrice * (_item.product.quantity || 0));
   }
 }

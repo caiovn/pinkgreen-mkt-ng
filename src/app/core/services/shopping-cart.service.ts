@@ -19,6 +19,50 @@ export class ShoppingCartService {
     return JSON.parse(sessionStorage.getItem(SHOPPING_CART) || '[]');
   }
 
+  decrementProductQuantity(item: Sku, quantity: number) {
+    const cartItems: Sku[] = JSON.parse(
+      sessionStorage.getItem(SHOPPING_CART) || '[]'
+    );
+
+    if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
+      cartItems.map((listItem) => {
+        if (listItem.skuCode === item.skuCode) {
+          listItem.product.quantity = quantity;
+        }
+      });
+    }
+
+    sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
+  }
+
+  incrementProductQuantity(item: Sku, quantity: number) {
+    const cartItems: Sku[] = JSON.parse(
+      sessionStorage.getItem(SHOPPING_CART) || '[]'
+    );
+
+    if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
+      cartItems.map((listItem) => {
+        if (listItem.skuCode === item.skuCode) {
+          listItem.product.quantity = quantity;
+        }
+      });
+    }
+
+    sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
+  }
+
+  deleteItemBySkuCode(skuCode: string) {
+    const cartItems: Sku[] = JSON.parse(
+      sessionStorage.getItem(SHOPPING_CART) || '[]'
+    );
+    const index = cartItems.findIndex((_item) => _item.skuCode === skuCode);
+
+    if (index > -1)
+      cartItems.splice(index, 1);
+
+    sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
+  }
+
   addItemToCart(item: Sku) {
     const cartItems: Sku[] = JSON.parse(
       sessionStorage.getItem(SHOPPING_CART) || '[]'
