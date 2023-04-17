@@ -10,6 +10,7 @@ import Sku from 'src/app/core/models/sku.model';
 import { FavoriteService } from 'src/app/core/services/favorite.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { RatingService } from 'src/app/core/services/rating.service';
+import { ShoppingCartService } from 'src/app/core/services/shopping-cart.service';
 import { SkuService } from 'src/app/core/services/sku.service';
 
 @Component({
@@ -84,7 +85,8 @@ export class ProductComponent implements OnInit {
     private readonly keycloak: KeycloakService,
     private ratingService: RatingService,
     private favoriteService: FavoriteService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private shoppingCartService: ShoppingCartService,
   ) {}
 
   ngOnInit(): void {
@@ -235,6 +237,10 @@ export class ProductComponent implements OnInit {
     }
     this.iconValue = 'pi pi-heart';
     return;
+  }
+
+  addItemToCart() {
+    this.shoppingCartService.addItemToCart(this.SkuData)
   }
 
   clickBuyButton() {

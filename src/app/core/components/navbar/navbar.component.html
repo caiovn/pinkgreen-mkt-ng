@@ -12,19 +12,23 @@
   </div>
 
   <div class="desktop-buttons">
+    <button pButton pRipple type="button" icon="pi pi-shopping-cart"
+      class="p-button-rounded p-button-text p-button-plain" style="color: black;" (click)="toggleShoppingCartModal()"></button>
+
     <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-rounded p-button-text p-button-plain"
       routerLink="/favorites" style="color: black;"></button>
+
     <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-text p-button-plain"
       (click)="menu.toggle($event)" style="color: black;"></button>
-    <p-menu #menu [popup]="true" [model]="items"></p-menu>
   </div>
 
   <div class="mobile-button">
     <p-button (click)="sidebarVisible = true" icon="pi pi-bars"
-    styleClass="p-button-secondary p-button-text"></p-button>
+      styleClass="p-button-secondary p-button-text"></p-button>
   </div>
 </div>
 
+<p-menu #menu [popup]="true" [model]="items"></p-menu>
 
 <p-sidebar [(visible)]="sidebarVisible" [fullScreen]="true">
   <h3>Full Screen Sidebar</h3>

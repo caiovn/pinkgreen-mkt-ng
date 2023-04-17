@@ -24,6 +24,7 @@ import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ChipsModule } from 'primeng/chips';
+import { OverlayModule } from 'primeng/overlay';
 
 @NgModule({
   declarations: [],
@@ -52,6 +53,7 @@ import { ChipsModule } from 'primeng/chips';
     DynamicDialogModule,
     KeyFilterModule,
     ChipsModule,
+    OverlayModule,
   ],
 })
 export class PrimengModule {}

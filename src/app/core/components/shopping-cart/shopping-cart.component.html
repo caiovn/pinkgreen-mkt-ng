@@ -1,0 +1,17 @@
+<div>
+  <div *ngIf="cartList.length <= 0; else cartListWrapper">
+    <span>Sem itens no carrinho ainda.</span>
+  </div>
+  <ng-template #cartListWrapper>
+    <div *ngFor="let cardItem of cartList">
+      <p-card class="other-products">
+        <img [src]="cardItem.mainImageUrl" />
+        <div>
+          <h2>{{ cardItem.name }}</h2>
+          <p>{{ cardItem.price.listPrice | currency }}</p>
+        </div>
+      </p-card>
+    </div>
+  </ng-template>
+
+</div>

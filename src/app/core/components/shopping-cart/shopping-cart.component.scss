@@ -1,0 +1,26 @@
+.other-products {
+  margin: 0 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  gap: 8px;
+
+  img {
+    width: 7.5rem;
+  }
+
+  p {
+    padding: 8px;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 14px;
+    margin: 0 0 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
