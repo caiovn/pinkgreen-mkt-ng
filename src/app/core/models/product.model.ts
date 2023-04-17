@@ -10,6 +10,7 @@ export default interface Product {
   mainImageUrl: string;
   name: string;
   price: number;
+  quantity?: number;
 }
 
 export const PaymentMethods: Record<string, string> = {

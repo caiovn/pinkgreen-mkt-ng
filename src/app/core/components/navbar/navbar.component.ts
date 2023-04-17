@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 import { MenuItem } from 'primeng/api';
+import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +24,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly keycloak: KeycloakService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService,
   ) {}
 
   async ngOnInit() {
@@ -111,6 +114,13 @@ export class NavbarComponent implements OnInit {
         ],
       },
     ];
+  }
+
+  toggleShoppingCartModal() {
+    this.dialogService.open(ShoppingCartComponent, {
+      header: 'Carrinho',
+      width: '40%',
+    });
   }
 
   login() {

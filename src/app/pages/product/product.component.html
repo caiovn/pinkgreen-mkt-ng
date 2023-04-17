@@ -28,6 +28,9 @@
           <button pButton pRipple type="button" [label]="!blockPurchase ? 'Comprar agora' : 'Indisponivel'"
             class="p-button-raised p-button-success product-buy-button" [disabled]="blockPurchase"
             (click)="clickBuyButton()"></button>
+            <button pButton pRipple type="button" icon="pi pi-cart-plus" (click)="addItemToCart()"
+            class="p-button-rounded p-button-secondary p-button-text" [disabled]="blockPurchase"
+            style="color: black;"></button>
           <button pButton pRipple type="button" [icon]="iconValue" (click)="clickFavoriteButton()"
             class="p-button-rounded p-button-secondary p-button-text" [disabled]="blockPurchase"
             style="color: black;"></button>
