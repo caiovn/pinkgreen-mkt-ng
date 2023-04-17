@@ -1,16 +1,34 @@
-<div>
+<div class="cart-dialog-wrapper">
   <div *ngIf="cartList.length <= 0; else cartListWrapper">
     <span>Sem itens no carrinho ainda.</span>
   </div>
   <ng-template #cartListWrapper>
-    <div *ngFor="let cardItem of cartList">
-      <p-card class="other-products">
-        <img [src]="cardItem.mainImageUrl" />
-        <div>
-          <h2>{{ cardItem.name }}</h2>
-          <p>{{ cardItem.price.listPrice | currency }}</p>
+    <div class="cart-list">
+      <p-card class="cart-item" *ngFor="let cartItem of cartList">
+        <img [src]="cartItem.mainImageUrl" />
+        <div class="card-content-wrapper">
+          <div>
+            <h2>{{ cartItem.name }}</h2>
+            <p>{{ cartItem.price.listPrice | currency }}</p>
+          </div>
+          <div class="product-quantity-field">
+            <p-inputNumber [(ngModel)]="cartItem.product.quantity" [showButtons]="true" buttonLayout="horizontal"
+              inputId="horizontal" spinnerMode="horizontal" [step]="1" decrementButtonClass="p-button-danger"
+              incrementButtonClass="p-button-success" [size]="1" incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus" mode="decimal" inputStyleClass="quantity-input"></p-inputNumber>
+
+            <button pButton pRipple type="button" icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-plain" style="color: black;"></button>
+          </div>
         </div>
       </p-card>
+    </div>
+    <div>
+      <span>Total:</span>
+    </div>
+
+    <div class="button-wrapper">
+      <button pButton pRipple label="Comprar agora" class="p-button-success"></button>
     </div>
   </ng-template>
 

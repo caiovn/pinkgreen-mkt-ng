@@ -24,7 +24,15 @@ export class ShoppingCartService {
       sessionStorage.getItem(SHOPPING_CART) || '[]'
     );
 
-    cartItems.push(item);
+    if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
+      cartItems.map((listItem) => {
+        if (listItem.skuCode === item.skuCode) {
+          listItem.product.quantity = (listItem.product.quantity || 0) + 1;
+        }
+      });
+    } else {
+      cartItems.push({ ...item, product: { ...item.product, quantity: 1 } });
+    }
 
     sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
   }

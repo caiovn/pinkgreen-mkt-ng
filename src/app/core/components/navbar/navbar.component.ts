@@ -119,7 +119,7 @@ export class NavbarComponent implements OnInit {
   toggleShoppingCartModal() {
     this.dialogService.open(ShoppingCartComponent, {
       header: 'Carrinho',
-      width: '85%',
+      width: '40%',
     });
   }
 
