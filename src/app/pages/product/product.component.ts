@@ -86,7 +86,7 @@ export class ProductComponent implements OnInit {
     private ratingService: RatingService,
     private favoriteService: FavoriteService,
     private messageService: MessageService,
-    private shoppingCartService: ShoppingCartService,
+    private shoppingCartService: ShoppingCartService
   ) {}
 
   ngOnInit(): void {
@@ -240,12 +240,15 @@ export class ProductComponent implements OnInit {
   }
 
   addItemToCart() {
-    this.shoppingCartService.addItemToCart(this.SkuData)
+    this.shoppingCartService.addItemToCart(this.SkuData);
   }
 
   clickBuyButton() {
     this.router.navigate(['/purchase']);
-    sessionStorage.setItem(SELECTED_SKU_CODE, JSON.stringify(this.SkuData));
+    sessionStorage.setItem(
+      SELECTED_SKU_CODE,
+      JSON.stringify({ ...this.SkuData, quantity: 1 } as Sku)
+    );
   }
 
   openErrorToast(msg: string) {

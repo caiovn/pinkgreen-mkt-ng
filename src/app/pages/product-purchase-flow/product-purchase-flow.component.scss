@@ -9,7 +9,6 @@
   }
 
   p {
-    padding: 8px;
     margin: 0 auto;
     font-size: 14px;
   }
@@ -54,6 +53,7 @@
 
       .p-card-content {
         display: flex;
+        gap: 16px;
         padding: 0 !important;
         align-items: center;
       }

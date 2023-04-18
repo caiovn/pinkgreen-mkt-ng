@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SHOPPING_CART } from '../global';
 import Sku from '../models/sku.model';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +26,7 @@ export class ShoppingCartService {
     if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
       cartItems.map((listItem) => {
         if (listItem.skuCode === item.skuCode) {
-          listItem.product.quantity = quantity;
+          listItem.quantity = quantity;
         }
       });
     }
@@ -43,7 +42,7 @@ export class ShoppingCartService {
     if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
       cartItems.map((listItem) => {
         if (listItem.skuCode === item.skuCode) {
-          listItem.product.quantity = quantity;
+          listItem.quantity = quantity;
         }
       });
     }
@@ -57,8 +56,7 @@ export class ShoppingCartService {
     );
     const index = cartItems.findIndex((_item) => _item.skuCode === skuCode);
 
-    if (index > -1)
-      cartItems.splice(index, 1);
+    if (index > -1) cartItems.splice(index, 1);
 
     sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
   }
@@ -71,11 +69,11 @@ export class ShoppingCartService {
     if (cartItems.find((_item) => _item.skuCode === item.skuCode)) {
       cartItems.map((listItem) => {
         if (listItem.skuCode === item.skuCode) {
-          listItem.product.quantity = (listItem.product.quantity || 0) + 1;
+          listItem.quantity = (listItem.quantity || 0) + 1;
         }
       });
     } else {
-      cartItems.push({ ...item, product: { ...item.product, quantity: 1 } });
+      cartItems.push({ ...item, quantity: 1 });
     }
 
     sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));

@@ -10,6 +10,7 @@
             <div>
               <h2>{{ selectedSku.name }}</h2>
               <p>{{ selectedSku.price.listPrice | currency }}</p>
+              <p>Quantidade: {{ selectedSku.quantity }}</p>
             </div>
           </p-card>
         </div>
@@ -17,8 +18,8 @@
           <app-personal-data *ngSwitchCase="0" (nextStepEvent)="nextStep()"></app-personal-data>
           <app-payment-data *ngSwitchCase="1" (backStepEvent)="backStep()"
             (nextStepEvent)="nextStep()"></app-payment-data>
-          <app-order-summary *ngSwitchCase="2" (backStepEvent)="backStep()"
-            (nextStepEvent)="nextStep()" (setPurchaseSuccessEvent)="setPurchaseSuccess($event)"></app-order-summary>
+          <app-order-summary *ngSwitchCase="2" (backStepEvent)="backStep()" (nextStepEvent)="nextStep()"
+            (setPurchaseSuccessEvent)="setPurchaseSuccess($event)"></app-order-summary>
         </div>
       </div>
     </div>

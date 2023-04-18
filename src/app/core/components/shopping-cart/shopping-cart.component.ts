@@ -8,13 +8,10 @@ import { ShoppingCartService } from '../../services/shopping-cart.service';
   styleUrls: ['./shopping-cart.component.scss'],
 })
 export class ShoppingCartComponent implements OnInit {
-
-  totalPrice: number = 0;
+  totalPrice = 0;
   cartList!: Sku[];
 
-  constructor(
-    private shoppingCartService: ShoppingCartService,
-  ) { }
+  constructor(private shoppingCartService: ShoppingCartService) {}
 
   ngOnInit(): void {
     this.cartList = this.shoppingCartService.getCartItems();
@@ -39,6 +36,9 @@ export class ShoppingCartComponent implements OnInit {
 
   getTotalPrice() {
     this.totalPrice = 0;
-    return this.cartList.map((_item) => this.totalPrice += _item.price.listPrice * (_item.product.quantity || 0));
+    return this.cartList.map(
+      (_item) =>
+        (this.totalPrice += _item.price.listPrice * (_item.quantity || 0))
+    );
   }
 }

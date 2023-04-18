@@ -12,7 +12,7 @@
             <p>{{ cartItem.price.listPrice | currency }}</p>
           </div>
           <div class="product-quantity-field">
-            <p-inputNumber [(ngModel)]="cartItem.product.quantity" [showButtons]="true" buttonLayout="horizontal"
+            <p-inputNumber [(ngModel)]="cartItem.quantity" [showButtons]="true" buttonLayout="horizontal"
               inputId="horizontal" spinnerMode="horizontal" [step]="1" decrementButtonClass="p-button-danger"
               incrementButtonClass="p-button-success" [size]="1" incrementButtonIcon="pi pi-plus" [min]="0"
               decrementButtonIcon="pi pi-minus" mode="decimal" inputStyleClass="quantity-input"

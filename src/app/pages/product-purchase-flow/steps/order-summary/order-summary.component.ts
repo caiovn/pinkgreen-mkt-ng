@@ -68,7 +68,7 @@ export class OrderSummaryComponent implements OnInit {
         {
           price: this.skuData.price,
           skuCode: this.skuData.skuCode,
-          quantity: 1,
+          quantity: this.skuData.quantity,
         },
       ],
       paymentData: {
