@@ -87,7 +87,7 @@ export class ProductComponent implements OnInit {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private shoppingCartService: ShoppingCartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -241,6 +241,7 @@ export class ProductComponent implements OnInit {
 
   addItemToCart() {
     this.shoppingCartService.addItemToCart(this.SkuData);
+    this.openInfoToast('Produto adicionado ao carrinho!');
   }
 
   clickBuyButton() {
@@ -257,6 +258,15 @@ export class ProductComponent implements OnInit {
       summary: 'Erro',
       detail: msg,
       life: 3000,
+    });
+  }
+
+  openInfoToast(msg: string) {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Sucesso',
+      detail: msg,
+      life: 1500,
     });
   }
 }

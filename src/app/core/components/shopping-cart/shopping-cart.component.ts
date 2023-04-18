@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Sku from '../../models/sku.model';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,7 +12,10 @@ export class ShoppingCartComponent implements OnInit {
   totalPrice = 0;
   cartList!: Sku[];
 
-  constructor(private shoppingCartService: ShoppingCartService) {}
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.cartList = this.shoppingCartService.getCartItems();
@@ -31,6 +35,7 @@ export class ShoppingCartComponent implements OnInit {
 
   removeProduct(skuCode: string) {
     this.shoppingCartService.deleteItemBySkuCode(skuCode);
+    this.openInfoToast('Produto Removido!');
     this.ngOnInit();
   }
 
@@ -40,5 +45,14 @@ export class ShoppingCartComponent implements OnInit {
       (_item) =>
         (this.totalPrice += _item.price.listPrice * (_item.quantity || 0))
     );
+  }
+
+  openInfoToast(msg: string) {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Sucesso',
+      detail: msg,
+      life: 1500,
+    });
   }
 }
