@@ -10,6 +10,7 @@ import { PaymentMethods } from 'src/app/core/models/product.model';
 import Sku from 'src/app/core/models/sku.model';
 import { Address } from 'src/app/core/models/user.model';
 import { OrderService } from 'src/app/core/services/order.service';
+import { ShoppingCartService } from 'src/app/core/services/shopping-cart.service';
 
 @Component({
   selector: 'app-order-summary',
@@ -21,9 +22,11 @@ export class OrderSummaryComponent implements OnInit {
   @Output() backStepEvent = new EventEmitter();
   @Output() setPurchaseSuccessEvent = new EventEmitter<boolean>();
 
-  skuData!: Sku;
+  skuListData!: Sku[];
   addressData!: Address;
   paymentData!: any;
+
+  totalPrice = 0;
 
   userName!: string;
   customer: any;
@@ -33,7 +36,8 @@ export class OrderSummaryComponent implements OnInit {
   constructor(
     private keycloak: KeycloakService,
     private orderService: OrderService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private shoppingCartService: ShoppingCartService
   ) {}
 
   ngOnInit() {
@@ -43,12 +47,14 @@ export class OrderSummaryComponent implements OnInit {
       this.addressData = JSON.parse(
         sessionStorage.getItem(PURCHASE_FLOW_PERSONAL_DATA) || '{}'
       );
-      this.skuData = JSON.parse(
-        sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+      this.skuListData = JSON.parse(
+        sessionStorage.getItem(SELECTED_SKU_CODE) || '[]'
       );
       this.paymentData = JSON.parse(
         sessionStorage.getItem(PURCHASE_FLOW_PAYMENT_DATA) || '{}'
       );
+
+      this.getTotalPrice()
     });
   }
 
@@ -64,13 +70,13 @@ export class OrderSummaryComponent implements OnInit {
           phone: this.customer.attributes.phone[0],
         },
       },
-      productList: [
-        {
-          price: this.skuData.price,
-          skuCode: this.skuData.skuCode,
-          quantity: this.skuData.quantity,
-        },
-      ],
+      productList: this.skuListData.map((sku) => {
+        return {
+          price: sku.price,
+          skuCode: sku.skuCode,
+          quantity: sku.quantity,
+        };
+      }),
       paymentData: {
         paymentMethod: this.paymentData.paymentMethod,
         paymentMethodProperties: {
@@ -106,6 +112,7 @@ export class OrderSummaryComponent implements OnInit {
     };
     this.orderService.createOrder(orderPayload).subscribe({
       next: () => {
+        this.shoppingCartService.clearCart();
         this.setPurchaseSuccessEvent.emit(true);
       },
       error: () => {
@@ -128,5 +135,13 @@ export class OrderSummaryComponent implements OnInit {
       .replace(/\D/g, '')
       .replace(/(\d{5})(\d)/, '$1-$2')
       .replace(/(-\d{3})\d+?$/, '$1');
+  }
+
+  getTotalPrice() {
+    this.totalPrice = 0;
+    return this.skuListData.map(
+      (_item) =>
+        (this.totalPrice += _item.price.listPrice * (_item.quantity || 0))
+    );
   }
 }

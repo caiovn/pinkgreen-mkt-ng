@@ -9,11 +9,11 @@ import Sku from 'src/app/core/models/sku.model';
   styleUrls: ['./purchase-finished.component.scss'],
 })
 export class PurchaseFinishedComponent {
-  selectedSku: Sku;
+  selectedSkus: Sku[];
 
   constructor(private router: Router) {
-    this.selectedSku = JSON.parse(
-      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+    this.selectedSkus = JSON.parse(
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '[]'
     );
   }
 

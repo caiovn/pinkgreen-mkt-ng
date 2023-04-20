@@ -14,7 +14,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 import { SkuService } from 'src/app/core/services/sku.service';
 import { CreateEditSkuComponent } from './components/create-edit-sku/create-edit-sku.component';
 
-interface SkuTable {
+export interface SkuTable {
   action: 'create' | 'edit' | 'delete';
   skuData: Sku;
 }
@@ -123,7 +123,7 @@ export class CreateEditProductComponent implements OnInit {
 
   openSkuDialog(sku?: SkuTable, index?: number) {
     this.ref = this.dialogService.open(CreateEditSkuComponent, {
-      data: sku ? sku : { isEdition: false, skuData: null },
+      data: sku ? sku : { action: 'create', skuData: {} } as SkuTable,
       header: sku?.action === 'edit' ? 'Editar SKU' : 'Criar SKU',
       width: '85%',
     });

@@ -1,45 +1,44 @@
 .product-wrapper {
-	display: flex;
-	gap: 16px;
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
 
-	p-card {
-		display: block;
-		width: 250px;
-		height: 300px;
+  p-card {
+    display: block;
+    width: 250px;
+    height: 300px;
 
-		.image-wrapper {
-			display: flex;
-			justify-content: center;
-			height: 150px;
+    .image-wrapper {
+      height: 150px;
 
-			background-size: cover;
-			background-position: center;
-		}
+      background-size: cover;
+      background-position: center;
+    }
 
-		.product-details {
-			display: flex;
-			flex-direction: column;
-			gap: 8px;
-		}
-	}
+    .product-details {
+      height: 70px;
+    }
+  }
 }
 
 ::ng-deep {
-	p-card {
-		.p-card {
-			height: 100%;
+  .order-card {
+    .p-card {
+      height: 100%;
 
-			&-body {
-				height: 100%;
-			}
+      &-body {
+        height: 100%;
+      }
 
-			&-content {
-				padding: 0 !important;
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-			}
-		}
-	}
+      &-content {
+        padding: 0 !important;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    }
+  }
+
 }

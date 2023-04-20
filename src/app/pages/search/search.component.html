@@ -1,9 +1,9 @@
 <div>
   <h1>Resultados para {{ searchTerm }}.</h1>
   <div class="product-wrapper">
-    <span *ngIf="productList?.length == 0">Nenhum produto encontrado com essa pesquisa :(</span>
+    <span *ngIf="productList?.length === 0">Nenhum produto encontrado com essa pesquisa :(</span>
     <a *ngFor="let product of productList" [routerLink]="['/', 'product', product.id]">
-      <p-card>
+      <p-card class="search-card">
         <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(product.mainImageUrl) }"></div>
         <div class="product-details">
           <span>{{ product.name }}</span>

@@ -3,17 +3,19 @@
   <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
+        <th style="width:10%">Id do pedido</th>
         <th style="width:25%">Nome do produto</th>
         <th style="width:10%">Preço</th>
         <th style="width:15%">Nome do cliente</th>
         <th style="width:10%">Data de criação</th>
         <th style="width:10%">Última atualização</th>
         <th style="width:15%">Status</th>
-        <th style="width:15%"></th>
+        <th style="width:5%"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-order>
       <tr>
+        <td>{{ order.id }}</td>
         <td>{{ order.productList[0].name }}</td>
         <td>{{ order.productList[0].price | currency }}</td>
         <td>{{ order.customerData.name }} {{ order.customerData.lastname }}</td>

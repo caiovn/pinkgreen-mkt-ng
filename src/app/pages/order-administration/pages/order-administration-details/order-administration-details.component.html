@@ -71,7 +71,7 @@
     <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
   </div>
 
-  <div *ngIf="actualOrderStatus !== 'ORDER_SHIPPED'">
+  <div *ngIf="actualOrderStatus !== 'ORDER_SHIPPED' && actualOrderStatus !== 'ORDER_CANCELED'">
     <p-button [label]="'Mudar para status &quot;' + ORDER_STATUS_TEXT[nextOrderStatus] + '&quot;'"
       (click)="changeOrderStatus()"></p-button>
   </div>

@@ -4,16 +4,19 @@
     <div class="steps-wrapper">
       <div class="step-content">
         <h1>Compra.</h1>
-        <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
-          <p-card class="selected-sku">
-            <img [src]="selectedSku.mainImageUrl" />
-            <div>
-              <h2>{{ selectedSku.name }}</h2>
-              <p>{{ selectedSku.price.listPrice | currency }}</p>
-              <p>Quantidade: {{ selectedSku.quantity }}</p>
-            </div>
-          </p-card>
-        </div>
+        <ng-container *ngFor="let sku of selectedSkus">
+          <div [routerLink]="['/', 'product', sku.product.id]" [queryParams]="{ skuCode: sku.skuCode }">
+            <p-card class="selected-sku">
+              <img [src]="sku.mainImageUrl" />
+              <div>
+                <h2>{{ sku.name }}</h2>
+                <p>{{ sku.price.listPrice | currency }}</p>
+                <p>Quantidade: {{ sku.quantity }}</p>
+              </div>
+            </p-card>
+          </div>
+
+        </ng-container>
         <div [ngSwitch]="step">
           <app-personal-data *ngSwitchCase="0" (nextStepEvent)="nextStep()"></app-personal-data>
           <app-payment-data *ngSwitchCase="1" (backStepEvent)="backStep()"

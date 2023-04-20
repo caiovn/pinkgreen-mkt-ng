@@ -78,4 +78,8 @@ export class ShoppingCartService {
 
     sessionStorage.setItem(SHOPPING_CART, JSON.stringify(cartItems));
   }
+
+  clearCart() {
+    sessionStorage.setItem(SHOPPING_CART, '[]')
+  }
 }

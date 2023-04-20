@@ -1,16 +1,56 @@
 <div>
   <h1>Pedidos</h1>
   <div class="product-wrapper">
-    <span *ngIf="orders?.length == 0">Poxa, você ainda não realizou nenhum pedido :(</span>
-    <a *ngFor="let order of orders" [routerLink]="['/', 'order', order.id]">
-      <p-card>
-        <div class="image-wrapper" [ngStyle]="{
-            'background-image': getImageUrl(order.productList[0].mainImageUrl)
+    <span *ngIf="orders?.length === 0">Poxa, você ainda não realizou nenhum pedido :(</span>
+
+    <ng-container *ngFor="let order of orders">
+      <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+        <p-card class="order-card">
+          <div class="image-wrapper" [ngStyle]="{
+              'background-image': getImageUrl(orderProduct.mainImageUrl)
+            }"></div>
+          <div class="product-details">
+            <span>{{ orderProduct.name }}</span>
+          </div>
+        </p-card>
+      </a>
+    </ng-container>
+  </div>
+
+  <div *ngIf="finishedOrders.length > 0">
+    <h2>Pedidos finalizados</h2>
+    <div class="product-wrapper">
+      <ng-container *ngFor="let order of finishedOrders">
+        <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+          <p-card class="order-card">
+            <div class="image-wrapper" [ngStyle]="{
+            'background-image': getImageUrl(orderProduct.mainImageUrl)
           }"></div>
-        <div class="product-details">
-          <span>{{ order.productList[0].name }}</span>
-        </div>
-      </p-card>
-    </a>
+            <div class="product-details">
+              <span>{{ orderProduct.name }}</span>
+            </div>
+          </p-card>
+        </a>
+      </ng-container>
+    </div>
+
+  </div>
+
+  <div *ngIf="cancelledOrders.length > 0">
+    <h2>Pedidos cancelados</h2>
+    <div class="product-wrapper">
+      <ng-container *ngFor="let order of cancelledOrders">
+        <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+          <p-card class="order-card">
+            <div class="image-wrapper" [ngStyle]="{
+            'background-image': getImageUrl(orderProduct.mainImageUrl)
+          }"></div>
+            <div class="product-details">
+              <span>{{ orderProduct.name }}</span>
+            </div>
+          </p-card>
+        </a>
+      </ng-container>
+    </div>
   </div>
 </div>

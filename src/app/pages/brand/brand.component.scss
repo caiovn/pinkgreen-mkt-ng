@@ -25,20 +25,22 @@
 }
 
 ::ng-deep {
-  p-card {
-    .p-card {
-      height: 100%;
-
-      &-body {
+  .brand-card {
+    p-card {
+      .p-card {
         height: 100%;
-      }
 
-      &-content {
-        padding: 0 !important;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        &-body {
+          height: 100%;
+        }
+
+        &-content {
+          padding: 0 !important;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
       }
     }
   }

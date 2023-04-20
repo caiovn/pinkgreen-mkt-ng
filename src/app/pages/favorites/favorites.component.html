@@ -3,7 +3,7 @@
   <div class="product-wrapper">
     <span *ngIf="favoriteProductList?.length === 0">Você ainda não favoritou nenhum produto :(</span>
     <a *ngFor="let sku of favoriteProductList" [routerLink]="['/', 'product', sku.product.id]" [queryParams]="{ skuCode: sku.skuCode }">
-      <p-card>
+      <p-card class="favorite-card">
         <div class="image-wrapper" [ngStyle]="{
             'background-image': getImageUrl(sku.product.mainImageUrl)
           }"></div>

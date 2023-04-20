@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import Sku from '../../models/sku.model';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { MessageService } from 'primeng/api';
+import { SELECTED_SKU_CODE } from '../../global';
+import { Router } from '@angular/router';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -14,8 +17,10 @@ export class ShoppingCartComponent implements OnInit {
 
   constructor(
     private shoppingCartService: ShoppingCartService,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private ref: DynamicDialogRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.cartList = this.shoppingCartService.getCartItems();
@@ -54,5 +59,11 @@ export class ShoppingCartComponent implements OnInit {
       detail: msg,
       life: 1500,
     });
+  }
+
+  clickBuyButton() {
+    sessionStorage.setItem(SELECTED_SKU_CODE, JSON.stringify(this.cartList));
+    this.ref.close();
+    this.router.navigate(['/purchase']);
   }
 }

@@ -8,7 +8,15 @@ interface OrderProductList extends Omit<Sku, 'price'> {
 
 export default interface Order {
   id: string;
-  status: OrderStatus;
+  status:
+    | 'ORDER_CANCELED'
+    | 'ORDER_SHIPPED'
+    | 'ORDER_EN_ROUTE'
+    | 'ORDER_IN_SEPARATION'
+    | 'ORDER_STOCK_FAILED'
+    | 'ORDER_STOCK_RESERVED'
+    | 'PAYMENT_CONFIRMED'
+    | 'ORDER_CREATED';
   customerData: CustomerData;
   shippingData: ShippingData;
   productList: Array<OrderProductList>;
@@ -43,4 +51,4 @@ export const ORDER_STATUS_TEXT: Record<string, string> = {
   ORDER_STOCK_RESERVED: 'Estoque reservado',
   PAYMENT_CONFIRMED: 'Pagamento confirmado',
   ORDER_CREATED: 'Pedido criado ',
-}
+};

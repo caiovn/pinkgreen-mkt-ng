@@ -11,7 +11,12 @@
     <div class="total-price">
       <div>
         <h3>Sub-total</h3>
-        <span>{{ skuData.price.listPrice | currency}}</span>
+      </div>
+      <div class="products-price">
+        <div *ngFor="let skuData of skuListData">
+          <span>{{ skuData.name }}</span>
+          <span>{{ skuData.price.listPrice * (skuData.quantity || 1) | currency}}</span>
+        </div>
       </div>
       <div>
         <h3>Frete:</h3>
@@ -19,7 +24,7 @@
       </div>
       <div>
         <h2> Total</h2>
-        <span>{{skuData.price.listPrice + 0 | currency}}</span>
+        <span>{{totalPrice + 0 | currency}}</span>
       </div>
     </div>
   </div>

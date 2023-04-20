@@ -6,6 +6,7 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import Sku, { SkuAttributes } from 'src/app/core/models/sku.model';
+import { SkuTable } from '../../create-edit-product.component';
 
 @Component({
   selector: 'app-create-edit-sku',
@@ -38,10 +39,11 @@ export class CreateEditSkuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('dentro', this.config.data);
+    const overlayData: SkuTable = this.config.data
 
-    this.isEdition = this.config.data.isEdition;
-    this.initialSkuData = this.config.data?.skuData;
+    this.isEdition = overlayData.action === 'create' ? false : true;
+
+    this.initialSkuData = overlayData.skuData;
 
     this.skuAttributes = this.initialSkuData?.skuAttributes || [];
 

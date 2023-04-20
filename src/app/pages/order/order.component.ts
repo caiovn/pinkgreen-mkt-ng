@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import OrderStatus from 'src/app/core/enums/order-status.enum';
 import Order from 'src/app/core/models/order.model';
 import { OrderService } from 'src/app/core/services/order.service';
 
@@ -10,6 +11,11 @@ import { OrderService } from 'src/app/core/services/order.service';
 })
 export class OrderComponent {
   orders!: Order[];
+
+  cancelledOrders!: Order[];
+
+  finishedOrders!: Order[];
+
   customerId!: string;
 
   constructor(
@@ -29,7 +35,15 @@ export class OrderComponent {
   loadData() {
     this.orderService.getAllUserOrders(this.customerId).subscribe({
       next: (res) => {
-        this.orders = res;
+        this.orders = res.filter(
+          (order) =>
+            order.status !== 'ORDER_CANCELED' &&
+            order.status !== 'ORDER_SHIPPED'
+        );
+
+        this.cancelledOrders = res.filter(order => order.status === 'ORDER_CANCELED');
+
+        this.finishedOrders = res.filter(order => order.status === 'ORDER_SHIPPED')
       },
     });
   }

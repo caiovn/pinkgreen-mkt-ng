@@ -19,20 +19,20 @@ import Sku from 'src/app/core/models/sku.model';
 })
 export class ProductPurchaseFlowComponent implements OnInit, OnDestroy {
   step: number;
-  selectedSku: Sku;
+  selectedSkus: Sku[];
   items!: MenuItem[];
   purchaseSuccess!: boolean;
 
   constructor(private router: Router) {
     this.step = Number(sessionStorage.getItem(ACTUAL_STEP_PURCHASE_FLOW)) || 0;
-    this.selectedSku = JSON.parse(
-      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+    this.selectedSkus = JSON.parse(
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '[]'
     );
 
     this.purchaseSuccess =
       sessionStorage.getItem(PURCHASE_FINISHED)?.toLowerCase() === 'true';
 
-    if (!this.selectedSku) router.navigate(['/']);
+    if (!this.selectedSkus) router.navigate(['/']);
   }
 
   ngOnInit() {

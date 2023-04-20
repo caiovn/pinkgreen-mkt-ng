@@ -6,15 +6,17 @@
   </div>
 
   <div>
-    <div [routerLink]="['/', 'product', selectedSku.product.id]" [queryParams]="{ skuCode: selectedSku.skuCode }">
-      <p-card class="selected-sku">
-        <img [src]="selectedSku.mainImageUrl" />
-        <div>
-          <h2>{{ selectedSku.name }}</h2>
-          <p>{{ selectedSku.price.listPrice | currency }}</p>
-        </div>
-      </p-card>
-    </div>
+    <ng-container *ngFor="let sku of selectedSkus">
+      <div [routerLink]="['/', 'product', sku.product.id]" [queryParams]="{ skuCode: sku.skuCode }">
+        <p-card class="selected-sku">
+          <img [src]="sku.mainImageUrl" />
+          <div>
+            <h2>{{ sku.name }}</h2>
+            <p>{{ sku.price.listPrice | currency }}</p>
+          </div>
+        </p-card>
+      </div>
+    </ng-container>
   </div>
 
   <div class="action-buttons">
