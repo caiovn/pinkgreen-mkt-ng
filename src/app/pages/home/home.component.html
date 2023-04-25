@@ -5,7 +5,7 @@
 
   <div *ngIf="!loading">
     <div>
-      <h1>Categorias.</h1>
+      <h2>Categorias.</h2>
       <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
         <div ngxSlickItem *ngFor="let category of categoryList" class="card-container">
           <p-card class="p-card-category">
@@ -18,7 +18,7 @@
       </ngx-slick-carousel>
     </div>
     <div>
-      <h1>Marcas.</h1>
+      <h2>Marcas.</h2>
       <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
         <div ngxSlickItem *ngFor="let brand of brandList" class="card-container">
           <p-card class="p-card-category">
@@ -29,6 +29,20 @@
           </p-card>
         </div>
       </ngx-slick-carousel>
+    </div>
+    <div>
+      <h2>Produtos.</h2>
+      <div class="all-products-wrapper">
+        <a *ngFor="let product of productsList" [routerLink]="['/', 'product', product.id]" class="all-products-link">
+          <p-card class="all-products-item">
+            <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(product.mainImageUrl) }"></div>
+            <div class="product-details">
+              <span>{{ product.name }}</span>
+              <strong>{{ product.price | currency }}</strong>
+            </div>
+          </p-card>
+        </a>
+      </div>
     </div>
   </div>
 </div>

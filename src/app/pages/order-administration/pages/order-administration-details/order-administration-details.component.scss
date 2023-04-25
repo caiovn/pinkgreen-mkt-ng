@@ -1,3 +1,10 @@
+.orders-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .order-wrapper {
   display: flex;
   flex-direction: column;
@@ -40,7 +47,6 @@
   }
 
   p {
-    padding: 8px;
     margin: 0 auto;
     font-size: 14px;
   }
@@ -65,11 +71,15 @@
 
 ::ng-deep {
   .order-product {
-    .p-card-content {
-      display: flex;
-      padding: 0 !important;
-      align-items: center;
-      gap: 16px;
+    .p-card-body {
+      width: 442px;
+
+      .p-card-content {
+        display: flex;
+        gap: 16px;
+        padding: 0 !important;
+        align-items: center;
+      }
     }
   }
 

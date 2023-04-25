@@ -2,7 +2,7 @@ import OrderStatus from '../enums/order-status.enum';
 import Sku from './sku.model';
 import { Address, CustomerData, ShippingData } from './user.model';
 
-interface OrderProductList extends Omit<Sku, 'price'> {
+export interface OrderProductList extends Omit<Sku, 'price'> {
   price: number;
 }
 

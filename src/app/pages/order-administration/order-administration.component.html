@@ -16,8 +16,10 @@
     <ng-template pTemplate="body" let-order>
       <tr>
         <td>{{ order.id }}</td>
-        <td>{{ order.productList[0].name }}</td>
-        <td>{{ order.productList[0].price | currency }}</td>
+        <td>
+          {{ getOrderProductsName(order.productList) | truncate:70 }}
+        </td>
+        <td>{{ getOrderPrice(order.productList) | currency }}</td>
         <td>{{ order.customerData.name }} {{ order.customerData.lastname }}</td>
         <td>{{ order.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
         <td>{{ order.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>

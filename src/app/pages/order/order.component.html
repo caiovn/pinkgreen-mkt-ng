@@ -4,7 +4,8 @@
     <span *ngIf="orders?.length === 0">Poxa, você ainda não realizou nenhum pedido :(</span>
 
     <ng-container *ngFor="let order of orders">
-      <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+      <a *ngFor="let orderProduct of order.productList; let i = index" [routerLink]="['/', 'order', order.id]"
+        [queryParams]="{productIndex: i}">
         <p-card class="order-card">
           <div class="image-wrapper" [ngStyle]="{
               'background-image': getImageUrl(orderProduct.mainImageUrl)

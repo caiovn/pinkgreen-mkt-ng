@@ -21,6 +21,7 @@ export class OrderDetailsComponent implements OnInit {
   loading = true;
 
   orderId!: string;
+  productIndex!: number;
   order!: Order;
 
   orderHistory: MenuItem[] = [];
@@ -58,6 +59,12 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.orderId = params['id'];
+    });
+
+    this.route.queryParams.subscribe((params) => {
+      this.productIndex = parseInt(params['productIndex']) || 0;
+      this.loading = true;
+      this.loadData();
     });
     this.loadData();
   }

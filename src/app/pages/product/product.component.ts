@@ -245,10 +245,12 @@ export class ProductComponent implements OnInit {
   }
 
   clickBuyButton() {
+    console.log('aqqqqqq', { ...this.SkuData, quantity: 1 });
+    
     this.router.navigate(['/purchase']);
     sessionStorage.setItem(
       SELECTED_SKU_CODE,
-      JSON.stringify({ ...this.SkuData, quantity: 1 } as Sku)
+      JSON.stringify([{ ...this.SkuData, quantity: 1 }] as Sku[])
     );
   }
 

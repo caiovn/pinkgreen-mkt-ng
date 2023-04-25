@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import Order, { ORDER_STATUS_TEXT } from 'src/app/core/models/order.model';
+import Order, {
+  ORDER_STATUS_TEXT,
+  OrderProductList,
+} from 'src/app/core/models/order.model';
 import { OrderService } from 'src/app/core/services/order.service';
 
 @Component({
@@ -9,24 +12,42 @@ import { OrderService } from 'src/app/core/services/order.service';
   styleUrls: ['./order-administration.component.scss'],
 })
 export class OrderAdministrationComponent implements OnInit {
-  orders!: Order[]
+  orders!: Order[];
 
   constructor(private orderService: OrderService, private router: Router) {}
 
-  ORDER_STATUS_TEXT =  ORDER_STATUS_TEXT
+  ORDER_STATUS_TEXT = ORDER_STATUS_TEXT;
 
   ngOnInit(): void {
     this.orderService.getAllOrdersAsAdmin().subscribe({
       next: (res) => {
-        this.orders = res
+        this.orders = res;
       },
       error: () => {
-        this.router.navigate(['/'])
-      }
+        this.router.navigate(['/']);
+      },
     });
   }
 
+  getOrderProductsName(orderProducts: OrderProductList[]) {
+    let productName;
+
+    productName = orderProducts.map((product) => product.name).join(' + ');
+    console.log(productName);
+    return productName;
+  }
+
+  getOrderPrice(orderProducts: OrderProductList[]) {
+    console.log(orderProducts);
+    let totalPrice = 0;
+    orderProducts.map(
+      (product) => (totalPrice += product.price * (product?.quantity || 1))
+    );
+
+    return totalPrice;
+  }
+
   selectOrder(order: Order) {
-    this.router.navigate(['/order-administration/', order.id])
+    this.router.navigate(['/order-administration/', order.id]);
   }
 }

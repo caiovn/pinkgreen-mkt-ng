@@ -5,14 +5,14 @@
   </div>
 
   <div>
-    <div [routerLink]="['/', 'product', order.productList[0].product.id]"
-      [queryParams]="{ skuCode: order.productList[0].skuCode }">
+    <div [routerLink]="['/', 'product', order.productList[productIndex].product.id]"
+      [queryParams]="{ skuCode: order.productList[productIndex].skuCode }">
       <p-card class="order-product">
-        <img [src]="order.productList[0].mainImageUrl" />
+        <img [src]="order.productList[productIndex].mainImageUrl" />
         <div>
-          <h2>{{ order.productList[0].name }}</h2>
-          <p>{{ order.productList[0].price | currency }}</p>
-          <p>Quantidade: {{order.productList[0].quantity}}</p>
+          <h2>{{ order.productList[productIndex].name }}</h2>
+          <p>{{ order.productList[productIndex].price | currency }}</p>
+          <p>Quantidade: {{order.productList[productIndex].quantity}}</p>
         </div>
       </p-card>
     </div>

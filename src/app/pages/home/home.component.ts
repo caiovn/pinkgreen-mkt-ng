@@ -4,8 +4,10 @@ import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
 import Category from 'src/app/core/models/category.model';
+import Product from 'src/app/core/models/product.model';
 import { BrandService } from 'src/app/core/services/brand.service';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,7 @@ export class HomeComponent implements OnInit {
   loading = true;
   categoryList!: Category[];
   brandList!: Brand[];
+  productsList!: Product[];
 
   slideConfig = {
     dots: false,
@@ -36,6 +39,7 @@ export class HomeComponent implements OnInit {
     private readonly categoryService: CategoryService,
     private readonly brandService: BrandService,
     private messageService: MessageService,
+    private productService: ProductService,
   ) {}
 
   ngOnInit() {
@@ -45,11 +49,13 @@ export class HomeComponent implements OnInit {
   loadData() {
     const brand$ = this.brandService.getBrands();
     const category$ = this.categoryService.getcategories();
+    const product$ = this.productService.getProducts();
 
-    forkJoin([category$, brand$]).subscribe({
+    forkJoin([category$, brand$, product$]).subscribe({
       next: (results) => {
         this.categoryList = results[0];
         this.brandList = results[1];
+        this.productsList = results[2];
         this.loading = false;
       },
       error: () => {

@@ -6,14 +6,15 @@
         <h2>Número do pedido: {{order.id}}</h2>
       </div>
 
-      <div>
-        <div [routerLink]="['/', 'product', order.productList[0].product.id]"
-          [queryParams]="{ skuCode: order.productList[0].skuCode }">
+      <div class="orders-wrapper">
+        <div *ngFor="let sku of order.productList" [routerLink]="['/', 'product', sku.product.id]"
+          [queryParams]="{ skuCode: sku.skuCode }">
           <p-card class="order-product">
-            <img [src]="order.productList[0].mainImageUrl" />
+            <img [src]="sku.mainImageUrl" />
             <div>
-              <h2>{{ order.productList[0].name }}</h2>
-              <p>{{ order.productList[0].price | currency }}</p>
+              <h2>{{ sku.name | truncate: 70 }}</h2>
+              <p>{{ sku.price | currency }}</p>
+              <p>Quantidade: {{ sku.quantity }}</p>
             </div>
           </p-card>
         </div>
@@ -71,7 +72,9 @@
     <p-steps [model]="orderHistory" [activeIndex]="activeHistoryOrder" [readonly]="true"></p-steps>
   </div>
 
-  <div *ngIf="actualOrderStatus !== 'ORDER_SHIPPED' && actualOrderStatus !== 'ORDER_CANCELED'">
+  <div *ngIf="actualOrderStatus !== 'ORDER_SHIPPED' && actualOrderStatus !== 'ORDER_CANCELED'" class="button-wrapper">
+    <p-button label="Mudar para status &quot;cancelado&quot;" styleClass="p-button-danger"
+      (click)="orderStatusCancelled()"></p-button>
     <p-button [label]="'Mudar para status &quot;' + ORDER_STATUS_TEXT[nextOrderStatus] + '&quot;'"
       (click)="changeOrderStatus()"></p-button>
   </div>

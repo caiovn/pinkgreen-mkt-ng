@@ -105,6 +105,26 @@ export class OrderAdministrationDetailsComponent implements OnInit {
     return [];
   }
 
+  orderStatusCancelled() {
+    this.loading = true;
+    this.orderService
+      .updateOrderStatus(this.orderId, 'ORDER_CANCELED')
+      .subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: () => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao atualizar status do pedido.',
+            life: 3000,
+          });
+        },
+      });
+  }
+
   changeOrderStatus() {
     this.loading = true;
     this.orderService

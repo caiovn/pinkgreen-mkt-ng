@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppAuthGuard } from './guards/app.authguard';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
-  declarations: [NavbarComponent, LoadingComponent, ShoppingCartComponent],
+  declarations: [NavbarComponent, LoadingComponent, ShoppingCartComponent, TruncatePipe],
   exports: [
     NavbarComponent,
     LoadingComponent,
@@ -16,6 +17,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
     PrimengModule,
     FormsModule,
     ReactiveFormsModule,
+    TruncatePipe
   ],
   imports: [CommonModule, PrimengModule, FormsModule, ReactiveFormsModule],
   providers: [AppAuthGuard],
