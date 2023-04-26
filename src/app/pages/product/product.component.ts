@@ -245,7 +245,6 @@ export class ProductComponent implements OnInit {
   }
 
   clickBuyButton() {
-    console.log('aqqqqqq', { ...this.SkuData, quantity: 1 });
     
     this.router.navigate(['/purchase']);
     sessionStorage.setItem(

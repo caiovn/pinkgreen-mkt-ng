@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
 import Category from 'src/app/core/models/category.model';
 import Product from 'src/app/core/models/product.model';
+import Sku from 'src/app/core/models/sku.model';
 import { BrandService } from 'src/app/core/services/brand.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { SkuService } from 'src/app/core/services/sku.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit {
   categoryList!: Category[];
   brandList!: Brand[];
   productsList!: Product[];
+  skuListMostSelled!: Sku[];
 
   slideConfig = {
     dots: false,
@@ -40,7 +42,8 @@ export class HomeComponent implements OnInit {
     private readonly brandService: BrandService,
     private messageService: MessageService,
     private productService: ProductService,
-  ) {}
+    private skuService: SkuService,
+  ) { }
 
   ngOnInit() {
     this.loadData();
@@ -50,12 +53,14 @@ export class HomeComponent implements OnInit {
     const brand$ = this.brandService.getBrands();
     const category$ = this.categoryService.getcategories();
     const product$ = this.productService.getProducts();
+    const skuMostSelled$ = this.skuService.getProductsMostSelled();
 
-    forkJoin([category$, brand$, product$]).subscribe({
+    forkJoin([category$, brand$, product$, skuMostSelled$]).subscribe({
       next: (results) => {
         this.categoryList = results[0];
         this.brandList = results[1];
         this.productsList = results[2];
+        this.skuListMostSelled = results[3];
         this.loading = false;
       },
       error: () => {

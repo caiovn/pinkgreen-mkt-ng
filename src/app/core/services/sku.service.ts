@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
 import Sku from '../models/sku.model';
+import Product from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,10 @@ export class SkuService {
 
   getSku(skuCode: string): Observable<Sku> {
     return this.http.get<Sku>(`${this.url}/sku/${skuCode}`);
+  }
+
+  getProductsMostSelled(): Observable<Sku[]> {
+    return this.http.get<Sku[]>(`${this.url}/sku/most-selled`);
   }
 
   getSkusAsAdmin(id: string): Observable<Sku[]> {

@@ -90,7 +90,6 @@ export class CreateEditSkuComponent implements OnInit {
   }
 
   submitSku() {
-    console.log(this.form.getRawValue());
 
     this.ref.close({
       isEdition: this.isEdition,

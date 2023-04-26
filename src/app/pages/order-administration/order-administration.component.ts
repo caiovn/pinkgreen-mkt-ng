@@ -33,12 +33,10 @@ export class OrderAdministrationComponent implements OnInit {
     let productName;
 
     productName = orderProducts.map((product) => product.name).join(' + ');
-    console.log(productName);
     return productName;
   }
 
   getOrderPrice(orderProducts: OrderProductList[]) {
-    console.log(orderProducts);
     let totalPrice = 0;
     orderProducts.map(
       (product) => (totalPrice += product.price * (product?.quantity || 1))

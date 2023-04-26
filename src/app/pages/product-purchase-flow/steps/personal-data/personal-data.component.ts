@@ -49,6 +49,11 @@ export class PersonalDataComponent implements OnInit {
           this.statesList = res;
           this.createForm();
         },
+        error: (res) => {
+          console.log('erro ao obter estados do Brasil');
+          this.statesList = [{ name: 'São Paulo', code: '35' }];
+          this.createForm();
+        }
       });
   }
 
