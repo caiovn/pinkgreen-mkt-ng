@@ -30,21 +30,23 @@
         </div>
       </ngx-slick-carousel>
     </div>
-    <h2>Mais Vendidos.</h2>
-    <span *ngIf="skuListMostSelled?.length === 0">Nenhum produto vendido :(</span>
-    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-      <div ngxSlickItem *ngFor="let sku of skuListMostSelled" class="card-container">
-        <a [routerLink]="['/', 'product', sku.product.id]" class="all-products-link">
-          <p-card class="all-products-item">
-            <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(sku.mainImageUrl) }"></div>
-            <div class="product-details">
-              <span>{{ sku.name }}</span>
-              <strong>{{ sku.product.price | currency }}</strong>
-            </div>
-          </p-card>
-        </a>
-      </div>
-    </ngx-slick-carousel>
+    <div *ngIf="skuListMostSelled?.length != 0">
+      <h2>Mais Vendidos.</h2>
+      <span *ngIf="skuListMostSelled?.length === 0">Nenhum produto vendido :(</span>
+      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let sku of skuListMostSelled" class="card-container">
+          <a [routerLink]="['/', 'product', sku.product.id]" class="all-products-link">
+            <p-card class="all-products-item">
+              <div class="image-wrapper" [ngStyle]="{ 'background-image': getImageUrl(sku.mainImageUrl) }"></div>
+              <div class="product-details">
+                <span>{{ sku.name }}</span>
+                <strong>{{ sku.product.price | currency }}</strong>
+              </div>
+            </p-card>
+          </a>
+        </div>
+      </ngx-slick-carousel>
+    </div>
     <div>
       <h2>Produtos.</h2>
       <div class="all-products-wrapper">
