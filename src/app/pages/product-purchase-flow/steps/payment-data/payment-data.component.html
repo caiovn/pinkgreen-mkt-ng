@@ -91,7 +91,8 @@
 
               <div class="p-field">
                 <label for="name">Numero</label>
-                <input id="number" type="text" formControlName="number" pInputText maxlength="10" />
+                <p-inputNumber formControlName="number" mode="decimal" inputId="number" [useGrouping]="false" [min]="1"
+                  [maxlength]="5"> </p-inputNumber>
               </div>
             </div>
 

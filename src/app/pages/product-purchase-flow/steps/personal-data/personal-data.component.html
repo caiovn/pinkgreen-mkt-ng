@@ -42,7 +42,8 @@
           </div>
           <div class="p-field">
             <label for="name">Numero</label>
-            <input id="name" type="text" formControlName="number" pInputText maxlength="10" />
+            <p-inputNumber formControlName="number" mode="decimal" inputId="number" [useGrouping]="false" [min]="1"
+              [maxlength]="5"> </p-inputNumber>
           </div>
         </div>
         <div class="p-field">
@@ -61,14 +62,16 @@
           </div>
           <div class="p-field">
             <label for="name">Estado</label>
-            <p-dropdown formControlName="state" [options]="statesList" optionLabel="name" optionValue="code" class="states-dropdown"></p-dropdown>
+            <p-dropdown formControlName="state" [options]="statesList" optionLabel="name" optionValue="code"
+              class="states-dropdown"></p-dropdown>
           </div>
         </div>
       </div>
     </div>
 
     <div class="button-wrapper">
-      <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text" (click)="backProductPage()"></button>
+      <button pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-text"
+        (click)="backProductPage()"></button>
       <button pButton pRipple type="submit" label="Avançar" class="p-button-raised" [disabled]="!form.valid"></button>
     </div>
   </form>
