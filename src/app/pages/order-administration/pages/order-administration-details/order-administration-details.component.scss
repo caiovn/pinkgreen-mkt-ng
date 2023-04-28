@@ -42,8 +42,12 @@
   flex-direction: row;
   align-items: center;
 
-  img {
+  .card-image {
+    height: 7.5rem;
     width: 7.5rem;
+    img {
+      width: 100%;
+    }
   }
 
   p {

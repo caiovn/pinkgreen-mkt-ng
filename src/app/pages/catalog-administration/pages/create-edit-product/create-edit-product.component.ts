@@ -123,7 +123,7 @@ export class CreateEditProductComponent implements OnInit {
 
   openSkuDialog(sku?: SkuTable, index?: number) {
     this.ref = this.dialogService.open(CreateEditSkuComponent, {
-      data: sku ? sku : { action: 'create', skuData: {} } as SkuTable,
+      data: sku ? sku : ({ action: 'create', skuData: {} } as SkuTable),
       header: sku?.action === 'edit' ? 'Editar SKU' : 'Criar SKU',
       width: '85%',
     });
@@ -131,12 +131,19 @@ export class CreateEditProductComponent implements OnInit {
     this.ref.onClose.subscribe((res) => {
       if (res) {
         console.log(res);
-        if (res.isEdition && index != undefined) {
+
+        if (res.action === 'edit' && index != undefined) {
           this.skus[index] = res;
+          this.skus.sort(
+            (a, b) => a.skuData.price.listPrice - b.skuData.price.listPrice
+          );
           return;
         }
 
         this.skus.push(res);
+        this.skus.sort(
+          (a, b) => a.skuData.price.listPrice - b.skuData.price.listPrice
+        );
       }
     });
   }
@@ -222,9 +229,10 @@ export class CreateEditProductComponent implements OnInit {
     if (this.skus.length > 0) {
       const skus$: Observable<any>[] = [];
 
-      this.skus.map((sku) => {
+      this.skus.map((sku, i) => {
         const skuPayload: Sku = {
           ...sku.skuData,
+          index: i,
           price: {
             ...sku.skuData.price,
             endDate: new Date(),

@@ -14,7 +14,7 @@ import { SkuTable } from '../../create-edit-product.component';
   styleUrls: ['./create-edit-sku.component.scss'],
 })
 export class CreateEditSkuComponent implements OnInit {
-  @Input() isEdition = false;
+  action: 'create' | 'edit' | 'delete' = 'create';
 
   loading = true;
   form!: FormGroup;
@@ -39,9 +39,9 @@ export class CreateEditSkuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const overlayData: SkuTable = this.config.data
+    const overlayData: SkuTable = this.config.data;
 
-    this.isEdition = overlayData.action === 'create' ? false : true;
+    this.action = overlayData.action;
 
     this.initialSkuData = overlayData.skuData;
 
@@ -56,7 +56,10 @@ export class CreateEditSkuComponent implements OnInit {
       active: [this.initialSkuData?.active || false],
       name: [this.initialSkuData?.name || '', [Validators.required]],
       skuCode: [
-        { value: this.initialSkuData?.skuCode || '', disabled: this.isEdition },
+        {
+          value: this.initialSkuData?.skuCode || '',
+          disabled: this.action === 'edit',
+        },
         [Validators.required],
       ],
       price: [
@@ -90,9 +93,8 @@ export class CreateEditSkuComponent implements OnInit {
   }
 
   submitSku() {
-
     this.ref.close({
-      isEdition: this.isEdition,
+      action: this.config.data.action,
       skuData: {
         active: this.form.get('active')?.value,
         name: this.form.get('name')?.value,

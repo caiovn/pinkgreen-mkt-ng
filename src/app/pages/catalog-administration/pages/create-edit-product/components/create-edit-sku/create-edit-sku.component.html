@@ -130,7 +130,7 @@
   </div>
 
   <div class="button-wrapper">
-    <button pButton pRipple type="button" [label]="isEdition ? 'Salvar SKU' : 'Criar SKU'" class="p-button-success"
+    <button pButton pRipple type="button" [label]="action === 'edit' ? 'Salvar SKU' : 'Criar SKU'" class="p-button-success"
       [disabled]="!form.valid" (click)="submitSku()"></button>
   </div>
 

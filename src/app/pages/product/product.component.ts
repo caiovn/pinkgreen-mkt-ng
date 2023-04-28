@@ -203,6 +203,7 @@ export class ProductComponent implements OnInit {
       length: 0,
       weight: 0,
       width: 0,
+      index:0
     };
   }
 

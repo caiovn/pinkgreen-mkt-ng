@@ -10,7 +10,9 @@
         <div *ngFor="let sku of order.productList" [routerLink]="['/', 'product', sku.product.id]"
           [queryParams]="{ skuCode: sku.skuCode }">
           <p-card class="order-product">
-            <img [src]="sku.mainImageUrl" />
+            <div class="card-image">
+              <img [src]="sku.mainImageUrl" />
+            </div>
             <div>
               <h2>{{ sku.name | truncate: 70 }}</h2>
               <p>{{ sku.price | currency }}</p>

@@ -4,14 +4,14 @@
   </div>
   <div *ngIf="!loading">
     <div class="product-presentation">
-      <div>
+      <div class="carousel-wrapper">
         <ngx-slick-carousel class="carousel carousel-product-images" [config]="imageSlideConfig">
           <div ngxSlickItem *ngFor="let images of SkuData.urlImages" class="slide card-container">
             <img [src]="images" />
           </div>
         </ngx-slick-carousel>
       </div>
-      <div>
+      <div class="product-demo">
         <div>
           <div class="product-rating">
             <p-rating [(ngModel)]="rating.average" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>

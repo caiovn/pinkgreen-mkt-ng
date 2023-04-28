@@ -7,14 +7,22 @@
     display: flex;
     flex-direction: row;
     gap: 128px;
+
+    .product-demo {
+      width: 50%;
+    }
   }
 
-  .carousel-product-images {
-    width: 600px;
-    height: 600px;
+  .carousel-wrapper {
+    width: 50%;
 
-    img {
-      width: 550px;
+    .carousel-product-images {
+      width: 100%;
+      height: 100%;
+
+      img {
+        width: 100%;
+      }
     }
   }
 
@@ -95,14 +103,22 @@
     &-presentation {
       flex-direction: column;
       gap: 32px;
+
+      .product-demo {
+        width: 100%;
+      }
     }
 
-    .carousel-product-images {
+    .carousel-wrapper {
       width: 100%;
-      height: 100%;
 
-      img {
+      .carousel-product-images {
         width: 100%;
+        height: 100%;
+
+        img {
+          width: 100%;
+        }
       }
     }
 

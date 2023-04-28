@@ -7,7 +7,7 @@ export interface SkuAttributes {
 }
 
 export default interface Sku {
-  active?: boolean,
+  active?: boolean;
   skuCode: string;
   name: string;
   stockQuantity: number;
@@ -27,4 +27,5 @@ export default interface Sku {
     startDate?: Date;
     endDate?: Date;
   };
+  index: number;
 }
