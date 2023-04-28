@@ -19,7 +19,7 @@ export class PersonalDataComponent implements OnInit {
   @Output() nextStepEvent = new EventEmitter();
 
   form!: FormGroup;
-  selectedSku!: Sku;
+  selectedSku!: Sku[];
 
   statesList!: { name: string; code: string }[];
 
@@ -30,7 +30,7 @@ export class PersonalDataComponent implements OnInit {
     private router: Router
   ) {
     this.selectedSku = JSON.parse(
-      sessionStorage.getItem(SELECTED_SKU_CODE) || '{}'
+      sessionStorage.getItem(SELECTED_SKU_CODE) || '[]'
     );
   }
 
@@ -53,7 +53,7 @@ export class PersonalDataComponent implements OnInit {
           console.log('erro ao obter estados do Brasil');
           this.statesList = [{ name: 'São Paulo', code: '35' }];
           this.createForm();
-        }
+        },
       });
   }
 
@@ -100,11 +100,7 @@ export class PersonalDataComponent implements OnInit {
   }
 
   backProductPage() {
-    this.router.navigate(['/', 'product', this.selectedSku.product.id], {
-      queryParams: {
-        skuCode: this.selectedSku.skuCode,
-      },
-    });
+    this.router.navigate(['/']);
   }
 
   onSubmit() {

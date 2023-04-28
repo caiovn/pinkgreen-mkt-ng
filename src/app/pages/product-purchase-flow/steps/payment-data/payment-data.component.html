@@ -18,12 +18,13 @@
 
           <div class="p-field">
             <label for="name">Numero do cartão</label>
-            <input mask="0000 0000 0000 0000" id="numberCard" type="text" pInputText formControlName="numberCard" />
+            <input mask="0000 0000 0000 0000" id="numberCard" type="text" pInputText formControlName="numberCard"
+              appCreditcardValidatorDirective />
           </div>
 
           <div class="p-field">
             <label for="name">Nome do titular</label>
-            <input id="name" type="text" pInputText formControlName="cardHolder" />
+            <input id="name" type="text" pInputText formControlName="cardHolder" maxlength="50" />
           </div>
 
           <div class="input-group">
@@ -85,29 +86,29 @@
             <div class="input-group">
               <div class="p-field">
                 <label for="name">Rua</label>
-                <input id="street" type="text" formControlName="street" pInputText />
+                <input id="street" type="text" formControlName="street" pInputText maxlength="50" />
               </div>
 
               <div class="p-field">
                 <label for="name">Numero</label>
-                <input id="number" type="text" formControlName="number" pInputText />
+                <input id="number" type="text" formControlName="number" pInputText maxlength="10" />
               </div>
             </div>
 
             <div class="p-field">
               <label for="name">Bairro</label>
-              <input id="neighborhood" type="text" formControlName="neighborhood" pInputText />
+              <input id="neighborhood" type="text" formControlName="neighborhood" pInputText maxlength="50" />
             </div>
 
             <div class="p-field">
               <label for="name">Complemento</label>
-              <input id="complement" type="text" formControlName="complement" pInputText />
+              <input id="complement" type="text" formControlName="complement" pInputText maxlength="50" />
             </div>
 
             <div class="input-group">
               <div class="p-field">
                 <label for="name">Cidade</label>
-                <input id="city" type="text" formControlName="city" pInputText />
+                <input id="city" type="text" formControlName="city" pInputText maxlength="30" />
               </div>
 
               <div class="p-field">

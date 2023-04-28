@@ -7,9 +7,10 @@ import { AppAuthGuard } from './guards/app.authguard';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { CreditcardValidatorDirectiveDirective } from './directives/creditcard-validator.directive.directive';
 
 @NgModule({
-  declarations: [NavbarComponent, LoadingComponent, ShoppingCartComponent, TruncatePipe],
+  declarations: [NavbarComponent, LoadingComponent, ShoppingCartComponent, TruncatePipe, CreditcardValidatorDirectiveDirective],
   exports: [
     NavbarComponent,
     LoadingComponent,
@@ -17,7 +18,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     PrimengModule,
     FormsModule,
     ReactiveFormsModule,
-    TruncatePipe
+    TruncatePipe,
+    CreditcardValidatorDirectiveDirective
   ],
   imports: [CommonModule, PrimengModule, FormsModule, ReactiveFormsModule],
   providers: [AppAuthGuard],

@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { PURCHASE_FLOW_PAYMENT_DATA } from 'src/app/core/global';
 import Sku from 'src/app/core/models/sku.model';
 import { StatesService } from 'src/app/core/services/states.service';
+import { GenericValidator } from 'src/app/core/validators/generice.validator';
 
 @Component({
   selector: 'app-payment-data',
@@ -24,7 +25,7 @@ export class PaymentDataComponent implements OnInit {
     private formBuilder: FormBuilder,
     private stateService: StatesService,
     public datepipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.paymentMethodList = [
@@ -60,13 +61,15 @@ export class PaymentDataComponent implements OnInit {
           console.log('erro ao obter estados do Brasil');
           this.statesList = [{ name: 'São Paulo', code: '35' }];
           this.createForm();
-        }
+        },
       });
   }
 
   validateForm(checked: boolean): void {
     if (checked) {
-      this.form.get('differentCpf')?.setValidators([Validators.required]);
+      this.form
+        .get('differentCpf')
+        ?.setValidators([Validators.required, GenericValidator.isValidCpf()]);
       this.form.updateValueAndValidity();
       return;
     }
@@ -77,9 +80,17 @@ export class PaymentDataComponent implements OnInit {
   }
 
   resetForm(): void {
-    if (this.form.get('paymentMethod')?.value === 'CREDIT_CARD' || this.form.get('paymentMethod')?.value === 'DEBIT_CARD') {
+    if (
+      this.form.get('paymentMethod')?.value === 'CREDIT_CARD' ||
+      this.form.get('paymentMethod')?.value === 'DEBIT_CARD'
+    ) {
       this.form.get('numberCard')?.setValidators([Validators.required]);
-      this.form.get('cardHolder')?.setValidators([Validators.required]);
+      this.form
+        .get('cardHolder')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z ]*$'),
+        ]);
       this.form.get('cvv')?.setValidators([Validators.required]);
       this.form.get('validateData')?.setValidators([Validators.required]);
 
@@ -101,7 +112,9 @@ export class PaymentDataComponent implements OnInit {
   }
 
   createForm() {
-    const formData = JSON.parse(sessionStorage.getItem(PURCHASE_FLOW_PAYMENT_DATA) || '{}')
+    const formData = JSON.parse(
+      sessionStorage.getItem(PURCHASE_FLOW_PAYMENT_DATA) || '{}'
+    );
 
     this.form = this.formBuilder.group({
       paymentMethod: [formData.paymentMethod || '', [Validators.required]],
@@ -122,7 +135,7 @@ export class PaymentDataComponent implements OnInit {
       numberCard: [formData.numberCard || ''],
       cardHolder: [formData.cardHolder || ''],
       cvv: [formData.cvv || ''],
-      validateData: [formData.validateData || '']
+      validateData: [formData.validateData || ''],
     });
 
     this.getFormInput('zipcode')?.valueChanges.subscribe((zipcode) => {
@@ -141,9 +154,11 @@ export class PaymentDataComponent implements OnInit {
   }
 
   formatData(): void {
-    this.form.get('validateData')?.setValue(
-      this.datepipe.transform(this.form.get('validateData')?.value, 'MM/yy')
-    );
+    this.form
+      .get('validateData')
+      ?.setValue(
+        this.datepipe.transform(this.form.get('validateData')?.value, 'MM/yy')
+      );
   }
 
   differentAddress(checked: boolean): void {
@@ -181,7 +196,10 @@ export class PaymentDataComponent implements OnInit {
   }
 
   clickNextButton(): void {
-    sessionStorage.setItem(PURCHASE_FLOW_PAYMENT_DATA, JSON.stringify(this.form.getRawValue()));
+    sessionStorage.setItem(
+      PURCHASE_FLOW_PAYMENT_DATA,
+      JSON.stringify(this.form.getRawValue())
+    );
     this.nextStepEvent.emit();
   }
 
