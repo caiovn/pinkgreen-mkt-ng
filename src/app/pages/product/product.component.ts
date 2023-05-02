@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 import { MessageService } from 'primeng/api';
-import { catchError, concatMap, tap, throwError } from 'rxjs';
+import { catchError, concatMap, of, tap, throwError } from 'rxjs';
 import { SELECTED_SKU_CODE } from 'src/app/core/global';
 import Product from 'src/app/core/models/product.model';
 import { Rating } from 'src/app/core/models/rating.model';
@@ -21,6 +22,7 @@ import { SkuService } from 'src/app/core/services/sku.service';
 export class ProductComponent implements OnInit {
   loading = true;
   isLoggedIn!: boolean;
+  userData: KeycloakProfile = {};
 
   private productId!: string;
   private skuCode!: string;
@@ -87,7 +89,7 @@ export class ProductComponent implements OnInit {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private shoppingCartService: ShoppingCartService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -105,6 +107,10 @@ export class ProductComponent implements OnInit {
 
   async loadData() {
     this.isLoggedIn = await this.keycloak.isLoggedIn();
+
+    if (this.isLoggedIn) {
+      this.userData = await this.keycloak.loadUserProfile();
+    }
 
     if (this.skuCode) {
       this.getProductSku(this.skuCode).subscribe({
@@ -170,18 +176,20 @@ export class ProductComponent implements OnInit {
   }
 
   getProduct() {
-    return this.productService.getProduct(this.productId).pipe(
-      tap((_product) => (this.product = _product)),
-      concatMap((_product) => this.skuService.getSkus(`${_product.id}`)),
-      tap((_skuList) => {
-        if (_skuList.length > 0) {
-          this.skuCode = _skuList[0].skuCode;
-          return;
-        }
+    return this.productService
+      .getProduct(this.productId, this.userData?.id)
+      .pipe(
+        tap((_product) => (this.product = _product)),
+        concatMap((_product) => this.skuService.getSkus(`${_product.id}`)),
+        tap((_skuList) => {
+          if (_skuList.length > 0) {
+            this.skuCode = _skuList[0].skuCode;
+            return;
+          }
 
-        this.blockPurchase = true;
-      })
-    );
+          this.blockPurchase = true;
+        })
+      );
   }
 
   transformProductIntoSku(value: Product): Sku {
@@ -203,7 +211,7 @@ export class ProductComponent implements OnInit {
       length: 0,
       weight: 0,
       width: 0,
-      index:0
+      index: 0,
     };
   }
 
@@ -246,7 +254,6 @@ export class ProductComponent implements OnInit {
   }
 
   clickBuyButton() {
-    
     this.router.navigate(['/purchase']);
     sessionStorage.setItem(
       SELECTED_SKU_CODE,

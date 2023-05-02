@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KeycloakService } from 'keycloak-angular';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
 import Brand from 'src/app/core/models/brand.model';
@@ -7,6 +8,7 @@ import Product from 'src/app/core/models/product.model';
 import Sku from 'src/app/core/models/sku.model';
 import { BrandService } from 'src/app/core/services/brand.service';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { CustomerService } from 'src/app/core/services/customer.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { SkuService } from 'src/app/core/services/sku.service';
 
@@ -22,6 +24,9 @@ export class HomeComponent implements OnInit {
   productsList!: Product[];
   skuListMostSelled!: Sku[];
 
+  recommendedProductsList: Product[] = [];
+  recentlyViewedProductList: Product[] = [];
+
   slideConfig = {
     dots: false,
     infinite: false,
@@ -31,7 +36,7 @@ export class HomeComponent implements OnInit {
       {
         breakpoint: 769,
         settings: {
-          arrows: false
+          arrows: false,
         },
       },
     ],
@@ -43,7 +48,9 @@ export class HomeComponent implements OnInit {
     private messageService: MessageService,
     private productService: ProductService,
     private skuService: SkuService,
-  ) { }
+    private customerService: CustomerService,
+    private keycloakService: KeycloakService
+  ) {}
 
   ngOnInit() {
     this.loadData();
@@ -54,6 +61,27 @@ export class HomeComponent implements OnInit {
     const category$ = this.categoryService.getcategories();
     const product$ = this.productService.getProducts();
     const skuMostSelled$ = this.skuService.getProductsMostSelled();
+
+    this.keycloakService.isLoggedIn().then((res) => {
+      if (res) {
+        this.keycloakService.loadUserProfile().then((userData) => {
+          const customerIntentions$ =
+            this.customerService.getCustomerIntentions(userData.id || '');
+
+          const customerRecentlyViewed$ =
+            this.customerService.getCustomerRecentlyViewedProducts(
+              userData.id || ''
+            );
+
+          forkJoin([customerIntentions$, customerRecentlyViewed$]).subscribe({
+            next: (res) => {
+              this.recommendedProductsList = res[0];
+              this.recentlyViewedProductList = res[1];
+            },
+          });
+        });
+      }
+    });
 
     forkJoin([category$, brand$, product$, skuMostSelled$]).subscribe({
       next: (results) => {

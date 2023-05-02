@@ -8,7 +8,7 @@ import Product from '../models/product.model';
   providedIn: 'root',
 })
 export class ProductService {
-  private tokenKeycloak!: string;
+  private tokenKeycloak = '';
   private url = 'http://localhost:8181';
 
   constructor(
@@ -24,8 +24,14 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.url}/product`);
   }
 
-  getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.url}/product/${id}`);
+  getProduct(id: string, customerId = ''): Observable<Product> {
+    console.log('erssse daqui', customerId);
+
+    console.log(this.mountHeaders(customerId));
+
+    return this.http.get<Product>(`${this.url}/product/${id}`, {
+      headers: this.mountHeaders(customerId),
+    });
   }
 
   getProductsBycategory(id: string): Observable<Product[]> {
@@ -33,7 +39,9 @@ export class ProductService {
   }
 
   deleteProductById(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.url}/product-administration/product/${id}`);
+    return this.http.delete<void>(
+      `${this.url}/product-administration/product/${id}`
+    );
   }
 
   createProduct(product: Product) {
@@ -64,10 +72,13 @@ export class ProductService {
     );
   }
 
-  private mountHeaders() {
+  private mountHeaders(customerId = '') {
     return {
       'Content-type': 'application/json',
-      Authorization: `Bearer ${this.tokenKeycloak}`,
+      ...(this.tokenKeycloak && {
+        Authorization: `Bearer ${this.tokenKeycloak}`,
+      }),
+      ...(customerId && { customerId: customerId }),
     };
   }
 }
