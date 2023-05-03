@@ -22,7 +22,8 @@
     <h2>Pedidos finalizados</h2>
     <div class="product-wrapper">
       <ng-container *ngFor="let order of finishedOrders">
-        <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+        <a *ngFor="let orderProduct of order.productList; let i = index" [routerLink]="['/', 'order', order.id]"
+          [queryParams]="{productIndex: i}">
           <p-card class="order-card">
             <div class="image-wrapper" [ngStyle]="{
             'background-image': getImageUrl(orderProduct.mainImageUrl)
@@ -41,7 +42,8 @@
     <h2>Pedidos cancelados</h2>
     <div class="product-wrapper">
       <ng-container *ngFor="let order of cancelledOrders">
-        <a *ngFor="let orderProduct of order.productList" [routerLink]="['/', 'order', order.id]">
+        <a *ngFor="let orderProduct of order.productList; let i = index" [routerLink]="['/', 'order', order.id]"
+          [queryParams]="{productIndex: i}">
           <p-card class="order-card">
             <div class="image-wrapper" [ngStyle]="{
             'background-image': getImageUrl(orderProduct.mainImageUrl)

@@ -17,7 +17,7 @@ import Sku from 'src/app/core/models/sku.model';
   templateUrl: './product-purchase-flow.component.html',
   styleUrls: ['./product-purchase-flow.component.scss'],
 })
-export class ProductPurchaseFlowComponent implements OnInit, OnDestroy {
+export class ProductPurchaseFlowComponent implements OnInit {
   step: number;
   selectedSkus: Sku[];
   items!: MenuItem[];
@@ -32,7 +32,7 @@ export class ProductPurchaseFlowComponent implements OnInit, OnDestroy {
     this.purchaseSuccess =
       sessionStorage.getItem(PURCHASE_FINISHED)?.toLowerCase() === 'true';
 
-    if (!this.selectedSkus) router.navigate(['/']);
+    if (this.selectedSkus.length === 0) router.navigate(['/']);
   }
 
   ngOnInit() {

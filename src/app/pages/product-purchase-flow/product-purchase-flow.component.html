@@ -5,7 +5,7 @@
       <div class="step-content">
         <h1>Compra.</h1>
         <ng-container *ngFor="let sku of selectedSkus">
-          <div [routerLink]="['/', 'product', sku.product.id]" [queryParams]="{ skuCode: sku.skuCode }">
+          <div>
             <p-card class="selected-sku">
               <img [src]="sku.mainImageUrl" />
               <div>

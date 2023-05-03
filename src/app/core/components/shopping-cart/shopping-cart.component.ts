@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Sku from '../../models/sku.model';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { MessageService } from 'primeng/api';
-import { SELECTED_SKU_CODE } from '../../global';
+import { ACTUAL_STEP_PURCHASE_FLOW, PURCHASE_FINISHED, PURCHASE_FLOW_PAYMENT_DATA, PURCHASE_FLOW_PERSONAL_DATA, SELECTED_SKU_CODE } from '../../global';
 import { Router } from '@angular/router';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -63,7 +63,14 @@ export class ShoppingCartComponent implements OnInit {
 
   clickBuyButton() {
     sessionStorage.setItem(SELECTED_SKU_CODE, JSON.stringify(this.cartList));
+    sessionStorage.setItem(ACTUAL_STEP_PURCHASE_FLOW, '');
+    sessionStorage.setItem(PURCHASE_FLOW_PERSONAL_DATA, '');
+    sessionStorage.setItem(PURCHASE_FLOW_PAYMENT_DATA, '');
+    sessionStorage.setItem(PURCHASE_FINISHED, 'false');
+    
     this.ref.close();
-    this.router.navigate(['/purchase']);
+    this.router.navigate(['/purchase']).then(() => {
+      window.location.reload();
+    });
   }
 }
